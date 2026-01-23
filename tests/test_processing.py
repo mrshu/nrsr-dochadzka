@@ -101,3 +101,7 @@ def test_process_votes_writes_expected_outputs(tmp_path: Path):
     assert club["total_votes"] == 3
     assert club["absent_count"] == 2
     assert club["present_count"] == 1
+
+    metadata_text = (out_dir / "metadata.json").read_text(encoding="utf-8")
+    metadata = json.loads(metadata_text)
+    assert list(metadata.keys()) == sorted(metadata.keys())

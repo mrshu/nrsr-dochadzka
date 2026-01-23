@@ -180,6 +180,15 @@ class VotesSpider(scrapy.Spider):
                     }
                 )
 
+        mp_votes.sort(
+            key=lambda m: (
+                (m.get("club") or ""),
+                (m.get("mp_name") or ""),
+                (m.get("mp_id") or 0),
+                (m.get("vote_code") or ""),
+            )
+        )
+
         item = {
             "kind": "vote",
             "source_url": response.url,

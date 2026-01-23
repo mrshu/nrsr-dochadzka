@@ -253,7 +253,7 @@ def process_votes(raw_votes_dir: Path, out_dir: Path, *, schema_version: int = 1
     )
 
     (out_dir / "metadata.json").write_text(
-        json.dumps(result.as_dict(), ensure_ascii=False, indent=2) + "\n",
+        json.dumps(result.as_dict(), ensure_ascii=False, indent=2, sort_keys=True) + "\n",
         encoding="utf-8",
     )
 

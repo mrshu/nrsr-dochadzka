@@ -83,6 +83,24 @@ HLASKLUB_HTML = """
 </html>
 """.strip()
 
+HLASKLUB_HTML_UNSORTED = """
+<html>
+  <body>
+    <table id="_sectionLayoutContainer_ctl01__resultsTable" class="hpo_result_table">
+      <tr><td class="hpo_result_block_title" colspan="4">Klub B</td></tr>
+      <tr>
+        <td>[0] <a href="?sid=poslanci/poslanec&amp;PoslanecID=2">Beta, B</a></td>
+        <td>[Z] <a href="?sid=poslanci/poslanec&amp;PoslanecID=1">Alpha, A</a></td>
+      </tr>
+      <tr><td class="hpo_result_block_title" colspan="4">Klub A</td></tr>
+      <tr>
+        <td>[P] <a href="?sid=poslanci/poslanec&amp;PoslanecID=3">Gamma, G</a></td>
+      </tr>
+    </table>
+  </body>
+</html>
+""".strip()
+
 
 def test_votes_spider_parse_is_incremental():
     spider = VotesSpider()
@@ -141,3 +159,18 @@ def test_votes_spider_parse_vote_extracts_codes(url: str, expected_id: int):
     assert len(item["mp_votes"]) == 3
     assert {m["vote_code"] for m in item["mp_votes"]} == {"Z", "0", "P"}
     assert {m["mp_id"] for m in item["mp_votes"]} == {1, 2, 3}
+
+
+def test_votes_spider_parse_vote_sorts_mp_votes_deterministically():
+    spider = VotesSpider()
+    response = _html_response(
+        "https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=1",
+        HLASKLUB_HTML_UNSORTED,
+        meta={"term_id": 9, "meeting_nr": 43, "cpt_id": None, "title_from_listing": None},
+    )
+    item = next(spider.parse_vote(response))
+    assert [(m["club"], m["mp_id"]) for m in item["mp_votes"]] == [
+        ("Klub A", 3),
+        ("Klub B", 1),
+        ("Klub B", 2),
+    ]
