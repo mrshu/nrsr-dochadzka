@@ -51,6 +51,13 @@ def test_process_votes_writes_expected_outputs(tmp_path: Path):
                         "club": "Club A",
                         "vote_code": "0",
                     },
+                    {
+                        "mp_id": 12,
+                        "mp_name": "Gamma, G",
+                        "mp_url": "http://example.test/mp/12",
+                        "club": "Club A",
+                        "vote_code": "N",
+                    },
                 ],
             },
             ensure_ascii=False,
@@ -74,13 +81,21 @@ def test_process_votes_writes_expected_outputs(tmp_path: Path):
     assert votes.select("against").item() == 1
 
     mp_votes = pl.read_csv(out_dir / "mp_votes.csv")
-    assert mp_votes.height == 2
+    assert mp_votes.height == 3
     present_flags = dict(zip(mp_votes["mp_id"].to_list(), mp_votes["is_present"].to_list()))
-    assert present_flags == {10: True, 11: False}
+    assert present_flags == {10: True, 11: False, 12: True}
 
     mp_attendance = pl.read_csv(out_dir / "mp_attendance.csv")
-    assert mp_attendance.height == 2
+    assert mp_attendance.height == 3
     alpha = mp_attendance.filter(pl.col("mp_id") == 10).row(0, named=True)
     beta = mp_attendance.filter(pl.col("mp_id") == 11).row(0, named=True)
     assert alpha["present_count"] == 1
     assert beta["absent_count"] == 1
+
+    club_attendance = pl.read_csv(out_dir / "club_attendance.csv")
+    assert club_attendance.height == 1
+    club = club_attendance.row(0, named=True)
+    assert club["club"] == "Club A"
+    assert club["total_votes"] == 3
+    assert club["absent_count"] == 2
+    assert club["present_count"] == 1

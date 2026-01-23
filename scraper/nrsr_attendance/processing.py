@@ -192,8 +192,12 @@ def process_votes(raw_votes_dir: Path, out_dir: Path, *, schema_version: int = 1
             mp_votes_df.group_by(["term_id", "club"])
             .agg(
                 total_votes=pl.len(),
-                present_count=pl.col("is_present").cast(pl.Int8).sum(),
-                absent_count=(pl.col("vote_code") == "0").cast(pl.Int8).sum(),
+                absent_count=pl.col("vote_code").is_in(["0", "N"]).cast(pl.Int8).sum(),
+            )
+            .with_columns(
+                # Club-level "attendance" should treat vote_code "0" (absent) and "N" (not voting)
+                # as absent.
+                present_count=(pl.col("total_votes") - pl.col("absent_count")),
             )
             .with_columns(
                 participation_rate=(pl.col("present_count") / pl.col("total_votes")).round(6)
@@ -221,7 +225,14 @@ def process_votes(raw_votes_dir: Path, out_dir: Path, *, schema_version: int = 1
             }
         ).write_csv(out_dir / "mp_attendance.csv")
         pl.DataFrame(
-            {"term_id": [], "club": [], "total_votes": [], "present_count": [], "absent_count": []}
+            {
+                "term_id": [],
+                "club": [],
+                "total_votes": [],
+                "absent_count": [],
+                "present_count": [],
+                "participation_rate": [],
+            }
         ).write_csv(out_dir / "club_attendance.csv")
 
     result = ProcessResult(
