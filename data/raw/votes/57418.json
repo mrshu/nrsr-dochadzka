@@ -1,0 +1,20 @@
+{
+  "cpt_id": null,
+  "fetched_at_utc": "2026-01-23T17:43:57+00:00",
+  "force_overwrite": true,
+  "http_status": 200,
+  "kind": "vote",
+  "meeting_nr": 43,
+  "mp_votes": [],
+  "source_url": "https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=57418",
+  "stats": {},
+  "summary": {
+    "Dátum a čas": "11. 12. 2025 00:00",
+    "Názov hlasovania": "Návrh skupiny poslancov Národnej rady Slovenskej republiky na odvolanie predsedu Výboru Národnej rady Slovenskej republiky pre európske záležitosti (tlač 1119)",
+    "Schôdza": "Schôdza č. 43",
+    "Číslo hlasovania": "137"
+  },
+  "term_id": 9,
+  "title_from_listing": "Návrh skupiny poslancov Národnej rady Slovenskej republiky na odvolanie predsedu Výboru Národnej rady Slovenskej republiky pre európske záležitosti (tlač 1119)",
+  "vote_id": 57418
+}
