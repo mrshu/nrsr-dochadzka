@@ -1,0 +1,86 @@
+import json
+from pathlib import Path
+
+import polars as pl
+from nrsr_attendance.processing import process_votes
+
+
+def test_process_votes_writes_expected_outputs(tmp_path: Path):
+    raw_votes_dir = tmp_path / "raw" / "votes"
+    out_dir = tmp_path / "processed"
+    raw_votes_dir.mkdir(parents=True)
+
+    (raw_votes_dir / "1.json").write_text(
+        json.dumps(
+            {
+                "kind": "vote",
+                "vote_id": 1,
+                "term_id": 9,
+                "meeting_nr": 43,
+                "cpt_id": None,
+                "source_url": "http://example.test/vote/1",
+                "http_status": 200,
+                "fetched_at_utc": "2026-01-01T00:00:00+00:00",
+                "summary": {
+                    "Dátum a čas": "12. 12. 2025 10:06",
+                    "Číslo hlasovania": "1",
+                    "Názov hlasovania": "Test vote 1",
+                    "Výsledok hlasovania": "Návrh prešiel",
+                },
+                "stats": {
+                    "Prítomní": 2,
+                    "Hlasujúcich": 2,
+                    "[Z] Za hlasovalo": 1,
+                    "[P] Proti hlasovalo": 1,
+                    "[?] Zdržalo sa hlasovania": 0,
+                    "[N] Nehlasovalo": 0,
+                    "[0] Neprítomní": 148,
+                },
+                "mp_votes": [
+                    {
+                        "mp_id": 10,
+                        "mp_name": "Alpha, A",
+                        "mp_url": "http://example.test/mp/10",
+                        "club": "Club A",
+                        "vote_code": "Z",
+                    },
+                    {
+                        "mp_id": 11,
+                        "mp_name": "Beta, B",
+                        "mp_url": "http://example.test/mp/11",
+                        "club": "Club A",
+                        "vote_code": "0",
+                    },
+                ],
+            },
+            ensure_ascii=False,
+        ),
+        encoding="utf-8",
+    )
+
+    result = process_votes(raw_votes_dir, out_dir, schema_version=1)
+    assert result.raw_vote_files == 1
+    assert (out_dir / "votes.csv").exists()
+    assert (out_dir / "mp_votes.csv").exists()
+    assert (out_dir / "mp_attendance.csv").exists()
+    assert (out_dir / "club_attendance.csv").exists()
+    assert (out_dir / "metadata.json").exists()
+
+    votes = pl.read_csv(out_dir / "votes.csv")
+    assert votes.height == 1
+    assert votes.select("vote_id").item() == 1
+    assert votes.select("present").item() == 2
+    assert votes.select("for").item() == 1
+    assert votes.select("against").item() == 1
+
+    mp_votes = pl.read_csv(out_dir / "mp_votes.csv")
+    assert mp_votes.height == 2
+    present_flags = dict(zip(mp_votes["mp_id"].to_list(), mp_votes["is_present"].to_list()))
+    assert present_flags == {10: True, 11: False}
+
+    mp_attendance = pl.read_csv(out_dir / "mp_attendance.csv")
+    assert mp_attendance.height == 2
+    alpha = mp_attendance.filter(pl.col("mp_id") == 10).row(0, named=True)
+    beta = mp_attendance.filter(pl.col("mp_id") == 11).row(0, named=True)
+    assert alpha["present_count"] == 1
+    assert beta["absent_count"] == 1

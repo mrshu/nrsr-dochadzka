@@ -5,6 +5,7 @@ description = "Track Slovak parliament (NRSR) attendance/activity via Scrapy + G
 readme = "README.md"
 requires-python = ">=3.12,<3.13"
 dependencies = [
+  "polars>=1.0",
   "scrapy>=2.12",
 ]
 
@@ -23,4 +24,3 @@ select = ["E", "F", "I", "UP"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-

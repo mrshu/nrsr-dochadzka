@@ -32,6 +32,14 @@ For incremental vote collection (tracks `data/raw/_state.json`):
 uv run python scripts/collect_votes.py
 ```
 
+## Processing
+
+Turn `data/raw/votes/*.json` into analysis-ready CSVs under `data/processed/`:
+
+```bash
+uv run python scripts/process_data.py
+```
+
 ## Tooling
 
 ```bash
