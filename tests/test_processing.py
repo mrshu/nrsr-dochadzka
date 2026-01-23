@@ -76,6 +76,8 @@ def test_process_votes_writes_expected_outputs(tmp_path: Path):
     votes = pl.read_csv(out_dir / "votes.csv")
     assert votes.height == 1
     assert votes.select("vote_id").item() == 1
+    assert votes.select("vote_datetime_local").item() == "2025-12-12T10:06:00+01:00"
+    assert votes.select("vote_datetime_utc").item() == "2025-12-12T09:06:00+00:00"
     assert votes.select("present").item() == 2
     assert votes.select("for").item() == 1
     assert votes.select("against").item() == 1

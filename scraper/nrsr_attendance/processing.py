@@ -27,13 +27,20 @@ _SK_DT_RE = re.compile(
 
 
 def parse_sk_datetime_to_utc(value: str | None) -> datetime | None:
+    local_dt = parse_sk_datetime_to_local(value)
+    if not local_dt:
+        return None
+    return local_dt.astimezone(UTC)
+
+
+def parse_sk_datetime_to_local(value: str | None) -> datetime | None:
     if not value:
         return None
     match = _SK_DT_RE.match(value)
     if not match:
         return None
     day, month, year, hour, minute, second = match.groups()
-    local_dt = datetime(
+    return datetime(
         int(year),
         int(month),
         int(day),
@@ -42,7 +49,6 @@ def parse_sk_datetime_to_utc(value: str | None) -> datetime | None:
         int(second) if second is not None else 0,
         tzinfo=BRATISLAVA_TZ,
     )
-    return local_dt.astimezone(UTC)
 
 
 def _stats_get(stats: dict[str, int] | None, key: str) -> int | None:
@@ -116,7 +122,8 @@ def process_votes(raw_votes_dir: Path, out_dir: Path, *, schema_version: int = 1
         meeting_nr = int(payload["meeting_nr"]) if payload.get("meeting_nr") is not None else None
 
         vote_number = _safe_int(summary.get("Číslo hlasovania"))
-        dt_utc = parse_sk_datetime_to_utc(summary.get("Dátum a čas"))
+        dt_local = parse_sk_datetime_to_local(summary.get("Dátum a čas"))
+        dt_utc = dt_local.astimezone(UTC) if dt_local else None
 
         votes.append(
             {
@@ -124,6 +131,7 @@ def process_votes(raw_votes_dir: Path, out_dir: Path, *, schema_version: int = 1
                 "term_id": term_id,
                 "meeting_nr": meeting_nr,
                 "vote_number": vote_number,
+                "vote_datetime_local": dt_local.isoformat() if dt_local else None,
                 "vote_datetime_utc": dt_utc.isoformat() if dt_utc else None,
                 "title": summary.get("Názov hlasovania") or payload.get("title_from_listing"),
                 "result": summary.get("Výsledok hlasovania"),
@@ -151,6 +159,7 @@ def process_votes(raw_votes_dir: Path, out_dir: Path, *, schema_version: int = 1
                     "term_id": term_id,
                     "meeting_nr": meeting_nr,
                     "vote_number": vote_number,
+                    "vote_datetime_local": dt_local.isoformat() if dt_local else None,
                     "vote_datetime_utc": dt_utc.isoformat() if dt_utc else None,
                     "mp_id": mv.get("mp_id"),
                     "mp_name": mv.get("mp_name"),
