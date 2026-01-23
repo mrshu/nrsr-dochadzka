@@ -101,6 +101,14 @@ class ProcessResult:
         }
 
 
+def _write_jsonl(df: pl.DataFrame, path: Path) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("w", encoding="utf-8") as f:
+        for row in df.to_dicts():
+            f.write(json.dumps(row, ensure_ascii=False, sort_keys=True))
+            f.write("\n")
+
+
 def process_votes(raw_votes_dir: Path, out_dir: Path, *, schema_version: int = 1) -> ProcessResult:
     vote_files = sorted(
         p for p in raw_votes_dir.glob("*.json") if p.is_file() and p.name != ".gitkeep"
@@ -172,11 +180,20 @@ def process_votes(raw_votes_dir: Path, out_dir: Path, *, schema_version: int = 1
 
     out_dir.mkdir(parents=True, exist_ok=True)
 
+    # Clean legacy outputs from older versions of the pipeline.
+    for legacy in (
+        out_dir / "votes.csv",
+        out_dir / "mp_votes.csv",
+        out_dir / "mp_attendance.csv",
+        out_dir / "club_attendance.csv",
+    ):
+        legacy.unlink(missing_ok=True)
+
     votes_df = pl.DataFrame(votes).sort(["vote_datetime_utc", "vote_id"])
     mp_votes_df = pl.DataFrame(mp_votes).sort(["vote_datetime_utc", "vote_id", "mp_id"])
 
-    votes_df.write_csv(out_dir / "votes.csv")
-    mp_votes_df.write_csv(out_dir / "mp_votes.csv")
+    _write_jsonl(votes_df, out_dir / "votes.jsonl")
+    _write_jsonl(mp_votes_df, out_dir / "mp_votes.jsonl")
 
     if mp_votes_df.height:
         mp_summary = (
@@ -214,35 +231,41 @@ def process_votes(raw_votes_dir: Path, out_dir: Path, *, schema_version: int = 1
             .sort(["term_id", "participation_rate", "club"])
         )
 
-        mp_summary.write_csv(out_dir / "mp_attendance.csv")
-        club_summary.write_csv(out_dir / "club_attendance.csv")
+        _write_jsonl(mp_summary, out_dir / "mp_attendance.jsonl")
+        _write_jsonl(club_summary, out_dir / "club_attendance.jsonl")
     else:
-        pl.DataFrame(
-            {
-                "term_id": [],
-                "mp_id": [],
-                "mp_name": [],
-                "total_votes": [],
-                "present_count": [],
-                "voted_count": [],
-                "absent_count": [],
-                "not_voting_count": [],
-                "abstain_count": [],
-                "for_count": [],
-                "against_count": [],
-                "participation_rate": [],
-            }
-        ).write_csv(out_dir / "mp_attendance.csv")
-        pl.DataFrame(
-            {
-                "term_id": [],
-                "club": [],
-                "total_votes": [],
-                "absent_count": [],
-                "present_count": [],
-                "participation_rate": [],
-            }
-        ).write_csv(out_dir / "club_attendance.csv")
+        _write_jsonl(
+            pl.DataFrame(
+                {
+                    "term_id": [],
+                    "mp_id": [],
+                    "mp_name": [],
+                    "total_votes": [],
+                    "present_count": [],
+                    "voted_count": [],
+                    "absent_count": [],
+                    "not_voting_count": [],
+                    "abstain_count": [],
+                    "for_count": [],
+                    "against_count": [],
+                    "participation_rate": [],
+                }
+            ),
+            out_dir / "mp_attendance.jsonl",
+        )
+        _write_jsonl(
+            pl.DataFrame(
+                {
+                    "term_id": [],
+                    "club": [],
+                    "total_votes": [],
+                    "absent_count": [],
+                    "present_count": [],
+                    "participation_rate": [],
+                }
+            ),
+            out_dir / "club_attendance.jsonl",
+        )
 
     result = ProcessResult(
         schema_version=schema_version,

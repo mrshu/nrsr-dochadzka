@@ -34,7 +34,8 @@ uv run python scripts/collect_votes.py
 
 ## Processing
 
-Turn `data/raw/votes/*.json` into analysis-ready CSVs under `data/processed/`:
+Turn `data/raw/votes/*.json` into analysis-ready JSONL tables under `data/processed/` (plus
+`metadata.json`):
 
 ```bash
 uv run python scripts/process_data.py
