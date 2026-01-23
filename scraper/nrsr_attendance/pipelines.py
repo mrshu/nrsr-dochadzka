@@ -85,3 +85,98 @@ class RawJsonPipeline:
             votes["last_seen_id"] = self._max_vote_id
         votes["updated_at_utc"] = datetime.now(UTC).replace(microsecond=0).isoformat()
         _write_state(state)
+
+
+_TERM_ID_RE = re.compile(r"^[0-9]+$")
+_MEETING_ID_RE = re.compile(r"^[0-9]+$")
+
+
+class VoteIndexJsonlPipeline:
+    """
+    Writes per-meeting vote index shards under `data/raw/vote_index/<term_id>/<meeting_id>.jsonl`.
+
+    Each shard is deterministic:
+    - keys are sorted per JSON object
+    - lines are unique by `vote_id`
+    - lines are sorted by ascending `vote_id`
+    """
+
+    def __init__(self) -> None:
+        self._tmp_files: dict[tuple[int, int], Path] = {}
+        self._tmp_fhs: dict[tuple[int, int], Any] = {}
+
+    @classmethod
+    def from_crawler(cls, crawler):
+        pipeline = cls()
+        crawler.signals.connect(pipeline._on_spider_closed, signal=signals.spider_closed)
+        return pipeline
+
+    def process_item(self, item: dict[str, Any]):
+        if item.get("kind") != "vote_index":
+            return item
+
+        term_id_raw = str(item.get("term_id") or "")
+        meeting_id_raw = str(item.get("meeting_id") or "")
+        vote_id_raw = str(item.get("vote_id") or "")
+
+        if not _TERM_ID_RE.match(term_id_raw):
+            raise ValueError(f"Invalid term_id: {term_id_raw!r}")
+        if not _MEETING_ID_RE.match(meeting_id_raw):
+            raise ValueError(f"Invalid meeting_id: {meeting_id_raw!r}")
+        if not _VOTE_ID_RE.match(vote_id_raw):
+            raise ValueError(f"Invalid vote_id: {vote_id_raw!r}")
+
+        term_id = int(term_id_raw)
+        meeting_id = int(meeting_id_raw)
+        key = (term_id, meeting_id)
+
+        shard_dir = _repo_root() / "data" / "raw" / "vote_index" / str(term_id)
+        shard_dir.mkdir(parents=True, exist_ok=True)
+        tmp_path = shard_dir / f"{meeting_id}.jsonl.tmp"
+
+        if key not in self._tmp_fhs:
+            self._tmp_files[key] = tmp_path
+            self._tmp_fhs[key] = tmp_path.open("a", encoding="utf-8")
+
+        # Do not mutate the input item; normalize the payload we persist.
+        payload = {k: v for k, v in item.items() if k != "kind"}
+        self._tmp_fhs[key].write(json.dumps(payload, ensure_ascii=False, sort_keys=True) + "\n")
+        return item
+
+    def _on_spider_closed(self, spider, reason: str) -> None:
+        for fh in self._tmp_fhs.values():
+            fh.close()
+        self._tmp_fhs.clear()
+
+        if reason != "finished":
+            return
+
+        for (term_id, meeting_id), tmp_path in self._tmp_files.items():
+            out_path = tmp_path.with_suffix("")  # remove ".tmp"
+
+            merged: dict[int, dict[str, Any]] = {}
+            if out_path.exists():
+                for line in out_path.read_text(encoding="utf-8").splitlines():
+                    if not line.strip():
+                        continue
+                    rec = json.loads(line)
+                    merged[int(rec["vote_id"])] = rec
+
+            if tmp_path.exists():
+                for line in tmp_path.read_text(encoding="utf-8").splitlines():
+                    if not line.strip():
+                        continue
+                    rec = json.loads(line)
+                    merged[int(rec["vote_id"])] = rec
+
+            lines = [
+                json.dumps(merged[vote_id], ensure_ascii=False, sort_keys=True)
+                for vote_id in sorted(merged)
+            ]
+            _atomic_write(out_path, "\n".join(lines) + ("\n" if lines else ""))
+            tmp_path.unlink(missing_ok=True)
+
+        state = _read_state()
+        vote_index = state.setdefault("vote_index", {})
+        vote_index["updated_at_utc"] = datetime.now(UTC).replace(microsecond=0).isoformat()
+        _write_state(state)

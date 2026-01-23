@@ -32,6 +32,20 @@ For incremental vote collection (tracks `data/raw/_state.json`):
 uv run python scripts/collect_votes.py
 ```
 
+For the two-stage flow (index → details):
+
+```bash
+uv run python scripts/collect_vote_index.py --mode update
+uv run python scripts/collect_vote_details.py
+```
+
+For a full backfill of the vote index (all terms/meetings/pages):
+
+```bash
+uv run python scripts/collect_vote_index.py --mode backfill
+uv run python scripts/collect_vote_details.py
+```
+
 ## Processing
 
 Turn `data/raw/votes/*.json` into analysis-ready JSONL tables under `data/processed/` (plus
