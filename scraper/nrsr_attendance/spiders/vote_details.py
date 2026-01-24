@@ -31,7 +31,7 @@ class VoteDetailsSpider(VotesSpider):
         self._terms_filter = _parse_int_set(terms)
         self._meetings_filter = _parse_int_set(meetings)
 
-    def start_requests(self) -> Iterable:
+    async def start(self) -> Iterable:
         repo_root = Path(__file__).resolve().parents[3]
         index_root = repo_root / "data" / "raw" / "vote_index"
         votes_root = repo_root / "data" / "raw" / "votes"
