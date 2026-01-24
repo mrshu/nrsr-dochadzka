@@ -68,7 +68,9 @@ def test_process_votes_writes_expected_outputs(tmp_path: Path):
     result = process_votes(raw_votes_dir, out_dir, schema_version=1)
     assert result.raw_vote_files == 1
     assert (out_dir / "votes.jsonl").exists()
-    assert (out_dir / "mp_votes.jsonl").exists()
+    assert (out_dir / "mp_votes").exists()
+    assert (out_dir / "mp_votes" / "index.json").exists()
+    assert (out_dir / "mp_votes" / "term=9" / "meeting=43.jsonl").exists()
     assert (out_dir / "mp_attendance.jsonl").exists()
     assert (out_dir / "club_attendance.jsonl").exists()
     assert (out_dir / "metadata.json").exists()
@@ -82,7 +84,7 @@ def test_process_votes_writes_expected_outputs(tmp_path: Path):
     assert votes.select("for").item() == 1
     assert votes.select("against").item() == 1
 
-    mp_votes = pl.read_ndjson(out_dir / "mp_votes.jsonl")
+    mp_votes = pl.read_ndjson(out_dir / "mp_votes" / "term=9" / "meeting=43.jsonl")
     assert mp_votes.height == 3
     present_flags = dict(zip(mp_votes["mp_id"].to_list(), mp_votes["is_present"].to_list()))
     assert present_flags == {10: True, 11: False, 12: False}
@@ -137,7 +139,7 @@ def test_process_votes_normalizes_no_club_label(tmp_path: Path):
 
     process_votes(raw_votes_dir, out_dir, schema_version=1)
 
-    mp_votes = pl.read_ndjson(out_dir / "mp_votes.jsonl")
+    mp_votes = pl.read_ndjson(out_dir / "mp_votes" / "term=9" / "meeting=1.jsonl")
     assert mp_votes.select("club").item() == "(no_club)"
 
     club_attendance = pl.read_ndjson(out_dir / "club_attendance.jsonl")

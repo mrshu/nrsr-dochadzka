@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import re
+import shutil
 import unicodedata
 from dataclasses import dataclass
 from datetime import UTC, datetime
@@ -171,6 +172,50 @@ def _write_jsonl(df: pl.DataFrame, path: Path) -> None:
             f.write(json.dumps(row, ensure_ascii=False, sort_keys=True))
             f.write("\n")
 
+def _write_json(path: Path, obj: object) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(
+        json.dumps(obj, ensure_ascii=False, sort_keys=True, indent=2) + "\n",
+        encoding="utf-8",
+    )
+
+
+def _mp_votes_shard_path(out_dir: Path, *, term_id: int | None, meeting_nr: int | None) -> Path:
+    term_part = str(term_id) if term_id is not None else "unknown"
+    meeting_part = str(meeting_nr) if meeting_nr is not None else "unknown"
+    return out_dir / "mp_votes" / f"term={term_part}" / f"meeting={meeting_part}.jsonl"
+
+
+def _write_mp_votes_shards(mp_votes_df: pl.DataFrame, out_dir: Path) -> None:
+    root = out_dir / "mp_votes"
+    if root.exists():
+        shutil.rmtree(root)
+    root.mkdir(parents=True, exist_ok=True)
+
+    shards_index: list[dict[str, object]] = []
+
+    if mp_votes_df.height:
+        partitions = mp_votes_df.partition_by(
+            ["term_id", "meeting_nr"],
+            maintain_order=True,
+            as_dict=True,
+        )
+
+        for (term_id, meeting_nr), shard_df in sorted(partitions.items(), key=lambda kv: kv[0]):
+            path = _mp_votes_shard_path(out_dir, term_id=term_id, meeting_nr=meeting_nr)
+            _write_jsonl(shard_df, path)
+            shards_index.append(
+                {
+                    "term_id": term_id,
+                    "meeting_nr": meeting_nr,
+                    "path": str(path.relative_to(out_dir)).replace("\\", "/"),
+                    "rows": shard_df.height,
+                    "bytes": path.stat().st_size,
+                }
+            )
+
+    _write_json(root / "index.json", {"shards": shards_index})
+
 
 def process_votes(raw_votes_dir: Path, out_dir: Path, *, schema_version: int = 1) -> ProcessResult:
     vote_files = sorted(
@@ -249,6 +294,7 @@ def process_votes(raw_votes_dir: Path, out_dir: Path, *, schema_version: int = 1
         out_dir / "mp_votes.csv",
         out_dir / "mp_attendance.csv",
         out_dir / "club_attendance.csv",
+        out_dir / "mp_votes.jsonl",
     ):
         legacy.unlink(missing_ok=True)
 
@@ -260,7 +306,7 @@ def process_votes(raw_votes_dir: Path, out_dir: Path, *, schema_version: int = 1
     )
 
     _write_jsonl(votes_df, out_dir / "votes.jsonl")
-    _write_jsonl(mp_votes_df, out_dir / "mp_votes.jsonl")
+    _write_mp_votes_shards(mp_votes_df, out_dir)
 
     if mp_votes_df.height:
         mp_summary = (
