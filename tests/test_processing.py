@@ -105,3 +105,41 @@ def test_process_votes_writes_expected_outputs(tmp_path: Path):
     metadata_text = (out_dir / "metadata.json").read_text(encoding="utf-8")
     metadata = json.loads(metadata_text)
     assert list(metadata.keys()) == sorted(metadata.keys())
+
+
+def test_process_votes_normalizes_no_club_label(tmp_path: Path):
+    raw_votes_dir = tmp_path / "raw" / "votes"
+    out_dir = tmp_path / "processed"
+    raw_votes_dir.mkdir(parents=True)
+
+    (raw_votes_dir / "1.json").write_text(
+        json.dumps(
+            {
+                "kind": "vote",
+                "vote_id": 1,
+                "term_id": 9,
+                "meeting_nr": 1,
+                "summary": {"Dátum a čas": "12. 12. 2025 10:06", "Číslo hlasovania": 1},
+                "stats": {},
+                "mp_votes": [
+                    {
+                        "mp_id": 10,
+                        "mp_name": "Alpha, A",
+                        "club": "Poslanci, ktorí nie sú členmi poslaneckých klubov",
+                        "vote_code": "Z",
+                    }
+                ],
+            },
+            ensure_ascii=False,
+        ),
+        encoding="utf-8",
+    )
+
+    process_votes(raw_votes_dir, out_dir, schema_version=1)
+
+    mp_votes = pl.read_ndjson(out_dir / "mp_votes.jsonl")
+    assert mp_votes.select("club").item() == "(no_club)"
+
+    club_attendance = pl.read_ndjson(out_dir / "club_attendance.jsonl")
+    assert club_attendance.height == 1
+    assert club_attendance.select("club").item() == "(no_club)"

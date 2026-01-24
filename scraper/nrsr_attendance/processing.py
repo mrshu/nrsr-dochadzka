@@ -85,6 +85,22 @@ def _safe_int(value: str | int | None) -> int | None:
         return None
 
 
+_NO_CLUB_RAW = "Poslanci, ktorí nie sú členmi poslaneckých klubov"
+_NO_CLUB_INTERNAL = "(no_club)"
+_UNKNOWN_CLUB_INTERNAL = "(unknown)"
+
+
+def _normalize_club(value: object) -> str:
+    if not isinstance(value, str):
+        return _UNKNOWN_CLUB_INTERNAL
+    normalized = " ".join(value.split())
+    if not normalized:
+        return _UNKNOWN_CLUB_INTERNAL
+    if normalized == _NO_CLUB_RAW:
+        return _NO_CLUB_INTERNAL
+    return normalized
+
+
 @dataclass(frozen=True)
 class ProcessResult:
     schema_version: int
@@ -173,7 +189,7 @@ def process_votes(raw_votes_dir: Path, out_dir: Path, *, schema_version: int = 1
                     "vote_datetime_utc": dt_utc.isoformat() if dt_utc else None,
                     "mp_id": mv.get("mp_id"),
                     "mp_name": mv.get("mp_name"),
-                    "club": mv.get("club"),
+                    "club": _normalize_club(mv.get("club")),
                     "vote_code": vote_code,
                     "is_present": is_present,
                     "is_voted": is_voted,
