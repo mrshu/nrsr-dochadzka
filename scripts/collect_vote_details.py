@@ -10,6 +10,15 @@ from scrapy.utils.project import get_project_settings
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument(
+        "--mode",
+        choices=["update", "backfill"],
+        default="update",
+        help=(
+            "Update fetches details for the latest term (unless --terms is provided). "
+            "Backfill fetches details for all available terms/meetings."
+        ),
+    )
+    parser.add_argument(
         "--force",
         action="store_true",
         help="Re-fetch and overwrite vote JSON files even if they already exist.",
@@ -47,6 +56,26 @@ def main() -> None:
     repo_root = Path(__file__).resolve().parents[1]
     scraper_dir = repo_root / "scraper"
 
+    terms_arg = args.terms
+    if args.mode == "update" and not terms_arg:
+        index_root = repo_root / "data" / "raw" / "vote_index"
+        term_ids: list[int] = []
+        if index_root.exists():
+            for p in index_root.iterdir():
+                if not p.is_dir():
+                    continue
+                try:
+                    term_ids.append(int(p.name))
+                except ValueError:
+                    continue
+        if not term_ids:
+            print(
+                "No vote index shards found under data/raw/vote_index; run collect_vote_index first.",
+                file=sys.stderr,
+            )
+            raise SystemExit(2)
+        terms_arg = str(max(term_ids))
+
     os.environ.setdefault("SCRAPY_SETTINGS_MODULE", "nrsr_attendance.settings")
     sys.path.insert(0, str(scraper_dir))
     os.chdir(scraper_dir)
@@ -59,7 +88,7 @@ def main() -> None:
     process.crawl(
         "vote_details",
         force="1" if args.force else "0",
-        terms=args.terms or None,
+        terms=terms_arg or None,
         meetings=args.meetings or None,
     )
     process.start()
