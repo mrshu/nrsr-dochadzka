@@ -46,6 +46,12 @@ uv run python scripts/collect_vote_index.py --mode backfill
 uv run python scripts/collect_vote_details.py
 ```
 
+Both commands accept tuning flags to speed up large runs (use responsibly):
+
+- `--concurrent N` (default `2`)
+- `--no-autothrottle`
+- `--terms 9,8,7` and `--meetings 43,44,1001` to backfill in chunks (e.g. per term)
+
 ## Processing
 
 Turn `data/raw/votes/*.json` into analysis-ready JSONL tables under `data/processed/` (plus

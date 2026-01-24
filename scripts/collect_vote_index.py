@@ -20,6 +20,29 @@ def main() -> None:
         default="",
         help="Comma-separated term IDs to include (e.g. 9 or 9,8,7). Empty means all.",
     )
+    parser.add_argument(
+        "--meetings",
+        default="",
+        help="Comma-separated meeting IDs to include (e.g. 43 or 43,44,1001). Empty means all.",
+    )
+    parser.add_argument(
+        "--concurrent",
+        type=int,
+        default=2,
+        help="CONCURRENT_REQUESTS_PER_DOMAIN (higher is faster, but be polite).",
+    )
+    parser.add_argument(
+        "--autothrottle",
+        action="store_true",
+        default=True,
+        help="Enable AutoThrottle (default: enabled).",
+    )
+    parser.add_argument(
+        "--no-autothrottle",
+        action="store_false",
+        dest="autothrottle",
+        help="Disable AutoThrottle.",
+    )
     args = parser.parse_args()
 
     repo_root = Path(__file__).resolve().parents[1]
@@ -29,8 +52,17 @@ def main() -> None:
     sys.path.insert(0, str(scraper_dir))
     os.chdir(scraper_dir)
 
-    process = CrawlerProcess(get_project_settings())
-    process.crawl("vote_index", mode=args.mode, terms=args.terms or None)
+    settings = get_project_settings()
+    settings.set("CONCURRENT_REQUESTS_PER_DOMAIN", args.concurrent, priority="cmdline")
+    settings.set("AUTOTHROTTLE_ENABLED", bool(args.autothrottle), priority="cmdline")
+
+    process = CrawlerProcess(settings)
+    process.crawl(
+        "vote_index",
+        mode=args.mode,
+        terms=args.terms or None,
+        meetings=args.meetings or None,
+    )
     process.start()
 
 

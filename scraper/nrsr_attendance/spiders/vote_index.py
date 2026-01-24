@@ -74,6 +74,7 @@ class VoteIndexSpider(scrapy.Spider):
         *args,
         mode: str | None = None,
         terms: str | None = None,
+        meetings: str | None = None,
         **kwargs,
     ):
         super().__init__(*args, **kwargs)
@@ -84,6 +85,10 @@ class VoteIndexSpider(scrapy.Spider):
         self._terms_filter: set[int] | None = None
         if terms:
             self._terms_filter = {int(t.strip()) for t in terms.split(",") if t.strip()}
+
+        self._meetings_filter: set[int] | None = None
+        if meetings:
+            self._meetings_filter = {int(m.strip()) for m in meetings.split(",") if m.strip()}
 
     def parse(self, response: scrapy.http.Response):
         if self._mode == "update":
@@ -126,6 +131,8 @@ class VoteIndexSpider(scrapy.Spider):
                 continue
             meeting_id = int(value)
             if meeting_id == 0:
+                continue
+            if self._meetings_filter is not None and meeting_id not in self._meetings_filter:
                 continue
             meetings.append((meeting_id, label))
 
