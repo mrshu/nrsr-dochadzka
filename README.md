@@ -72,6 +72,7 @@ uv run python scripts/build_site_data.py
 Preview the static site locally (after building the bundle):
 
 ```bash
+uv run python scripts/build_site_data.py --out-dir site/assets/data
 python -m http.server --directory site 8000
 ```
 
