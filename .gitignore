@@ -16,3 +16,13 @@ __pycache__/
 # Scrapy
 .scrapy/
 
+# Data artifacts (keep data directories, ignore generated content)
+data/raw/votes/*.json
+data/raw/vote_index/
+data/processed/mp_votes/
+data/processed/mp_votes.jsonl
+data/site/
+
+# Built site artifacts
+site/assets/data/
+dist/

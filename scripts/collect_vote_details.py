@@ -76,7 +76,8 @@ def main() -> None:
                     continue
         if not term_ids:
             print(
-                "No vote index shards found under data/raw/vote_index; run collect_vote_index first.",
+                "No vote index shards found under data/raw/vote_index; "
+                "run collect_vote_index first.",
                 file=sys.stderr,
             )
             raise SystemExit(2)

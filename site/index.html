@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="sk">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>NRSR Attendance</title>
+    <link rel="stylesheet" href="assets/styles.css" />
+  </head>
+  <body>
+    <header class="container">
+      <h1>NRSR attendance</h1>
+      <div class="controls">
+        <label for="termSelect">Volebné obdobie</label>
+        <select id="termSelect" disabled></select>
+        <div class="meta" id="meta"></div>
+      </div>
+    </header>
+
+    <main class="container">
+      <section>
+        <h2>Poslanci</h2>
+        <div class="table-wrap">
+          <table id="mpTable">
+            <thead>
+              <tr>
+                <th data-key="mp_name">Meno</th>
+                <th data-key="participation_rate" data-type="number">Dochádzka</th>
+                <th data-key="present_count" data-type="number">Prítomný</th>
+                <th data-key="absent_count" data-type="number">Neprítomný</th>
+                <th data-key="total_votes" data-type="number">Spolu</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section>
+        <h2>Kluby</h2>
+        <div class="table-wrap">
+          <table id="clubTable">
+            <thead>
+              <tr>
+                <th data-key="club">Klub</th>
+                <th data-key="participation_rate" data-type="number">Dochádzka</th>
+                <th data-key="present_count" data-type="number">Prítomný</th>
+                <th data-key="absent_count" data-type="number">Neprítomný</th>
+                <th data-key="total_votes" data-type="number">Spolu</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <footer class="container footer">
+      <span>Data: nrsr.sk</span>
+    </footer>
+
+    <script src="assets/app.js" type="module"></script>
+  </body>
+</html>
+

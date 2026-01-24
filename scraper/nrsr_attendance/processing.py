@@ -127,7 +127,10 @@ _MP_VOTES_SCHEMA_OVERRIDES = {
     "is_voted": pl.Boolean,
 }
 
-def _df_from_records(records: list[dict], *, schema_overrides: dict[str, pl.DataType]) -> pl.DataFrame:
+
+def _df_from_records(
+    records: list[dict], *, schema_overrides: dict[str, pl.DataType]
+) -> pl.DataFrame:
     if records:
         return pl.DataFrame(records, schema_overrides=schema_overrides)
     return pl.DataFrame(schema=schema_overrides)
@@ -171,6 +174,7 @@ def _write_jsonl(df: pl.DataFrame, path: Path) -> None:
         for row in df.to_dicts():
             f.write(json.dumps(row, ensure_ascii=False, sort_keys=True))
             f.write("\n")
+
 
 def _write_json(path: Path, obj: object) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)

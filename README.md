@@ -61,6 +61,20 @@ Turn `data/raw/votes/*.json` into analysis-ready JSONL tables under `data/proces
 uv run python scripts/process_data.py
 ```
 
+## Site data bundle
+
+Build a browser-friendly JSON bundle under `data/site/assets/data/`:
+
+```bash
+uv run python scripts/build_site_data.py
+```
+
+Preview the static site locally (after building the bundle):
+
+```bash
+python -m http.server --directory site 8000
+```
+
 ## Tooling
 
 ```bash
