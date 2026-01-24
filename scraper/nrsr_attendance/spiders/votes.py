@@ -145,6 +145,10 @@ class VotesSpider(scrapy.Spider):
         else:
             meta_summary = {}
 
+        vote_number = _parse_int(meta_summary.get("Číslo hlasovania"))
+        if vote_number is not None:
+            meta_summary["Číslo hlasovania"] = vote_number
+
         if len(summary_panels) > 1:
             stats_summary = self._parse_summary_panel(summary_panels[1])
         else:

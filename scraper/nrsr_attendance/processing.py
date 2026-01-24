@@ -71,9 +71,11 @@ def _stats_get_code(stats: dict[str, int] | None, code: str) -> int | None:
     return None
 
 
-def _safe_int(value: str | None) -> int | None:
+def _safe_int(value: str | int | None) -> int | None:
     if value is None:
         return None
+    if isinstance(value, int):
+        return value
     value = value.strip()
     if not value:
         return None

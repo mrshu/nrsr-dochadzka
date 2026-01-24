@@ -155,6 +155,7 @@ def test_votes_spider_parse_vote_extracts_codes(url: str, expected_id: int):
     item = next(spider.parse_vote(response))
 
     assert item["vote_id"] == expected_id
+    assert item["summary"]["Číslo hlasovania"] == 149
     assert item["stats"]["Prítomní"] == 81
     assert len(item["mp_votes"]) == 3
     assert {m["vote_code"] for m in item["mp_votes"]} == {"Z", "0", "P"}

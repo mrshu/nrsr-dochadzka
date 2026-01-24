@@ -23,7 +23,7 @@ def test_process_votes_writes_expected_outputs(tmp_path: Path):
                 "fetched_at_utc": "2026-01-01T00:00:00+00:00",
                 "summary": {
                     "Dátum a čas": "12. 12. 2025 10:06",
-                    "Číslo hlasovania": "1",
+                    "Číslo hlasovania": 1,
                     "Názov hlasovania": "Test vote 1",
                     "Výsledok hlasovania": "Návrh prešiel",
                 },
