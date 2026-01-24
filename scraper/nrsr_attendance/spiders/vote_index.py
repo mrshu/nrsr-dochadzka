@@ -62,10 +62,12 @@ class VoteIndexSpider(scrapy.Spider):
     custom_settings = {
         "ITEM_PIPELINES": {"nrsr_attendance.pipelines.VoteIndexJsonlPipeline": 100},
         "DOWNLOAD_TIMEOUT": 60,
+        "RETRY_HTTP_CODES": [403, 408, 429, 500, 502, 503, 504],
         "RETRY_TIMES": 5,
         "AUTOTHROTTLE_ENABLED": True,
         "AUTOTHROTTLE_START_DELAY": 1.0,
         "AUTOTHROTTLE_MAX_DELAY": 10.0,
+        "AUTOTHROTTLE_TARGET_CONCURRENCY": 2.0,
         "CONCURRENT_REQUESTS_PER_DOMAIN": 2,
     }
 
