@@ -1,0 +1,115 @@
+/* Option A — dark glass dashboard */
+:root {
+  --bg: #060a18;
+  --text: #eef2ff;
+  --muted: rgba(238, 242, 255, 0.72);
+  --border: rgba(255, 255, 255, 0.12);
+  --panel: rgba(255, 255, 255, 0.06);
+  --accent: #7aa2ff;
+  --glow: rgba(122, 162, 255, 0.28);
+  --font:
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    Segoe UI,
+    Roboto,
+    Helvetica,
+    Arial,
+    "Apple Color Emoji",
+    "Segoe UI Emoji";
+}
+
+body {
+  background:
+    radial-gradient(900px 500px at 15% 0%, rgba(122, 162, 255, 0.25), transparent),
+    radial-gradient(900px 500px at 85% 15%, rgba(255, 77, 109, 0.18), transparent),
+    radial-gradient(1200px 700px at 45% -10%, rgba(0, 245, 212, 0.1), transparent),
+    var(--bg);
+  font-family: var(--font);
+}
+
+header h1 {
+  margin: 0;
+  font-size: 30px;
+  letter-spacing: -0.02em;
+}
+
+.hero {
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow:
+    0 0 0 1px rgba(122, 162, 255, 0.06),
+    0 18px 60px rgba(0, 0, 0, 0.35);
+}
+
+.controls {
+  background: transparent;
+  border: 0;
+  padding: 0;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.card {
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(18, 26, 51, 0.45);
+  padding: 14px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+.card .label {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.card .value {
+  margin-top: 6px;
+  font-size: 22px;
+  font-variant-numeric: tabular-nums;
+}
+
+.section {
+  margin-top: 18px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(18, 26, 51, 0.38);
+  overflow: hidden;
+}
+
+.section h2 {
+  margin: 0;
+  padding: 14px 14px 10px;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(238, 242, 255, 0.75);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.table-wrap {
+  background: transparent;
+}
+
+thead th {
+  background: rgba(18, 26, 51, 0.7);
+  position: sticky;
+  top: 0;
+}
+
+tbody tr:hover td {
+  background: rgba(122, 162, 255, 0.08);
+}
+
+.nav a.active {
+  box-shadow: 0 0 0 3px rgba(122, 162, 255, 0.14);
+  background: rgba(122, 162, 255, 0.1);
+}
+

@@ -4,9 +4,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>NRSR Attendance — Option B</title>
-    <link rel="stylesheet" href="../assets/styles.css" />
+    <link rel="stylesheet" href="../assets/base.css" />
+    <link rel="stylesheet" href="../assets/theme-b.css" />
   </head>
-  <body class="theme-b">
+  <body>
     <header class="container">
       <div class="topbar">
         <h1>NRSR attendance</h1>
@@ -16,6 +17,7 @@
           <a href="../option-c/">C</a>
         </nav>
       </div>
+      <div class="masthead"></div>
       <div class="note">Temporary A/B/C prototypes (will be refactored).</div>
       <div class="controls">
         <label for="termSelect">Volebné obdobie</label>
@@ -27,30 +29,32 @@
     </header>
 
     <main class="container">
-      <section>
-        <h2 id="mpTitle">Profil</h2>
-        <div class="cards" id="cards"></div>
-      </section>
+      <div class="layout">
+        <section class="panel">
+          <h2 id="mpTitle">Profil</h2>
+          <div class="cards" id="cards"></div>
+        </section>
 
-      <section>
-        <h2>Kluby (na úrovni hlasovaní)</h2>
-        <div class="table-wrap">
-          <table id="clubTable">
-            <thead>
-              <tr>
-                <th>Klub</th>
-                <th class="num">Dochádzka</th>
-                <th class="num">Prítomný</th>
-                <th class="num">Neprítomný</th>
-                <th class="num">Spolu</th>
-              </tr>
-            </thead>
-            <tbody></tbody>
-          </table>
-        </div>
-      </section>
+        <section class="panel">
+          <h2>Kluby</h2>
+          <div class="table-wrap">
+            <table id="clubTable">
+              <thead>
+                <tr>
+                  <th>Klub</th>
+                  <th class="num">Dochádzka</th>
+                  <th class="num">Prítomný</th>
+                  <th class="num">Neprítomný</th>
+                  <th class="num">Spolu</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </section>
+      </div>
 
-      <section>
+      <section class="panel" style="margin-top: 18px">
         <h2>Posledné hlasovania</h2>
         <div class="table-wrap">
           <table id="votesTable">

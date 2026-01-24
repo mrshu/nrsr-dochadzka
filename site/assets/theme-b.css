@@ -1,0 +1,120 @@
+/* Option B — light editorial / newspaper */
+:root {
+  --bg: #fbfbfd;
+  --text: #0b1220;
+  --muted: rgba(11, 18, 32, 0.68);
+  --border: rgba(11, 18, 32, 0.14);
+  --panel: rgba(11, 18, 32, 0.035);
+  --accent: #111827;
+  --font:
+    ui-serif,
+    Georgia,
+    Cambria,
+    "Times New Roman",
+    Times,
+    serif;
+  --sans:
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    Segoe UI,
+    Roboto,
+    Helvetica,
+    Arial,
+    "Apple Color Emoji",
+    "Segoe UI Emoji";
+}
+
+body {
+  background:
+    radial-gradient(800px 500px at 20% 0%, #ffffff, transparent),
+    linear-gradient(180deg, #ffffff, var(--bg));
+  font-family: var(--font);
+}
+
+header h1 {
+  margin: 0;
+  font-size: 42px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.masthead {
+  border-top: 2px solid rgba(11, 18, 32, 0.9);
+  border-bottom: 1px solid rgba(11, 18, 32, 0.4);
+  padding: 10px 0 8px;
+}
+
+.note {
+  font-family: var(--sans);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.controls {
+  font-family: var(--sans);
+  gap: 8px;
+}
+
+select,
+input[type="search"] {
+  border-radius: 0;
+  background: transparent;
+  border: 1px solid rgba(11, 18, 32, 0.25);
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 18px;
+  align-items: start;
+}
+
+.panel {
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(11, 18, 32, 0.14);
+  padding: 14px 14px 6px;
+}
+
+.panel h2 {
+  margin: 0 0 10px;
+  font-family: var(--sans);
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+thead th {
+  font-family: var(--sans);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 11px;
+}
+
+tbody td {
+  border-bottom: 1px dotted rgba(11, 18, 32, 0.22);
+}
+
+tbody tr:nth-child(even) td {
+  background: rgba(11, 18, 32, 0.02);
+}
+
+.nav a {
+  border-radius: 0;
+  font-family: var(--sans);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 11px;
+}
+
+.nav a.active {
+  background: rgba(11, 18, 32, 0.06);
+}
+
+@media (max-width: 880px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+}
+

@@ -4,9 +4,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>NRSR Attendance</title>
-    <link rel="stylesheet" href="assets/styles.css" />
+    <link rel="stylesheet" href="assets/base.css" />
+    <link rel="stylesheet" href="assets/theme-a.css" />
   </head>
-  <body class="theme-a">
+  <body>
     <header class="container">
       <div class="topbar">
         <h1>NRSR attendance</h1>
@@ -17,25 +18,41 @@
         </nav>
       </div>
       <div class="note">Temporary A/B/C prototypes (will be refactored).</div>
-      <div class="controls">
-        <label for="termSelect">Volebné obdobie</label>
-        <select id="termSelect" disabled></select>
-        <div class="meta" id="meta"></div>
+      <div class="hero">
+        <div class="controls">
+          <label for="termSelect">Volebné obdobie</label>
+          <select id="termSelect" disabled></select>
+          <div class="meta" id="meta"></div>
+        </div>
+        <div class="cards">
+          <div class="card">
+            <div class="label">Prototype</div>
+            <div class="value">A</div>
+          </div>
+          <div class="card">
+            <div class="label">Focus</div>
+            <div class="value">Leaderboard</div>
+          </div>
+          <div class="card">
+            <div class="label">Term filter</div>
+            <div class="value">Live</div>
+          </div>
+        </div>
       </div>
     </header>
 
     <main class="container">
-      <section>
+      <section class="section">
         <h2>Poslanci</h2>
         <div class="table-wrap">
           <table id="mpTable">
             <thead>
               <tr>
                 <th data-key="mp_name">Meno</th>
-                <th data-key="participation_rate" data-type="number">Dochádzka</th>
-                <th data-key="present_count" data-type="number">Prítomný</th>
-                <th data-key="absent_count" data-type="number">Neprítomný</th>
-                <th data-key="total_votes" data-type="number">Spolu</th>
+                <th class="num" data-key="participation_rate" data-type="number">Dochádzka</th>
+                <th class="num" data-key="present_count" data-type="number">Prítomný</th>
+                <th class="num" data-key="absent_count" data-type="number">Neprítomný</th>
+                <th class="num" data-key="total_votes" data-type="number">Spolu</th>
               </tr>
             </thead>
             <tbody></tbody>
@@ -43,17 +60,17 @@
         </div>
       </section>
 
-      <section>
+      <section class="section">
         <h2>Kluby</h2>
         <div class="table-wrap">
           <table id="clubTable">
             <thead>
               <tr>
                 <th data-key="club">Klub</th>
-                <th data-key="participation_rate" data-type="number">Dochádzka</th>
-                <th data-key="present_count" data-type="number">Prítomný</th>
-                <th data-key="absent_count" data-type="number">Neprítomný</th>
-                <th data-key="total_votes" data-type="number">Spolu</th>
+                <th class="num" data-key="participation_rate" data-type="number">Dochádzka</th>
+                <th class="num" data-key="present_count" data-type="number">Prítomný</th>
+                <th class="num" data-key="absent_count" data-type="number">Neprítomný</th>
+                <th class="num" data-key="total_votes" data-type="number">Spolu</th>
               </tr>
             </thead>
             <tbody></tbody>
