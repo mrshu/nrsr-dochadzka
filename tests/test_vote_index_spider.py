@@ -108,3 +108,51 @@ def test_vote_index_meeting_results_paginates_via_postback():
     assert len(items) == 1
     assert items[0]["vote_id"] == 57277
     assert reqs and reqs[0].method == "POST"
+
+
+MEETING_PAGE_NO_MEETING_COL = """
+<html>
+  <body>
+    <form id="_f" method="post">
+      <input type="hidden" name="__VIEWSTATE" value="x" />
+      <input type="hidden" name="__EVENTVALIDATION" value="y" />
+      <table id="_sectionLayoutContainer_ctl01__resultGrid2">
+        <tr class="tab_zoznam_header">
+          <th>Dátum</th>
+          <th>Číslo</th>
+          <th>ČPT</th>
+          <th>Názov</th>
+          <th>Hlasovanie podľa klubov</th>
+        </tr>
+        <tr class="tab_zoznam_nonalt">
+          <td>25.11.2025<br/>13:21:08</td>
+          <td><a href="Default.aspx?sid=schodze/hlasovanie/hlasovanie&ID=57277">1</a></td>
+          <td></td>
+          <td>Prezentácia č. 1</td>
+          <td>
+            <a href="Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=57277">Hlasovanie č. 1</a>
+          </td>
+        </tr>
+      </table>
+    </form>
+  </body>
+</html>
+""".strip()
+
+
+def test_vote_index_meeting_results_handles_hidden_meeting_column():
+    spider = VoteIndexSpider(mode="backfill")
+    response = _html_response(
+        "https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/vyhladavanie_vysledok&ZakZborID=13&CisObdobia=9&CisSchodze=43&ShowCisloSchodze=False",
+        MEETING_PAGE_NO_MEETING_COL,
+    )
+    out = list(
+        spider._parse_meeting_results(
+            response, term_id=9, meeting_id=43, meeting_label="43. schôdza", page=1
+        )
+    )
+    item = next(x for x in out if isinstance(x, dict))
+    assert item["meeting_nr"] == 43
+    assert item["date_time_text"].startswith("25.11.2025")
+    assert item["vote_number"] == 1
+    assert item["title"] == "Prezentácia č. 1"

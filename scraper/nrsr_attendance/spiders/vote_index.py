@@ -257,14 +257,45 @@ class VoteIndexSpider(scrapy.Spider):
         meeting_id: int,
         meeting_label: str,
     ):
+        header_texts = [
+            " ".join(t.strip() for t in th.css("::text").getall() if t.strip())
+            for th in response.css(
+                "#_sectionLayoutContainer_ctl01__resultGrid2 tr.tab_zoznam_header th"
+            )
+        ]
+        has_meeting_col = any("Číslo schôdze" in t for t in header_texts)
+
+        # Some result views hide the meeting number column (ShowCisloSchodze=False). In that case,
+        # columns shift left by 1 and we should rely on meeting_id from context.
+        if has_meeting_col:
+            idx_meeting = 1
+            idx_date = 2
+            idx_vote = 3
+            idx_cpt = 4
+            idx_title = 5
+            idx_hlasklub = 6
+        else:
+            idx_meeting = None
+            idx_date = 1
+            idx_vote = 2
+            idx_cpt = 3
+            idx_title = 4
+            idx_hlasklub = 5
+
         for row in response.css(
             "#_sectionLayoutContainer_ctl01__resultGrid2 tr.tab_zoznam_alt, "
             "#_sectionLayoutContainer_ctl01__resultGrid2 tr.tab_zoznam_nonalt"
         ):
-            meeting_nr = _parse_int(row.css("td:nth-child(1)::text").get())
+            meeting_nr = (
+                meeting_id
+                if idx_meeting is None
+                else _parse_int(row.css(f"td:nth-child({idx_meeting})::text").get())
+            )
             date_time_text = " ".join(
                 t.strip()
-                for t in row.css("td:nth-child(2) *::text, td:nth-child(2)::text").getall()
+                for t in row.css(
+                    f"td:nth-child({idx_date}) *::text, td:nth-child({idx_date})::text"
+                ).getall()
                 if t.strip()
             )
 
@@ -276,9 +307,11 @@ class VoteIndexSpider(scrapy.Spider):
                 continue
             hlasovanie_url = urljoin(response.url, vote_href)
 
-            vote_number = _parse_int(row.css("td:nth-child(3) a::text").get())
+            vote_number = _parse_int(row.css(f"td:nth-child({idx_vote}) a::text").get())
 
-            cpt_href = row.css("a[href*='sid=zakony/cpt']::attr(href)").get()
+            cpt_href = row.css(
+                f"td:nth-child({idx_cpt}) a[href*='sid=zakony/cpt']::attr(href)"
+            ).get()
             cpt_id = None
             if cpt_href:
                 parsed = urlparse(urljoin(response.url, cpt_href))
@@ -287,10 +320,15 @@ class VoteIndexSpider(scrapy.Spider):
                 cpt_id = _parse_int(values[0]) if values else None
 
             title = " ".join(
-                t.strip() for t in row.css("td:nth-child(5) *::text").getall() if t.strip()
+                t.strip()
+                for t in row.css(
+                    f"td:nth-child({idx_title}) *::text, td:nth-child({idx_title})::text"
+                ).getall()
+                if t.strip()
             )
 
             hlasklub_href = row.css(
+                f"td:nth-child({idx_hlasklub}) "
                 "a[href*='sid=schodze/hlasovanie/hlasklub&ID=']::attr(href)"
             ).get()
             hlasklub_url = (
