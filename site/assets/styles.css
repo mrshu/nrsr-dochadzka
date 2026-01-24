@@ -5,6 +5,21 @@
   --muted: #aab4e6;
   --border: rgba(255, 255, 255, 0.12);
   --accent: #7aa2ff;
+  --bg-gradient: radial-gradient(1200px 600px at 20% 0%, #111a3a, var(--bg));
+  --surface: rgba(18, 26, 51, 0.65);
+  --surface-strong: rgba(18, 26, 51, 0.95);
+  --control-surface: rgba(18, 26, 51, 0.7);
+  --row-hover: rgba(122, 162, 255, 0.08);
+  --font-family:
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    Segoe UI,
+    Roboto,
+    Helvetica,
+    Arial,
+    "Apple Color Emoji",
+    "Segoe UI Emoji";
 }
 
 * {
@@ -13,9 +28,49 @@
 
 body {
   margin: 0;
-  background: radial-gradient(1200px 600px at 20% 0%, #111a3a, var(--bg));
+  background: var(--bg-gradient);
   color: var(--text);
-  font-family:
+  font-family: var(--font-family);
+}
+
+.theme-b {
+  --bg: #f6f6f7;
+  --panel: #ffffff;
+  --text: #0b1220;
+  --muted: rgba(11, 18, 32, 0.7);
+  --border: rgba(11, 18, 32, 0.14);
+  --accent: #1d4ed8;
+  --bg-gradient: radial-gradient(1000px 600px at 20% 0%, #ffffff, var(--bg));
+  --surface: rgba(255, 255, 255, 0.9);
+  --surface-strong: rgba(255, 255, 255, 1);
+  --control-surface: rgba(255, 255, 255, 0.95);
+  --row-hover: rgba(29, 78, 216, 0.08);
+  --font-family:
+    ui-serif,
+    Georgia,
+    Cambria,
+    "Times New Roman",
+    Times,
+    serif;
+}
+
+.theme-c {
+  --bg: #070611;
+  --panel: rgba(14, 12, 28, 0.9);
+  --text: #f2f4ff;
+  --muted: rgba(242, 244, 255, 0.72);
+  --border: rgba(0, 245, 212, 0.22);
+  --accent: #00f5d4;
+  --bg-gradient:
+    radial-gradient(900px 500px at 10% 0%, rgba(0, 245, 212, 0.18), transparent),
+    radial-gradient(900px 500px at 80% 10%, rgba(255, 77, 109, 0.18), transparent),
+    radial-gradient(1200px 700px at 40% -10%, rgba(122, 162, 255, 0.14), transparent),
+    var(--bg);
+  --surface: rgba(14, 12, 28, 0.65);
+  --surface-strong: rgba(14, 12, 28, 0.92);
+  --control-surface: rgba(14, 12, 28, 0.75);
+  --row-hover: rgba(0, 245, 212, 0.08);
+  --font-family:
     ui-sans-serif,
     system-ui,
     -apple-system,
@@ -62,7 +117,7 @@ header h1 {
 
 .nav a.active {
   color: var(--text);
-  border-color: rgba(122, 162, 255, 0.6);
+  border-color: var(--accent);
   background: rgba(122, 162, 255, 0.12);
 }
 
@@ -78,7 +133,7 @@ header h1 {
   gap: 12px;
   align-items: center;
   padding: 12px;
-  background: rgba(18, 26, 51, 0.7);
+  background: var(--control-surface);
   border: 1px solid var(--border);
   border-radius: 12px;
 }
@@ -120,7 +175,7 @@ h2 {
 
 .table-wrap {
   overflow-x: auto;
-  background: rgba(18, 26, 51, 0.65);
+  background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 12px;
 }
@@ -133,7 +188,7 @@ table {
 thead th {
   position: sticky;
   top: 0;
-  background: rgba(18, 26, 51, 0.95);
+  background: var(--surface-strong);
   border-bottom: 1px solid var(--border);
   text-align: left;
   font-size: 13px;
@@ -150,7 +205,7 @@ tbody td {
 }
 
 tbody tr:hover td {
-  background: rgba(122, 162, 255, 0.08);
+  background: var(--row-hover);
 }
 
 .num {
@@ -165,7 +220,7 @@ tbody tr:hover td {
 }
 
 .card {
-  background: rgba(18, 26, 51, 0.65);
+  background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 12px;
@@ -187,4 +242,34 @@ tbody tr:hover td {
   font-size: 12px;
   padding-top: 12px;
   padding-bottom: 24px;
+}
+
+.theme-b .nav a.active {
+  background: rgba(29, 78, 216, 0.1);
+}
+
+.theme-b thead th {
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 12px;
+}
+
+.theme-b tbody td {
+  border-bottom: 1px solid rgba(11, 18, 32, 0.08);
+}
+
+.theme-b tbody tr:nth-child(even) td {
+  background: rgba(11, 18, 32, 0.03);
+}
+
+.theme-c .controls,
+.theme-c .table-wrap,
+.theme-c .card {
+  box-shadow:
+    0 0 0 1px rgba(0, 245, 212, 0.08),
+    0 18px 50px rgba(0, 0, 0, 0.35);
+}
+
+.theme-c .nav a.active {
+  background: rgba(0, 245, 212, 0.1);
 }
