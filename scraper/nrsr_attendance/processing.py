@@ -89,6 +89,48 @@ _NO_CLUB_RAW = "Poslanci, ktorí nie sú členmi poslaneckých klubov"
 _NO_CLUB_INTERNAL = "(no_club)"
 _UNKNOWN_CLUB_INTERNAL = "(unknown)"
 
+_VOTES_SCHEMA_OVERRIDES = {
+    "vote_id": pl.Int64,
+    "term_id": pl.Int64,
+    "meeting_nr": pl.Int64,
+    "vote_number": pl.Int64,
+    "vote_datetime_local": pl.Utf8,
+    "vote_datetime_utc": pl.Utf8,
+    "title": pl.Utf8,
+    "result": pl.Utf8,
+    "cpt_id": pl.Int64,
+    "present": pl.Int64,
+    "voting": pl.Int64,
+    "for": pl.Int64,
+    "against": pl.Int64,
+    "abstain": pl.Int64,
+    "not_voting": pl.Int64,
+    "absent": pl.Int64,
+    "source_url": pl.Utf8,
+    "http_status": pl.Int64,
+    "fetched_at_utc": pl.Utf8,
+}
+
+_MP_VOTES_SCHEMA_OVERRIDES = {
+    "vote_id": pl.Int64,
+    "term_id": pl.Int64,
+    "meeting_nr": pl.Int64,
+    "vote_number": pl.Int64,
+    "vote_datetime_local": pl.Utf8,
+    "vote_datetime_utc": pl.Utf8,
+    "mp_id": pl.Int64,
+    "mp_name": pl.Utf8,
+    "club": pl.Utf8,
+    "vote_code": pl.Utf8,
+    "is_present": pl.Boolean,
+    "is_voted": pl.Boolean,
+}
+
+def _df_from_records(records: list[dict], *, schema_overrides: dict[str, pl.DataType]) -> pl.DataFrame:
+    if records:
+        return pl.DataFrame(records, schema_overrides=schema_overrides)
+    return pl.DataFrame(schema=schema_overrides)
+
 
 def _normalize_club(value: object) -> str:
     if not isinstance(value, str):
@@ -99,6 +141,9 @@ def _normalize_club(value: object) -> str:
     if normalized == _NO_CLUB_RAW:
         return _NO_CLUB_INTERNAL
     return normalized
+
+
+_ABSENT_VOTE_CODES = {"0", "N"}
 
 
 @dataclass(frozen=True)
@@ -177,7 +222,7 @@ def process_votes(raw_votes_dir: Path, out_dir: Path, *, schema_version: int = 1
 
         for mv in payload.get("mp_votes") or []:
             vote_code = mv.get("vote_code")
-            is_present = vote_code is not None and vote_code != "0"
+            is_present = vote_code is not None and vote_code not in _ABSENT_VOTE_CODES
             is_voted = vote_code in {"Z", "P", "?"}
             mp_votes.append(
                 {
@@ -207,8 +252,12 @@ def process_votes(raw_votes_dir: Path, out_dir: Path, *, schema_version: int = 1
     ):
         legacy.unlink(missing_ok=True)
 
-    votes_df = pl.DataFrame(votes).sort(["vote_datetime_utc", "vote_id"])
-    mp_votes_df = pl.DataFrame(mp_votes).sort(["vote_datetime_utc", "vote_id", "mp_id"])
+    votes_df = _df_from_records(votes, schema_overrides=_VOTES_SCHEMA_OVERRIDES).sort(
+        ["vote_datetime_utc", "vote_id"]
+    )
+    mp_votes_df = _df_from_records(mp_votes, schema_overrides=_MP_VOTES_SCHEMA_OVERRIDES).sort(
+        ["vote_datetime_utc", "vote_id", "mp_id"]
+    )
 
     _write_jsonl(votes_df, out_dir / "votes.jsonl")
     _write_jsonl(mp_votes_df, out_dir / "mp_votes.jsonl")
@@ -220,7 +269,7 @@ def process_votes(raw_votes_dir: Path, out_dir: Path, *, schema_version: int = 1
                 total_votes=pl.len(),
                 present_count=pl.col("is_present").cast(pl.Int8).sum(),
                 voted_count=pl.col("is_voted").cast(pl.Int8).sum(),
-                absent_count=(pl.col("vote_code") == "0").cast(pl.Int8).sum(),
+                absent_count=pl.col("vote_code").is_in(["0", "N"]).cast(pl.Int8).sum(),
                 not_voting_count=(pl.col("vote_code") == "N").cast(pl.Int8).sum(),
                 abstain_count=(pl.col("vote_code") == "?").cast(pl.Int8).sum(),
                 for_count=(pl.col("vote_code") == "Z").cast(pl.Int8).sum(),
