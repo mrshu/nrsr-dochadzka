@@ -93,7 +93,19 @@ def build_site_data(
 
     mps_df = pl.read_ndjson(mp_attendance_path)
     clubs_df = pl.read_ndjson(club_attendance_path)
-    votes_df = pl.read_ndjson(votes_path)
+    votes_df = pl.read_ndjson(
+        votes_path,
+        schema_overrides={
+            "vote_id": pl.Int64,
+            "term_id": pl.Int64,
+            "meeting_nr": pl.Int64,
+            "vote_number": pl.Int64,
+            "vote_datetime_local": pl.Utf8,
+            "vote_datetime_utc": pl.Utf8,
+            "title": pl.Utf8,
+            "result": pl.Utf8,
+        },
+    )
 
     discovered_terms = sorted(
         {int(t) for t in mps_df.get_column("term_id").unique().to_list() if t is not None},
