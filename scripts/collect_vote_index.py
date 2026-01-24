@@ -32,6 +32,12 @@ def main() -> None:
         help="CONCURRENT_REQUESTS_PER_DOMAIN (higher is faster, but be polite).",
     )
     parser.add_argument(
+        "--download-delay",
+        type=float,
+        default=None,
+        help="Override Scrapy DOWNLOAD_DELAY seconds (default: repo setting).",
+    )
+    parser.add_argument(
         "--autothrottle",
         action="store_true",
         default=True,
@@ -55,6 +61,8 @@ def main() -> None:
     settings = get_project_settings()
     settings.set("CONCURRENT_REQUESTS_PER_DOMAIN", args.concurrent, priority="cmdline")
     settings.set("AUTOTHROTTLE_ENABLED", bool(args.autothrottle), priority="cmdline")
+    if args.download_delay is not None:
+        settings.set("DOWNLOAD_DELAY", float(args.download_delay), priority="cmdline")
 
     process = CrawlerProcess(settings)
     process.crawl(
