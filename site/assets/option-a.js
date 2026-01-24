@@ -1,21 +1,4 @@
-const MANIFEST_URL = "assets/data/manifest.json";
-
-function $(id) {
-  const el = document.getElementById(id);
-  if (!el) throw new Error(`Missing element: ${id}`);
-  return el;
-}
-
-function formatPct(value) {
-  if (typeof value !== "number") return "";
-  return `${(value * 100).toFixed(2)}%`;
-}
-
-function formatInt(value) {
-  if (value === null || value === undefined) return "";
-  if (typeof value === "number") return value.toLocaleString("sk-SK");
-  return String(value);
-}
+import { $, fetchJson, formatInt, formatPct, setMeta } from "./common.js";
 
 function compareValues(a, b, type) {
   if (type === "number") {
@@ -83,23 +66,15 @@ function renderClubTable(rows) {
   }
 }
 
-async function fetchJson(url) {
-  const res = await fetch(url, { cache: "no-store" });
-  if (!res.ok) throw new Error(`Failed ${res.status}: ${url}`);
-  return res.json();
-}
-
 async function loadTerm(termId) {
-  const url = `assets/data/term/${termId}/overview.json`;
-  const data = await fetchJson(url);
-  return { mps: data.mps ?? [], clubs: data.clubs ?? [], generated_at_utc: data.generated_at_utc };
+  const data = await fetchJson(`term/${termId}/overview.json`);
+  return { mps: data.mps ?? [], clubs: data.clubs ?? [] };
 }
 
 async function main() {
   const termSelect = $("termSelect");
-  const meta = $("meta");
 
-  const manifest = await fetchJson(MANIFEST_URL);
+  const manifest = await fetchJson("manifest.json");
   const terms = manifest.terms ?? [];
   const defaultTermId = manifest.default_term_id ?? terms[0];
 
@@ -118,7 +93,7 @@ async function main() {
 
   async function refresh(termId) {
     current = await loadTerm(termId);
-    meta.textContent = `Updated: ${manifest.last_updated_utc ?? "?"}`;
+    setMeta(`Updated: ${manifest.last_updated_utc ?? "?"}`);
     renderMpTable(current.mps);
     renderClubTable(current.clubs);
     mpSorter.resort("participation_rate", "number");
@@ -135,6 +110,6 @@ async function main() {
 
 main().catch((err) => {
   console.error(err);
-  $("meta").textContent = `Error: ${err.message ?? String(err)}`;
+  setMeta(`Error: ${err.message ?? String(err)}`);
 });
 

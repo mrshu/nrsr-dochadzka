@@ -63,7 +63,15 @@ class TermOverview:
         }
 
 
-def build_site_data(processed_dir: Path, out_assets_data_dir: Path) -> None:
+def build_site_data(
+    processed_dir: Path,
+    out_assets_data_dir: Path,
+    *,
+    terms: list[int] | None = None,
+    include_mp_pages: bool = False,
+    include_vote_pages: bool = False,
+    recent_votes_per_mp: int = 20,
+) -> None:
     metadata_path = processed_dir / "metadata.json"
     if not metadata_path.exists():
         raise FileNotFoundError(f"Missing processed metadata: {metadata_path}")
@@ -79,13 +87,24 @@ def build_site_data(processed_dir: Path, out_assets_data_dir: Path) -> None:
     if not club_attendance_path.exists():
         raise FileNotFoundError(f"Missing processed club_attendance: {club_attendance_path}")
 
+    votes_path = processed_dir / "votes.jsonl"
+    if not votes_path.exists():
+        raise FileNotFoundError(f"Missing processed votes: {votes_path}")
+
     mps_df = pl.read_ndjson(mp_attendance_path)
     clubs_df = pl.read_ndjson(club_attendance_path)
+    votes_df = pl.read_ndjson(votes_path)
 
-    terms = sorted(
+    discovered_terms = sorted(
         {int(t) for t in mps_df.get_column("term_id").unique().to_list() if t is not None},
         reverse=True,
     )
+    if terms is None:
+        terms = discovered_terms
+    else:
+        allow = set(discovered_terms)
+        terms = [t for t in terms if t in allow]
+
     if not terms:
         raise ValueError("No term_id values found in mp_attendance.jsonl")
 
@@ -101,6 +120,22 @@ def build_site_data(processed_dir: Path, out_assets_data_dir: Path) -> None:
 
     generated_at_utc = datetime.now(UTC).isoformat()
     for term_id in terms:
+        term_votes_df = (
+            votes_df.filter(pl.col("term_id") == term_id)
+            .sort(["vote_datetime_utc", "vote_id"], descending=[True, True])
+            .select(
+                [
+                    "vote_id",
+                    "vote_datetime_local",
+                    "vote_datetime_utc",
+                    "meeting_nr",
+                    "vote_number",
+                    "title",
+                    "result",
+                ]
+            )
+        )
+
         term_mps = (
             mps_df.filter(pl.col("term_id") == term_id)
             .sort(["participation_rate", "mp_id"], descending=[True, False])
@@ -131,6 +166,159 @@ def build_site_data(processed_dir: Path, out_assets_data_dir: Path) -> None:
         _write_json(
             out_assets_data_dir / "term" / str(term_id) / "overview.json", overview.as_dict()
         )
+        _write_json(
+            out_assets_data_dir / "term" / str(term_id) / "votes.json",
+            term_votes_df.to_dicts(),
+        )
+
+        if not (include_mp_pages or include_vote_pages):
+            continue
+
+        term_mp_votes_df = _load_mp_votes_for_term(processed_dir, term_id)
+
+        if include_mp_pages:
+            _write_mp_pages(
+                out_assets_data_dir / "term" / str(term_id) / "mp",
+                term_id=term_id,
+                mp_attendance_df=mps_df.filter(pl.col("term_id") == term_id),
+                mp_votes_df=term_mp_votes_df,
+                votes_df=term_votes_df,
+                recent_votes_per_mp=recent_votes_per_mp,
+            )
+
+        if include_vote_pages:
+            _write_vote_pages(
+                out_assets_data_dir / "term" / str(term_id) / "vote",
+                term_id=term_id,
+                votes_df=term_votes_df,
+                mp_votes_df=term_mp_votes_df,
+            )
+
+
+def _load_mp_votes_for_term(processed_dir: Path, term_id: int) -> pl.DataFrame:
+    index_path = processed_dir / "mp_votes" / "index.json"
+    if index_path.exists():
+        index = json.loads(index_path.read_text(encoding="utf-8"))
+        shard_paths: list[Path] = []
+        for shard in index.get("shards") or []:
+            if shard.get("term_id") != term_id:
+                continue
+            rel = shard.get("path")
+            if isinstance(rel, str) and rel:
+                shard_paths.append(processed_dir / rel)
+
+        if not shard_paths:
+            return pl.DataFrame()
+
+        return pl.concat([pl.read_ndjson(p) for p in shard_paths], how="vertical")
+
+    legacy = processed_dir / "mp_votes.jsonl"
+    if legacy.exists():
+        return pl.read_ndjson(legacy).filter(pl.col("term_id") == term_id)
+
+    raise FileNotFoundError(
+        "Missing processed mp_votes shards (data/processed/mp_votes/index.json)."
+    )
+
+
+def _write_mp_pages(
+    out_dir: Path,
+    *,
+    term_id: int,
+    mp_attendance_df: pl.DataFrame,
+    mp_votes_df: pl.DataFrame,
+    votes_df: pl.DataFrame,
+    recent_votes_per_mp: int,
+) -> None:
+    votes_lookup = votes_df.select(
+        ["vote_id", "vote_datetime_utc", "vote_datetime_local", "title", "result", "meeting_nr"]
+    )
+
+    mp_ids = mp_attendance_df.select(["mp_id", "mp_name"]).unique().to_dicts()
+    for mp in mp_ids:
+        mp_id = mp.get("mp_id")
+        mp_name = mp.get("mp_name")
+        if not isinstance(mp_id, int):
+            continue
+
+        rows = mp_attendance_df.filter(pl.col("mp_id") == mp_id).to_dicts()
+        summary = rows[0] if rows else {"term_id": term_id, "mp_id": mp_id, "mp_name": mp_name}
+
+        mp_rows = mp_votes_df.filter(pl.col("mp_id") == mp_id)
+        clubs = (
+            mp_rows.group_by("club")
+            .agg(
+                total_votes=pl.len(),
+                present_count=pl.col("is_present").cast(pl.Int8).sum(),
+                voted_count=pl.col("is_voted").cast(pl.Int8).sum(),
+                absent_count=pl.col("vote_code").is_in(["0", "N"]).cast(pl.Int8).sum(),
+            )
+            .with_columns(
+                participation_rate=(pl.col("present_count") / pl.col("total_votes")).round(6)
+            )
+            .sort(["participation_rate", "club"], descending=[True, False])
+            .to_dicts()
+        )
+
+        recent = (
+            mp_rows.select(["vote_id", "vote_code"])
+            .join(votes_lookup, on="vote_id", how="left")
+            .sort(["vote_datetime_utc", "vote_id"], descending=[True, True])
+            .head(recent_votes_per_mp)
+            .to_dicts()
+        )
+
+        payload = {
+            "term_id": term_id,
+            "mp_id": mp_id,
+            "mp_name": mp_name,
+            "summary": summary,
+            "clubs_at_vote_time": clubs,
+            "recent_votes": recent,
+        }
+        _write_json(out_dir / f"{mp_id}.json", payload)
+
+
+def _write_vote_pages(
+    out_dir: Path,
+    *,
+    term_id: int,
+    votes_df: pl.DataFrame,
+    mp_votes_df: pl.DataFrame,
+) -> None:
+    votes_lookup: dict[int, dict[str, object]] = {}
+    for row in votes_df.to_dicts():
+        vote_id = row.get("vote_id")
+        if isinstance(vote_id, int):
+            votes_lookup[vote_id] = row
+
+    partitions = mp_votes_df.partition_by(["vote_id"], maintain_order=True, as_dict=True)
+    for key, shard_df in partitions.items():
+        vote_id = key[0] if isinstance(key, tuple) else key
+        if not isinstance(vote_id, int):
+            continue
+
+        vote = votes_lookup.get(vote_id) or {"vote_id": vote_id, "term_id": term_id}
+        mps = shard_df.select(["mp_id", "mp_name", "club", "vote_code"]).to_dicts()
+        clubs = (
+            shard_df.group_by("club")
+            .agg(
+                total=pl.len(),
+                absent=pl.col("vote_code").is_in(["0", "N"]).cast(pl.Int8).sum(),
+                present=pl.col("is_present").cast(pl.Int8).sum(),
+            )
+            .with_columns(presence_rate=(pl.col("present") / pl.col("total")).round(6))
+            .sort(["presence_rate", "club"], descending=[True, False])
+            .to_dicts()
+        )
+
+        payload = {
+            "term_id": term_id,
+            "vote": vote,
+            "clubs": clubs,
+            "mps": mps,
+        }
+        _write_json(out_dir / f"{vote_id}.json", payload)
 
 
 def _write_json(path: Path, obj: object) -> None:

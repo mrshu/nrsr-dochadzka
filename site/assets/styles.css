@@ -38,6 +38,40 @@ header h1 {
   font-size: 28px;
 }
 
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: space-between;
+}
+
+.nav {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.nav a {
+  color: var(--muted);
+  text-decoration: none;
+  border: 1px solid var(--border);
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 13px;
+}
+
+.nav a.active {
+  color: var(--text);
+  border-color: rgba(122, 162, 255, 0.6);
+  background: rgba(122, 162, 255, 0.12);
+}
+
+.note {
+  margin: 6px 0 10px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
 .controls {
   display: flex;
   flex-wrap: wrap;
@@ -61,6 +95,15 @@ select {
   border-radius: 10px;
   padding: 10px 12px;
   min-width: 120px;
+}
+
+input[type="search"] {
+  background: var(--panel);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  min-width: 220px;
 }
 
 .meta {
@@ -115,10 +158,33 @@ tbody tr:hover td {
   font-variant-numeric: tabular-nums;
 }
 
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.card {
+  background: rgba(18, 26, 51, 0.65);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.card .label {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.card .value {
+  font-size: 20px;
+  margin-top: 4px;
+  font-variant-numeric: tabular-nums;
+}
+
 .footer {
   color: var(--muted);
   font-size: 12px;
   padding-top: 12px;
   padding-bottom: 24px;
 }
-

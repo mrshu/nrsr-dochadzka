@@ -114,6 +114,43 @@ def test_build_site_data_writes_manifest_and_term_overviews(tmp_path: Path):
         encoding="utf-8",
     )
 
+    (processed / "votes.jsonl").write_text(
+        "\n".join(
+            [
+                json.dumps(
+                    {
+                        "term_id": 9,
+                        "vote_id": 100,
+                        "vote_datetime_local": "2025-01-01T00:00:00+01:00",
+                        "vote_datetime_utc": "2024-12-31T23:00:00+00:00",
+                        "meeting_nr": 1,
+                        "vote_number": 1,
+                        "title": "X",
+                        "result": None,
+                    },
+                    ensure_ascii=False,
+                    sort_keys=True,
+                ),
+                json.dumps(
+                    {
+                        "term_id": 8,
+                        "vote_id": 200,
+                        "vote_datetime_local": "2023-01-01T00:00:00+01:00",
+                        "vote_datetime_utc": "2022-12-31T23:00:00+00:00",
+                        "meeting_nr": 1,
+                        "vote_number": 1,
+                        "title": "Y",
+                        "result": None,
+                    },
+                    ensure_ascii=False,
+                    sort_keys=True,
+                ),
+            ]
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+
     out_dir = tmp_path / "site_assets_data"
     build_site_data(processed, out_dir)
 
@@ -124,3 +161,4 @@ def test_build_site_data_writes_manifest_and_term_overviews(tmp_path: Path):
     overview9 = json.loads((out_dir / "term" / "9" / "overview.json").read_text(encoding="utf-8"))
     assert overview9["term_id"] == 9
     assert overview9["clubs"][0]["club_key"] == "no-club"
+    assert (out_dir / "term" / "9" / "votes.json").exists()
