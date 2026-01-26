@@ -46,9 +46,29 @@ function buildClubHueMap(clubs) {
   return map;
 }
 
+function buildClubColorMap(clubs) {
+  const map = new Map();
+  for (const c of clubs ?? []) {
+    const key = String(c.club_key ?? c.club ?? "unknown");
+    const color = typeof c.club_color === "string" ? c.club_color : null;
+    if (color) map.set(key, color);
+  }
+  return map;
+}
+
 function hueForClub(map, key) {
   if (map && map.has(key)) return map.get(key);
   return hashToHue(key);
+}
+
+function clubColorFor(map, key, row) {
+  if (row && typeof row.club_color === "string") return row.club_color;
+  if (map && map.has(key)) return map.get(key);
+  return null;
+}
+
+function clubStyle({ hue, color }) {
+  return `--h:${hue};${color ? `--club-color:${color};` : ""}`;
 }
 
 function renderKpis(mps) {
@@ -96,7 +116,7 @@ function buildClubOptions({ clubs, mps }) {
   return out;
 }
 
-function renderClubBars({ clubs, selectedClubKey, onPick, hueMap }) {
+function renderClubBars({ clubs, selectedClubKey, onPick, hueMap, colorMap }) {
   const el = $("clubBars");
   const rows = [...(clubs ?? [])].sort(
     (a, b) => (safeNumber(b.participation_rate) ?? -1) - (safeNumber(a.participation_rate) ?? -1),
@@ -106,15 +126,17 @@ function renderClubBars({ clubs, selectedClubKey, onPick, hueMap }) {
       const key = String(c.club_key ?? "unknown");
       const rate = safeNumber(c.participation_rate);
       const hue = hueForClub(hueMap, key);
+      const color = clubColorFor(colorMap, key, c);
+      const style = clubStyle({ hue, color });
       const active = selectedClubKey === key;
       return `
         <button class="club-bar-row ${active ? "active" : ""}" type="button" data-club="${escapeHtml(key)}">
           <div class="club-left">
-            <span class="dot" style="--h:${hue}"></span>
+            <span class="dot" style="${style}"></span>
             <span class="club-name">${escapeHtml(c.club ?? key)}</span>
           </div>
           <div class="club-mid">
-            <div class="bar"><span style="--h:${hue}; width:${rate === null ? 0 : Math.max(0, Math.min(100, rate * 100))}%"></span></div>
+            <div class="bar"><span style="${style} width:${rate === null ? 0 : Math.max(0, Math.min(100, rate * 100))}%"></span></div>
           </div>
           <div class="club-right">${rate === null ? "—" : escapeHtml(formatPct(rate))}</div>
         </button>
@@ -135,13 +157,15 @@ function rankRows(mps, { clubKey, query }) {
     .slice();
 }
 
-function renderRankList({ elId, rows, title, hrefFor, hueMap }) {
+function renderRankList({ elId, rows, title, hrefFor, hueMap, colorMap }) {
   const el = $(elId);
   el.innerHTML = rows
     .map((m, idx) => {
       const rate = safeNumber(m.participation_rate);
       const clubKey = normalizeClubKey(m);
       const hue = hueForClub(hueMap, clubKey);
+      const color = clubColorFor(colorMap, clubKey, m);
+      const style = clubStyle({ hue, color });
       const href = hrefFor ? hrefFor(m) : "#";
       return `
         <a class="rank-row" href="${escapeHtml(href)}" data-mp="${escapeHtml(String(m.mp_id))}">
@@ -149,14 +173,14 @@ function renderRankList({ elId, rows, title, hrefFor, hueMap }) {
           <div class="who">
             <div class="name">${escapeHtml(m.mp_name ?? "")}</div>
             <div class="sub">
-              <span class="badge" style="--h:${hue}">${escapeHtml(m.club ?? "(unknown)")}</span>
+              <span class="badge" style="${style}">${escapeHtml(m.club ?? "(unknown)")}</span>
               <span class="muted">abs: ${escapeHtml(formatInt(m.absent_count))}</span>
               <span class="muted">n: ${escapeHtml(formatInt(m.total_votes))}</span>
             </div>
           </div>
           <div class="score">
             <div class="pct">${rate === null ? "—" : escapeHtml(formatPct(rate))}</div>
-            <div class="mini"><span style="--h:${hue}; width:${rate === null ? 0 : Math.max(0, Math.min(100, rate * 100))}%"></span></div>
+            <div class="mini"><span style="${style} width:${rate === null ? 0 : Math.max(0, Math.min(100, rate * 100))}%"></span></div>
           </div>
         </a>
       `;
@@ -165,7 +189,7 @@ function renderRankList({ elId, rows, title, hrefFor, hueMap }) {
   if (!rows.length) el.innerHTML = `<div class="empty">${escapeHtml(title)}</div>`;
 }
 
-function renderMpModal({ overviewMp, payload }) {
+function renderMpModal({ overviewMp, payload, hueMap, colorMap }) {
   $("mpModalTitle").textContent = payload?.mp_name ?? overviewMp?.mp_name ?? "";
   $("mpModalSub").textContent = payload?.clubs_at_vote_time?.[0]?.club ?? overviewMp?.club ?? "";
 
@@ -194,10 +218,14 @@ function renderMpModal({ overviewMp, payload }) {
                   .slice(0, 8)
                   .map((c) => {
                     const rate = safeNumber(c.participation_rate);
+                    const key = c.club_key ?? c.club ?? "unknown";
+                    const hue = hueForClub(hueMap, key);
+                    const color = clubColorFor(colorMap, key, c);
+                    const style = clubStyle({ hue, color });
                     return `
                       <div class="club-mini">
                         <div class="club-mini-name">${escapeHtml(c.club ?? "")}</div>
-                        <div class="club-mini-bar"><span style="width:${rate === null ? 0 : Math.max(0, Math.min(100, rate * 100))}%"></span></div>
+                        <div class="club-mini-bar"><span style="${style} width:${rate === null ? 0 : Math.max(0, Math.min(100, rate * 100))}%"></span></div>
                         <div class="club-mini-rate">${rate === null ? "—" : escapeHtml(formatPct(rate))}</div>
                       </div>
                     `;
@@ -289,6 +317,7 @@ async function main() {
 
   let overview = null;
   let clubHueMap = null;
+  let clubColorMap = null;
   let selectedClubKey = "";
   let windowKey = "180d";
   let absenceKey = "abs0n";
@@ -317,6 +346,7 @@ async function main() {
       title: "No matching MPs.",
       hrefFor,
       hueMap: clubHueMap,
+      colorMap: clubColorMap,
     });
     renderRankList({
       elId: "bottomList",
@@ -324,6 +354,7 @@ async function main() {
       title: "No matching MPs.",
       hrefFor,
       hueMap: clubHueMap,
+      colorMap: clubColorMap,
     });
   }
 
@@ -347,7 +378,7 @@ async function main() {
     } catch {
       payload = null;
     }
-    renderMpModal({ overviewMp: mp, payload });
+    renderMpModal({ overviewMp: mp, payload, hueMap: clubHueMap, colorMap: clubColorMap });
     setModalProfileLink(mpProfileUrl({ mpId, mpName: mp?.mp_name, termId, windowKey, absenceKey }));
     if (typeof dialog.showModal === "function") dialog.showModal();
   }
@@ -364,6 +395,7 @@ async function main() {
   async function refresh(termId) {
     overview = await fetchJson(overviewPath(termId, windowKey, absenceKey));
     clubHueMap = buildClubHueMap(overview?.clubs ?? []);
+    clubColorMap = buildClubColorMap(overview?.clubs ?? []);
     selectedClubKey = "";
     refreshClubSelect();
     const handlePick = (clubKey) => {
@@ -374,6 +406,7 @@ async function main() {
         selectedClubKey,
         onPick: handlePick,
         hueMap: clubHueMap,
+        colorMap: clubColorMap,
       });
       refreshLists();
     };
@@ -382,6 +415,7 @@ async function main() {
       selectedClubKey,
       onPick: handlePick,
       hueMap: clubHueMap,
+      colorMap: clubColorMap,
     });
     refreshLists();
 
@@ -428,6 +462,7 @@ async function main() {
         selectedClubKey,
         onPick: handlePick,
         hueMap: clubHueMap,
+        colorMap: clubColorMap,
       });
       refreshLists();
     };
@@ -436,6 +471,7 @@ async function main() {
       selectedClubKey,
       onPick: handlePick,
       hueMap: clubHueMap,
+      colorMap: clubColorMap,
     });
   });
 

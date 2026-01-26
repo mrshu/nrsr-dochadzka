@@ -761,7 +761,7 @@ tbody tr:hover td {
   width: 8px;
   height: 8px;
   border-radius: 999px;
-  background: hsl(var(--h) 80% 62%);
+  background: var(--club-color, hsl(var(--h) 80% 62%));
 }
 
 .muted {
@@ -788,7 +788,11 @@ tbody tr:hover td {
   display: block;
   height: 100%;
   width: 0;
-  background: linear-gradient(90deg, hsl(var(--h) 80% 60%), rgba(122, 162, 255, 0.85));
+  background: linear-gradient(
+    90deg,
+    var(--club-color, hsl(var(--h) 80% 60%)),
+    rgba(122, 162, 255, 0.85)
+  );
 }
 
 .club-bars {
@@ -831,7 +835,7 @@ tbody tr:hover td {
   width: 10px;
   height: 10px;
   border-radius: 999px;
-  background: hsl(var(--h) 80% 60%);
+  background: var(--club-color, hsl(var(--h) 80% 60%));
   box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.04);
 }
 
@@ -847,7 +851,11 @@ tbody tr:hover td {
   display: block;
   height: 100%;
   width: 0;
-  background: linear-gradient(90deg, hsl(var(--h) 80% 60%), rgba(0, 245, 212, 0.65));
+  background: linear-gradient(
+    90deg,
+    var(--club-color, hsl(var(--h) 80% 60%)),
+    rgba(0, 245, 212, 0.65)
+  );
 }
 
 .club-right {
@@ -1194,7 +1202,7 @@ select {
 }
 
 .badge::before {
-  background: hsl(var(--h) 70% 45%);
+  background: var(--club-color, hsl(var(--h) 70% 45%));
 }
 
 .club-mini-bar,
@@ -1209,11 +1217,10 @@ select {
 .score .mini span,
 .club-bar-row .bar span,
 .recent-row .bar span {
-  background: var(--accent);
+  background: var(--club-color, var(--accent));
 }
 
 .rank-row:hover,
 .club-bar-row:hover {
   background: #f8fafc;
 }
-

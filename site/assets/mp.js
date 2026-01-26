@@ -32,9 +32,29 @@ function buildClubHueMap(clubs) {
   return map;
 }
 
+function buildClubColorMap(clubs) {
+  const map = new Map();
+  for (const c of clubs ?? []) {
+    const key = String(c.club_key ?? c.club ?? "unknown");
+    const color = typeof c.club_color === "string" ? c.club_color : null;
+    if (color) map.set(key, color);
+  }
+  return map;
+}
+
 function hueForClub(map, key) {
   if (map && map.has(key)) return map.get(key);
   return hashToHue(key);
+}
+
+function clubColorFor(map, key, row) {
+  if (row && typeof row.club_color === "string") return row.club_color;
+  if (map && map.has(key)) return map.get(key);
+  return null;
+}
+
+function clubStyle({ hue, color }) {
+  return `--h:${hue};${color ? `--club-color:${color};` : ""}`;
 }
 
 function overviewPath(termId, windowKey, absenceKey) {
@@ -117,7 +137,7 @@ function renderProfile(summary, mpRow) {
   `;
 }
 
-function renderClubs(rows, hueMap) {
+function renderClubs(rows, hueMap, colorMap) {
   const el = $("clubs");
   if (!rows.length) {
     el.innerHTML = `<div class="empty">No MP payload (run build with --include-mp-pages).</div>`;
@@ -133,10 +153,12 @@ function renderClubs(rows, hueMap) {
           const present = formatInt(c.present_count);
           const key = c.club_key ?? c.club ?? "unknown";
           const hue = hueForClub(hueMap, key);
+          const color = clubColorFor(colorMap, key, c);
+          const style = clubStyle({ hue, color });
           return `
             <div class="club-mini">
               <div class="club-mini-name">${escapeHtml(c.club ?? "")}</div>
-              <div class="club-mini-bar"><span style="width:${r === null ? 0 : Math.max(0, Math.min(100, r * 100))}%; background: hsl(${hue} 70% 45%)"></span></div>
+              <div class="club-mini-bar"><span style="${style} width:${r === null ? 0 : Math.max(0, Math.min(100, r * 100))}%"></span></div>
               <div class="club-mini-meta">
                 <div class="club-mini-count">${escapeHtml(present)} / ${escapeHtml(total)}</div>
                 <div class="club-mini-rate">${r === null ? "—" : escapeHtml(formatPct(r))}</div>
@@ -226,6 +248,7 @@ async function main() {
 
     const overview = await fetchJson(overviewPath(termId, windowKey, absenceKey));
     const clubHueMap = buildClubHueMap(overview?.clubs ?? []);
+    const clubColorMap = buildClubColorMap(overview?.clubs ?? []);
     const mpRow = (overview.mps ?? []).find((m) => m.mp_id === mpId) ?? null;
 
     if (!mpRow) {
@@ -255,9 +278,11 @@ async function main() {
     if (heroSub) {
       const clubLabel = mpRow.club ? String(mpRow.club) : "—";
       const clubKey = mpRow.club_key ?? mpRow.club ?? "unknown";
-      const hue = hashToHue(clubKey);
+      const hue = hueForClub(clubHueMap, clubKey);
+      const color = clubColorFor(clubColorMap, clubKey, mpRow);
+      const style = clubStyle({ hue, color });
       heroSub.innerHTML = `
-        <span class="badge hero-badge" style="--h:${hue}">${escapeHtml(clubLabel)}</span>
+        <span class="badge hero-badge" style="${style}">${escapeHtml(clubLabel)}</span>
         <span class="hero-sub-meta">MP ID: ${escapeHtml(String(mpId))}</span>
       `;
     }
@@ -270,7 +295,7 @@ async function main() {
     } catch {
       payload = null;
     }
-    renderClubs(payload?.clubs_at_vote_time ?? [], clubHueMap);
+    renderClubs(payload?.clubs_at_vote_time ?? [], clubHueMap, clubColorMap);
     renderRecent(payload?.recent_votes ?? []);
 
     const w = overview?.window ?? {};
