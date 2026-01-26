@@ -24,6 +24,11 @@ a {
   color: inherit;
 }
 
+button {
+  font: inherit;
+  color: inherit;
+}
+
 .container {
   max-width: 1100px;
   margin: 0 auto;
@@ -75,7 +80,8 @@ label {
 }
 
 select,
-input[type="search"] {
+input[type="search"],
+input[type="number"] {
   background: var(--panel);
   color: var(--text);
   border: 1px solid var(--border);
@@ -125,4 +131,3 @@ tbody td {
   padding-top: 12px;
   padding-bottom: 22px;
 }
-

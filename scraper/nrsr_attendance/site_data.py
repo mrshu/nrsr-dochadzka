@@ -148,6 +148,41 @@ def build_site_data(
             )
         )
 
+        term_mp_votes_df = _load_mp_votes_for_term(processed_dir, term_id)
+        mp_primary_club_by_id: dict[int, str] = {}
+        mp_current_club_by_id: dict[int, str] = {}
+        if not term_mp_votes_df.is_empty():
+            slim = term_mp_votes_df.select(["mp_id", "club", "vote_datetime_utc", "vote_id"])
+
+            primary_clubs = (
+                slim.group_by(["mp_id", "club"], maintain_order=True)
+                .agg(n=pl.len())
+                .sort(["mp_id", "n", "club"], descending=[False, True, False])
+                .group_by("mp_id", maintain_order=True)
+                .agg(pl.first("club").alias("club"))
+                .to_dicts()
+            )
+            for row in primary_clubs:
+                mp_id = row.get("mp_id")
+                club = row.get("club")
+                if isinstance(mp_id, int) and isinstance(club, str) and club:
+                    mp_primary_club_by_id[mp_id] = club
+
+            current_clubs = (
+                slim.sort(
+                    ["mp_id", "vote_datetime_utc", "vote_id"],
+                    descending=[False, True, True],
+                )
+                .group_by("mp_id", maintain_order=True)
+                .agg(pl.first("club").alias("club"))
+                .to_dicts()
+            )
+            for row in current_clubs:
+                mp_id = row.get("mp_id")
+                club = row.get("club")
+                if isinstance(mp_id, int) and isinstance(club, str) and club:
+                    mp_current_club_by_id[mp_id] = club
+
         term_mps = (
             mps_df.filter(pl.col("term_id") == term_id)
             .sort(["participation_rate", "mp_id"], descending=[True, False])
@@ -169,6 +204,29 @@ def build_site_data(
                 row["club_key"] = "unknown"
             term_clubs.append(row)
 
+        for mp in term_mps:
+            mp_id = mp.get("mp_id")
+            if not isinstance(mp_id, int):
+                mp["club"] = "(unknown)"
+                mp["club_key"] = "unknown"
+                mp["primary_club"] = "(unknown)"
+                mp["primary_club_key"] = "unknown"
+                mp["current_club"] = "(unknown)"
+                mp["current_club_key"] = "unknown"
+                continue
+
+            primary_club = mp_primary_club_by_id.get(mp_id) or "(unknown)"
+            current_club = mp_current_club_by_id.get(mp_id) or primary_club or "(unknown)"
+
+            mp["primary_club"] = primary_club
+            mp["primary_club_key"] = club_key_map.get(primary_club, slugify(primary_club))
+            mp["current_club"] = current_club
+            mp["current_club_key"] = club_key_map.get(current_club, slugify(current_club))
+
+            # For leaderboards/filtering, prefer the club "as of now" (latest known vote).
+            mp["club"] = current_club
+            mp["club_key"] = mp["current_club_key"]
+
         overview = TermOverview(
             term_id=term_id,
             generated_at_utc=generated_at_utc,
@@ -185,8 +243,6 @@ def build_site_data(
 
         if not (include_mp_pages or include_vote_pages):
             continue
-
-        term_mp_votes_df = _load_mp_votes_for_term(processed_dir, term_id)
 
         if include_mp_pages:
             _write_mp_pages(
