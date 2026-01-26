@@ -19,6 +19,24 @@ function hashToHue(value) {
   return Math.abs(h) % 360;
 }
 
+function buildClubHueMap(clubs) {
+  const keys = (clubs ?? [])
+    .map((c) => String(c.club_key ?? c.club ?? "unknown"))
+    .filter(Boolean);
+  const unique = [...new Set(keys)].sort((a, b) => a.localeCompare(b, "sk"));
+  const step = unique.length ? Math.floor(360 / unique.length) : 0;
+  const map = new Map();
+  unique.forEach((key, idx) => {
+    map.set(key, (idx * step) % 360);
+  });
+  return map;
+}
+
+function hueForClub(map, key) {
+  if (map && map.has(key)) return map.get(key);
+  return hashToHue(key);
+}
+
 function overviewPath(termId, windowKey, absenceKey) {
   const w = windowKey === "180d" ? "180d" : "full";
   const a = absenceKey === "abs0" ? "abs0" : "abs0n";
@@ -99,7 +117,7 @@ function renderProfile(summary, mpRow) {
   `;
 }
 
-function renderClubs(rows) {
+function renderClubs(rows, hueMap) {
   const el = $("clubs");
   if (!rows.length) {
     el.innerHTML = `<div class="empty">No MP payload (run build with --include-mp-pages).</div>`;
@@ -113,10 +131,12 @@ function renderClubs(rows) {
           const r = typeof c.participation_rate === "number" ? c.participation_rate : null;
           const total = formatInt(c.total_votes);
           const present = formatInt(c.present_count);
+          const key = c.club_key ?? c.club ?? "unknown";
+          const hue = hueForClub(hueMap, key);
           return `
             <div class="club-mini">
               <div class="club-mini-name">${escapeHtml(c.club ?? "")}</div>
-              <div class="club-mini-bar"><span style="width:${r === null ? 0 : Math.max(0, Math.min(100, r * 100))}%"></span></div>
+              <div class="club-mini-bar"><span style="width:${r === null ? 0 : Math.max(0, Math.min(100, r * 100))}%; background: hsl(${hue} 70% 45%)"></span></div>
               <div class="club-mini-meta">
                 <div class="club-mini-count">${escapeHtml(present)} / ${escapeHtml(total)}</div>
                 <div class="club-mini-rate">${r === null ? "—" : escapeHtml(formatPct(r))}</div>
@@ -205,6 +225,7 @@ async function main() {
     setParam("absence", absenceKey);
 
     const overview = await fetchJson(overviewPath(termId, windowKey, absenceKey));
+    const clubHueMap = buildClubHueMap(overview?.clubs ?? []);
     const mpRow = (overview.mps ?? []).find((m) => m.mp_id === mpId) ?? null;
 
     if (!mpRow) {
@@ -249,7 +270,7 @@ async function main() {
     } catch {
       payload = null;
     }
-    renderClubs(payload?.clubs_at_vote_time ?? []);
+    renderClubs(payload?.clubs_at_vote_time ?? [], clubHueMap);
     renderRecent(payload?.recent_votes ?? []);
 
     const w = overview?.window ?? {};

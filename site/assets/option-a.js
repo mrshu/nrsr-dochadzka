@@ -33,6 +33,24 @@ function hashToHue(value) {
   return Math.abs(h) % 360;
 }
 
+function buildClubHueMap(clubs) {
+  const keys = (clubs ?? [])
+    .map((c) => String(c.club_key ?? c.club ?? "unknown"))
+    .filter(Boolean);
+  const unique = [...new Set(keys)].sort((a, b) => a.localeCompare(b, "sk"));
+  const step = unique.length ? Math.floor(360 / unique.length) : 0;
+  const map = new Map();
+  unique.forEach((key, idx) => {
+    map.set(key, (idx * step) % 360);
+  });
+  return map;
+}
+
+function hueForClub(map, key) {
+  if (map && map.has(key)) return map.get(key);
+  return hashToHue(key);
+}
+
 function renderKpis(mps) {
   const kpis = $("kpis");
   const rates = mps
@@ -78,7 +96,7 @@ function buildClubOptions({ clubs, mps }) {
   return out;
 }
 
-function renderClubBars({ clubs, selectedClubKey, onPick }) {
+function renderClubBars({ clubs, selectedClubKey, onPick, hueMap }) {
   const el = $("clubBars");
   const rows = [...(clubs ?? [])].sort(
     (a, b) => (safeNumber(b.participation_rate) ?? -1) - (safeNumber(a.participation_rate) ?? -1),
@@ -87,7 +105,7 @@ function renderClubBars({ clubs, selectedClubKey, onPick }) {
     .map((c) => {
       const key = String(c.club_key ?? "unknown");
       const rate = safeNumber(c.participation_rate);
-      const hue = hashToHue(key);
+      const hue = hueForClub(hueMap, key);
       const active = selectedClubKey === key;
       return `
         <button class="club-bar-row ${active ? "active" : ""}" type="button" data-club="${escapeHtml(key)}">
@@ -117,13 +135,13 @@ function rankRows(mps, { clubKey, query }) {
     .slice();
 }
 
-function renderRankList({ elId, rows, title, hrefFor }) {
+function renderRankList({ elId, rows, title, hrefFor, hueMap }) {
   const el = $(elId);
   el.innerHTML = rows
     .map((m, idx) => {
       const rate = safeNumber(m.participation_rate);
       const clubKey = normalizeClubKey(m);
-      const hue = hashToHue(clubKey);
+      const hue = hueForClub(hueMap, clubKey);
       const href = hrefFor ? hrefFor(m) : "#";
       return `
         <a class="rank-row" href="${escapeHtml(href)}" data-mp="${escapeHtml(String(m.mp_id))}">
@@ -270,6 +288,7 @@ async function main() {
   setMeta(`Updated: ${manifest.last_updated_utc ?? "?"}`);
 
   let overview = null;
+  let clubHueMap = null;
   let selectedClubKey = "";
   let windowKey = "180d";
   let absenceKey = "abs0n";
@@ -297,12 +316,14 @@ async function main() {
       rows: top,
       title: "No matching MPs.",
       hrefFor,
+      hueMap: clubHueMap,
     });
     renderRankList({
       elId: "bottomList",
       rows: bottom,
       title: "No matching MPs.",
       hrefFor,
+      hueMap: clubHueMap,
     });
   }
 
@@ -342,15 +363,26 @@ async function main() {
 
   async function refresh(termId) {
     overview = await fetchJson(overviewPath(termId, windowKey, absenceKey));
+    clubHueMap = buildClubHueMap(overview?.clubs ?? []);
     selectedClubKey = "";
     refreshClubSelect();
     const handlePick = (clubKey) => {
       selectedClubKey = selectedClubKey === clubKey ? "" : clubKey;
       clubSelect.value = selectedClubKey;
-      renderClubBars({ clubs: overview.clubs ?? [], selectedClubKey, onPick: handlePick });
+      renderClubBars({
+        clubs: overview.clubs ?? [],
+        selectedClubKey,
+        onPick: handlePick,
+        hueMap: clubHueMap,
+      });
       refreshLists();
     };
-    renderClubBars({ clubs: overview.clubs ?? [], selectedClubKey, onPick: handlePick });
+    renderClubBars({
+      clubs: overview.clubs ?? [],
+      selectedClubKey,
+      onPick: handlePick,
+      hueMap: clubHueMap,
+    });
     refreshLists();
 
     const w = overview?.window ?? {};
@@ -391,10 +423,20 @@ async function main() {
     const handlePick = (clubKey) => {
       selectedClubKey = selectedClubKey === clubKey ? "" : clubKey;
       clubSelect.value = selectedClubKey;
-      renderClubBars({ clubs: overview?.clubs ?? [], selectedClubKey, onPick: handlePick });
+      renderClubBars({
+        clubs: overview?.clubs ?? [],
+        selectedClubKey,
+        onPick: handlePick,
+        hueMap: clubHueMap,
+      });
       refreshLists();
     };
-    renderClubBars({ clubs: overview?.clubs ?? [], selectedClubKey, onPick: handlePick });
+    renderClubBars({
+      clubs: overview?.clubs ?? [],
+      selectedClubKey,
+      onPick: handlePick,
+      hueMap: clubHueMap,
+    });
   });
 
   searchInput.addEventListener("input", () => refreshLists());
