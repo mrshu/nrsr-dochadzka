@@ -512,6 +512,18 @@ tbody tr:hover td {
   grid-template-columns: 36px 1fr 160px;
   gap: 10px;
   align-items: center;
+  text-decoration: none;
+}
+
+.rank-row::after {
+  content: "↗";
+  justify-self: end;
+  color: rgba(238, 242, 255, 0.55);
+  font-size: 12px;
+}
+
+.rank-row:hover::after {
+  color: rgba(238, 242, 255, 0.85);
 }
 
 .rank-row:hover {

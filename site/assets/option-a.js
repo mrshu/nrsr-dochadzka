@@ -117,15 +117,16 @@ function rankRows(mps, { clubKey, query }) {
     .slice();
 }
 
-function renderRankList({ elId, rows, title, onPick }) {
+function renderRankList({ elId, rows, title, hrefFor }) {
   const el = $(elId);
   el.innerHTML = rows
     .map((m, idx) => {
       const rate = safeNumber(m.participation_rate);
       const clubKey = normalizeClubKey(m);
       const hue = hashToHue(clubKey);
+      const href = hrefFor ? hrefFor(m.mp_id) : "#";
       return `
-        <button class="rank-row" type="button" data-mp="${escapeHtml(String(m.mp_id))}">
+        <a class="rank-row" href="${escapeHtml(href)}" data-mp="${escapeHtml(String(m.mp_id))}">
           <div class="rank">${escapeHtml(String(idx + 1).padStart(2, "0"))}</div>
           <div class="who">
             <div class="name">${escapeHtml(m.mp_name ?? "")}</div>
@@ -139,14 +140,11 @@ function renderRankList({ elId, rows, title, onPick }) {
             <div class="pct">${rate === null ? "—" : escapeHtml(formatPct(rate))}</div>
             <div class="mini"><span style="--h:${hue}; width:${rate === null ? 0 : Math.max(0, Math.min(100, rate * 100))}%"></span></div>
           </div>
-        </button>
+        </a>
       `;
     })
     .join("");
   if (!rows.length) el.innerHTML = `<div class="empty">${escapeHtml(title)}</div>`;
-  el.querySelectorAll("button.rank-row").forEach((btn) => {
-    btn.addEventListener("click", () => onPick(Number(btn.dataset.mp)));
-  });
 }
 
 function renderMpModal({ overviewMp, payload }) {
@@ -290,32 +288,19 @@ async function main() {
       .slice(0, 10);
 
     renderKpis(filtered);
+    const termId = Number(termSelect.value);
+    const hrefFor = (mpId) => mpProfileUrl({ mpId, termId, windowKey, absenceKey });
     renderRankList({
       elId: "topList",
       rows: top,
       title: "No matching MPs.",
-      onPick: openMp,
+      hrefFor,
     });
     renderRankList({
       elId: "bottomList",
       rows: bottom,
       title: "No matching MPs.",
-      onPick: openMp,
-    });
-
-    // Add a dedicated profile link to each rendered row.
-    const termId = Number(termSelect.value);
-    document.querySelectorAll("button.rank-row[data-mp]").forEach((btn) => {
-      const mpId = Number(btn.dataset.mp);
-      let a = btn.querySelector("a.profile-link");
-      if (!a) {
-        a = document.createElement("a");
-        a.className = "profile-link";
-        a.textContent = "Profil";
-        a.addEventListener("click", (e) => e.stopPropagation());
-        btn.querySelector(".sub")?.appendChild(a);
-      }
-      a.href = mpProfileUrl({ mpId, termId, windowKey, absenceKey });
+      hrefFor,
     });
   }
 
