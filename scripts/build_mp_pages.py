@@ -14,7 +14,6 @@ TEMPLATE = """<!doctype html>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>NRSR Attendance — Poslanec</title>
     <link rel="stylesheet" href="../../assets/base.css" />
-    <link rel="stylesheet" href="../../assets/theme-a.css" />
   </head>
   <body data-mp-id="{mp_id}">
     <header class="container">
