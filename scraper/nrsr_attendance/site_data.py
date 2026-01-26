@@ -48,6 +48,19 @@ def build_club_keys(clubs: list[str]) -> dict[str, str]:
     return mapping
 
 
+def _invalid_club_vote_ids(df: pl.DataFrame) -> set[int]:
+    if df.is_empty():
+        return set()
+    summary = (
+        df.group_by("vote_id")
+        .agg(any_real=(~pl.col("club").is_in(["(no_club)", "(unknown)"])).any())
+        .filter(pl.col("any_real") == False)  # noqa: E712
+    )
+    if summary.is_empty():
+        return set()
+    return set(summary.get_column("vote_id").to_list())
+
+
 @dataclass(frozen=True)
 class TermOverview:
     term_id: int
@@ -156,10 +169,16 @@ def build_site_data(
         )
 
         term_mp_votes_df = _load_mp_votes_for_term(processed_dir, term_id)
+        invalid_club_vote_ids = _invalid_club_vote_ids(term_mp_votes_df)
+        club_votes_df = term_mp_votes_df
+        if invalid_club_vote_ids:
+            club_votes_df = term_mp_votes_df.filter(
+                ~pl.col("vote_id").is_in(list(invalid_club_vote_ids))
+            )
         mp_primary_club_by_id: dict[int, str] = {}
         mp_current_club_by_id: dict[int, str] = {}
-        if not term_mp_votes_df.is_empty():
-            slim = term_mp_votes_df.select(["mp_id", "club", "vote_datetime_utc", "vote_id"])
+        if not club_votes_df.is_empty():
+            slim = club_votes_df.select(["mp_id", "club", "vote_datetime_utc", "vote_id"])
 
             primary_clubs = (
                 slim.group_by(["mp_id", "club"], maintain_order=True)
@@ -340,6 +359,11 @@ def build_site_data(
             )
             return attach_clubs([dict(row) for row in agg], current_by_id=current_by_id)
 
+        def _filter_invalid_club_votes(df: pl.DataFrame) -> pl.DataFrame:
+            if df.is_empty() or not invalid_club_vote_ids:
+                return df
+            return df.filter(~pl.col("vote_id").is_in(list(invalid_club_vote_ids)))
+
         def build_variant(
             *,
             mp_votes_df: pl.DataFrame,
@@ -347,7 +371,7 @@ def build_site_data(
             absent_codes: list[str],
             absence_kind: str,
         ) -> TermOverview:
-            current_by_id = current_club_for_votes(mp_votes_df)
+            current_by_id = current_club_for_votes(_filter_invalid_club_votes(mp_votes_df))
             mps_rows = mps_from_votes(
                 mp_votes_df,
                 absent_codes=absent_codes,
@@ -440,11 +464,51 @@ def build_site_data(
             continue
 
         if include_mp_pages:
+            mp_root = out_assets_data_dir / "term" / str(term_id) / "mp"
             _write_mp_pages(
-                out_assets_data_dir / "term" / str(term_id) / "mp",
+                mp_root / "full.abs0n",
                 term_id=term_id,
-                mp_attendance_df=mps_df.filter(pl.col("term_id") == term_id),
+                mp_rows=overview_full_abs0n.mps,
                 mp_votes_df=term_mp_votes_df,
+                invalid_club_vote_ids=invalid_club_vote_ids,
+                votes_df=term_votes_df,
+                recent_votes_per_mp=recent_votes_per_mp,
+            )
+            _write_mp_pages(
+                mp_root / "full.abs0",
+                term_id=term_id,
+                mp_rows=overview_full_abs0.mps,
+                mp_votes_df=term_mp_votes_df,
+                invalid_club_vote_ids=invalid_club_vote_ids,
+                votes_df=term_votes_df,
+                recent_votes_per_mp=recent_votes_per_mp,
+            )
+            invalid_window_votes = _invalid_club_vote_ids(window_mp_votes_df)
+            _write_mp_pages(
+                mp_root / "180d.abs0n",
+                term_id=term_id,
+                mp_rows=overview_180_abs0n.mps,
+                mp_votes_df=window_mp_votes_df,
+                invalid_club_vote_ids=invalid_window_votes,
+                votes_df=term_votes_df,
+                recent_votes_per_mp=recent_votes_per_mp,
+            )
+            _write_mp_pages(
+                mp_root / "180d.abs0",
+                term_id=term_id,
+                mp_rows=overview_180_abs0.mps,
+                mp_votes_df=window_mp_votes_df,
+                invalid_club_vote_ids=invalid_window_votes,
+                votes_df=term_votes_df,
+                recent_votes_per_mp=recent_votes_per_mp,
+            )
+            # Back-compat default.
+            _write_mp_pages(
+                mp_root,
+                term_id=term_id,
+                mp_rows=overview_full_abs0n.mps,
+                mp_votes_df=term_mp_votes_df,
+                invalid_club_vote_ids=invalid_club_vote_ids,
                 votes_df=term_votes_df,
                 recent_votes_per_mp=recent_votes_per_mp,
             )
@@ -455,6 +519,7 @@ def build_site_data(
                 term_id=term_id,
                 votes_df=term_votes_df,
                 mp_votes_df=term_mp_votes_df,
+                invalid_club_vote_ids=invalid_club_vote_ids,
             )
 
 
@@ -488,8 +553,9 @@ def _write_mp_pages(
     out_dir: Path,
     *,
     term_id: int,
-    mp_attendance_df: pl.DataFrame,
+    mp_rows: list[dict[str, object]],
     mp_votes_df: pl.DataFrame,
+    invalid_club_vote_ids: set[int],
     votes_df: pl.DataFrame,
     recent_votes_per_mp: int,
 ) -> None:
@@ -497,19 +563,20 @@ def _write_mp_pages(
         ["vote_id", "vote_datetime_utc", "vote_datetime_local", "title", "result", "meeting_nr"]
     )
 
-    mp_ids = mp_attendance_df.select(["mp_id", "mp_name"]).unique().to_dicts()
-    for mp in mp_ids:
+    for mp in mp_rows:
         mp_id = mp.get("mp_id")
         mp_name = mp.get("mp_name")
         if not isinstance(mp_id, int):
             continue
 
-        rows = mp_attendance_df.filter(pl.col("mp_id") == mp_id).to_dicts()
-        summary = rows[0] if rows else {"term_id": term_id, "mp_id": mp_id, "mp_name": mp_name}
+        summary = dict(mp) if isinstance(mp, dict) else {"term_id": term_id, "mp_id": mp_id, "mp_name": mp_name}
 
         mp_rows = mp_votes_df.filter(pl.col("mp_id") == mp_id)
+        club_rows = mp_rows
+        if invalid_club_vote_ids:
+            club_rows = mp_rows.filter(~pl.col("vote_id").is_in(list(invalid_club_vote_ids)))
         clubs = (
-            mp_rows.group_by("club")
+            club_rows.group_by("club")
             .agg(
                 total_votes=pl.len(),
                 present_count=pl.col("is_present").cast(pl.Int8).sum(),
@@ -548,6 +615,7 @@ def _write_vote_pages(
     term_id: int,
     votes_df: pl.DataFrame,
     mp_votes_df: pl.DataFrame,
+    invalid_club_vote_ids: set[int],
 ) -> None:
     votes_lookup: dict[int, dict[str, object]] = {}
     for row in votes_df.to_dicts():
@@ -563,17 +631,20 @@ def _write_vote_pages(
 
         vote = votes_lookup.get(vote_id) or {"vote_id": vote_id, "term_id": term_id}
         mps = shard_df.select(["mp_id", "mp_name", "club", "vote_code"]).to_dicts()
-        clubs = (
-            shard_df.group_by("club")
-            .agg(
-                total=pl.len(),
-                absent=pl.col("vote_code").is_in(["0", "N"]).cast(pl.Int8).sum(),
-                present=pl.col("is_present").cast(pl.Int8).sum(),
+        if invalid_club_vote_ids and vote_id in invalid_club_vote_ids:
+            clubs = []
+        else:
+            clubs = (
+                shard_df.group_by("club")
+                .agg(
+                    total=pl.len(),
+                    absent=pl.col("vote_code").is_in(["0", "N"]).cast(pl.Int8).sum(),
+                    present=pl.col("is_present").cast(pl.Int8).sum(),
+                )
+                .with_columns(presence_rate=(pl.col("present") / pl.col("total")).round(6))
+                .sort(["presence_rate", "club"], descending=[True, False])
+                .to_dicts()
             )
-            .with_columns(presence_rate=(pl.col("present") / pl.col("total")).round(6))
-            .sort(["presence_rate", "club"], descending=[True, False])
-            .to_dicts()
-        )
 
         payload = {
             "term_id": term_id,

@@ -150,6 +150,21 @@ def _normalize_club(value: object) -> str:
 _ABSENT_VOTE_CODES = {"0", "N"}
 
 
+def _invalid_club_vote_ids(df: pl.DataFrame) -> set[int]:
+    if df.is_empty():
+        return set()
+    summary = (
+        df.group_by("vote_id")
+        .agg(
+            any_real=(~pl.col("club").is_in([_NO_CLUB_INTERNAL, _UNKNOWN_CLUB_INTERNAL])).any()
+        )
+        .filter(pl.col("any_real") == False)  # noqa: E712
+    )
+    if summary.is_empty():
+        return set()
+    return set(summary.get_column("vote_id").to_list())
+
+
 @dataclass(frozen=True)
 class ProcessResult:
     schema_version: int
@@ -331,8 +346,13 @@ def process_votes(raw_votes_dir: Path, out_dir: Path, *, schema_version: int = 1
             .sort(["term_id", "participation_rate", "mp_id"])
         )
 
+        invalid_club_votes = _invalid_club_vote_ids(mp_votes_df)
+        club_votes_df = mp_votes_df
+        if invalid_club_votes:
+            club_votes_df = mp_votes_df.filter(~pl.col("vote_id").is_in(list(invalid_club_votes)))
+
         club_summary = (
-            mp_votes_df.group_by(["term_id", "club"])
+            club_votes_df.group_by(["term_id", "club"])
             .agg(
                 total_votes=pl.len(),
                 absent_count=pl.col("vote_code").is_in(["0", "N"]).cast(pl.Int8).sum(),
