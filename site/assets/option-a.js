@@ -220,14 +220,16 @@ async function loadMp(termId, mpId) {
   return fetchJson(`term/${termId}/mp/${mpId}.json`);
 }
 
-function overviewPath(termId, windowKey) {
-  const key = windowKey === "180d" ? "180d" : "full";
-  return `term/${termId}/overview.${key}.json`;
+function overviewPath(termId, windowKey, absenceKey) {
+  const w = windowKey === "180d" ? "180d" : "full";
+  const a = absenceKey === "abs0" ? "abs0" : "abs0n";
+  return `term/${termId}/overview.${w}.${a}.json`;
 }
 
 async function main() {
   const termSelect = $("termSelect");
   const windowSelect = $("windowSelect");
+  const absenceSelect = $("absenceSelect");
   const clubSelect = $("clubSelect");
   const searchInput = $("searchInput");
   const dialog = $("mpDialog");
@@ -245,11 +247,13 @@ async function main() {
   }
   termSelect.disabled = false;
   windowSelect.disabled = false;
+  absenceSelect.disabled = false;
   setMeta(`Updated: ${manifest.last_updated_utc ?? "?"}`);
 
   let overview = null;
   let selectedClubKey = "";
   let windowKey = "full";
+  let absenceKey = "abs0n";
 
   function refreshLists() {
     const filtered = rankRows(overview?.mps ?? [], {
@@ -314,7 +318,7 @@ async function main() {
   });
 
   async function refresh(termId) {
-    overview = await fetchJson(overviewPath(termId, windowKey));
+    overview = await fetchJson(overviewPath(termId, windowKey, absenceKey));
     selectedClubKey = "";
     refreshClubSelect();
     const handlePick = (clubKey) => {
@@ -327,13 +331,18 @@ async function main() {
     refreshLists();
 
     const w = overview?.window ?? {};
+    const a = overview?.absence ?? {};
     const label =
       w.kind === "rolling"
         ? `Window: last ${w.days ?? 180}d (${String(w.from_utc ?? "").slice(0, 10)} → ${String(
             w.to_utc ?? "",
           ).slice(0, 10)})`
         : "Window: full term";
-    setMeta(`Updated: ${manifest.last_updated_utc ?? "?"} • ${label}`);
+    const absLabel =
+      a.kind === "abs0"
+        ? "Absence: 0 only"
+        : "Absence: 0 + N";
+    setMeta(`Updated: ${manifest.last_updated_utc ?? "?"} • ${label} • ${absLabel}`);
   }
 
   termSelect.value = String(defaultTermId);
@@ -345,6 +354,11 @@ async function main() {
 
   windowSelect.addEventListener("change", async () => {
     windowKey = String(windowSelect.value ?? "full");
+    await refresh(Number(termSelect.value));
+  });
+
+  absenceSelect.addEventListener("change", async () => {
+    absenceKey = String(absenceSelect.value ?? "abs0n");
     await refresh(Number(termSelect.value));
   });
 

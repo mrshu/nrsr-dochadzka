@@ -53,6 +53,7 @@ class TermOverview:
     term_id: int
     generated_at_utc: str
     window: dict[str, object]
+    absence: dict[str, object]
     club_attribution: str
     mps: list[dict[str, object]]
     clubs: list[dict[str, object]]
@@ -62,6 +63,7 @@ class TermOverview:
             "term_id": self.term_id,
             "generated_at_utc": self.generated_at_utc,
             "window": self.window,
+            "absence": self.absence,
             "club_attribution": self.club_attribution,
             "mps": self.mps,
             "clubs": self.clubs,
@@ -188,12 +190,6 @@ def build_site_data(
                 if isinstance(mp_id, int) and isinstance(club, str) and club:
                     mp_current_club_by_id[mp_id] = club
 
-        term_mps_raw = (
-            mps_df.filter(pl.col("term_id") == term_id)
-            .sort(["participation_rate", "mp_id"], descending=[True, False])
-            .to_dicts()
-        )
-
         # Stable club keys are derived from all clubs seen in the full-term data.
         full_term_clubs = (
             clubs_df.filter(pl.col("term_id") == term_id).select("club").unique().to_dicts()
@@ -201,7 +197,11 @@ def build_site_data(
         club_labels = [row.get("club") for row in full_term_clubs]
         club_key_map = build_club_keys([c for c in club_labels if isinstance(c, str)])
 
-        def attach_clubs(rows: list[dict[str, object]]) -> list[dict[str, object]]:
+        def attach_clubs(
+            rows: list[dict[str, object]],
+            *,
+            current_by_id: dict[int, str],
+        ) -> list[dict[str, object]]:
             out: list[dict[str, object]] = []
             for mp in rows:
                 mp_id = mp.get("mp_id")
@@ -216,7 +216,12 @@ def build_site_data(
                     continue
 
                 primary_club = mp_primary_club_by_id.get(mp_id) or "(unknown)"
-                current_club = mp_current_club_by_id.get(mp_id) or primary_club or "(unknown)"
+                current_club = (
+                    current_by_id.get(mp_id)
+                    or mp_current_club_by_id.get(mp_id)
+                    or primary_club
+                    or "(unknown)"
+                )
 
                 mp["primary_club"] = primary_club
                 mp["primary_club_key"] = club_key_map.get(primary_club, slugify(primary_club))
@@ -254,8 +259,110 @@ def build_site_data(
             )
             return clubs
 
-        term_mps_full = attach_clubs([dict(row) for row in term_mps_raw])
-        term_clubs_full = clubs_from_mps(term_mps_full)
+        full_club_rows: list[dict[str, object]] = []
+        for label in sorted({c for c in club_labels if isinstance(c, str)}):
+            full_club_rows.append({"club": label, "club_key": club_key_map.get(label, slugify(label))})
+
+        def fill_missing_clubs(clubs_rows: list[dict[str, object]]) -> list[dict[str, object]]:
+            seen = {r.get("club_key") for r in clubs_rows}
+            out = list(clubs_rows)
+            for base in full_club_rows:
+                key = base.get("club_key")
+                if key in seen:
+                    continue
+                out.append(
+                    {
+                        "term_id": term_id,
+                        "club": base.get("club"),
+                        "club_key": key,
+                        "total_votes": 0,
+                        "present_count": 0,
+                        "absent_count": 0,
+                        "voted_count": 0,
+                        "participation_rate": None,
+                    }
+                )
+            out.sort(
+                key=lambda r: (
+                    -(r.get("participation_rate") or -1),
+                    str(r.get("club") or ""),
+                )
+            )
+            return out
+
+        def current_club_for_votes(df: pl.DataFrame) -> dict[int, str]:
+            if df.is_empty():
+                return {}
+            cur = (
+                df.select(["mp_id", "club", "vote_datetime_utc", "vote_id"])
+                .sort(
+                    ["mp_id", "vote_datetime_utc", "vote_id"],
+                    descending=[False, True, True],
+                )
+                .group_by("mp_id", maintain_order=True)
+                .agg(pl.first("club").alias("club"))
+                .to_dicts()
+            )
+            out: dict[int, str] = {}
+            for row in cur:
+                mp_id = row.get("mp_id")
+                club = row.get("club")
+                if isinstance(mp_id, int) and isinstance(club, str) and club:
+                    out[mp_id] = club
+            return out
+
+        def mps_from_votes(
+            df: pl.DataFrame,
+            *,
+            absent_codes: list[str],
+            current_by_id: dict[int, str],
+        ) -> list[dict[str, object]]:
+            if df.is_empty():
+                return []
+            agg = (
+                df.group_by(["mp_id", "mp_name"], maintain_order=True)
+                .agg(
+                    term_id=pl.lit(term_id),
+                    total_votes=pl.len(),
+                    absent_count=pl.col("vote_code").is_in(absent_codes).cast(pl.Int64).sum(),
+                    voted_count=pl.col("vote_code").is_in(["Z", "P", "?"]).cast(pl.Int64).sum(),
+                    for_count=(pl.col("vote_code") == "Z").cast(pl.Int64).sum(),
+                    against_count=(pl.col("vote_code") == "P").cast(pl.Int64).sum(),
+                    abstain_count=(pl.col("vote_code") == "?").cast(pl.Int64).sum(),
+                    not_voting_count=(pl.col("vote_code") == "N").cast(pl.Int64).sum(),
+                )
+                .with_columns(present_count=(pl.col("total_votes") - pl.col("absent_count")))
+                .with_columns(
+                    participation_rate=(pl.col("present_count") / pl.col("total_votes")).round(6)
+                )
+                .sort(["participation_rate", "mp_id"], descending=[True, False])
+                .to_dicts()
+            )
+            return attach_clubs([dict(row) for row in agg], current_by_id=current_by_id)
+
+        def build_variant(
+            *,
+            mp_votes_df: pl.DataFrame,
+            window: dict[str, object],
+            absent_codes: list[str],
+            absence_kind: str,
+        ) -> TermOverview:
+            current_by_id = current_club_for_votes(mp_votes_df)
+            mps_rows = mps_from_votes(
+                mp_votes_df,
+                absent_codes=absent_codes,
+                current_by_id=current_by_id,
+            )
+            clubs_rows = fill_missing_clubs(clubs_from_mps(mps_rows))
+            return TermOverview(
+                term_id=term_id,
+                generated_at_utc=generated_at_utc,
+                window=window,
+                absence={"kind": absence_kind, "absent_codes": absent_codes},
+                club_attribution="current",
+                mps=mps_rows,
+                clubs=clubs_rows,
+            )
 
         # Rolling window: last 180 days anchored at the latest vote in this term (deterministic).
         to_utc = None
@@ -266,73 +373,63 @@ def build_site_data(
                 to_utc = datetime.fromisoformat(latest)
                 from_utc = to_utc - timedelta(days=180)
 
-        term_mps_180: list[dict[str, object]] = []
-        term_clubs_180: list[dict[str, object]] = []
+        window_full = {"kind": "full"}
+
         votes_in_window = 0
+        window_mp_votes_df = pl.DataFrame()
+        window_meta = {"kind": "rolling", "days": 180, "from_utc": None, "to_utc": None, "votes_in_window": 0}
         if to_utc and from_utc and not term_mp_votes_df.is_empty():
             from_str = from_utc.isoformat()
             window_votes_df = term_votes_df.filter(pl.col("vote_datetime_utc") >= from_str)
             votes_in_window = int(window_votes_df.height)
-
             window_mp_votes_df = term_mp_votes_df.filter(pl.col("vote_datetime_utc") >= from_str)
-            mp_window = (
-                window_mp_votes_df.group_by(["mp_id", "mp_name"], maintain_order=True)
-                .agg(
-                    term_id=pl.lit(term_id),
-                    total_votes=pl.len(),
-                    present_count=pl.col("is_present").cast(pl.Int64).sum(),
-                    voted_count=pl.col("is_voted").cast(pl.Int64).sum(),
-                    absent_count=pl.col("vote_code").is_in(["0", "N"]).cast(pl.Int64).sum(),
-                    for_count=(pl.col("vote_code") == "Z").cast(pl.Int64).sum(),
-                    against_count=(pl.col("vote_code") == "P").cast(pl.Int64).sum(),
-                    abstain_count=(pl.col("vote_code") == "?").cast(pl.Int64).sum(),
-                    not_voting_count=(pl.col("vote_code") == "N").cast(pl.Int64).sum(),
-                )
-                .with_columns(
-                    participation_rate=(pl.col("present_count") / pl.col("total_votes")).round(6)
-                )
-                .sort(["participation_rate", "mp_id"], descending=[True, False])
-                .to_dicts()
-            )
-            term_mps_180 = attach_clubs([dict(row) for row in mp_window])
-            term_clubs_180 = clubs_from_mps(term_mps_180)
-
-        overview_full = TermOverview(
-            term_id=term_id,
-            generated_at_utc=generated_at_utc,
-            window={"kind": "full"},
-            club_attribution="current",
-            mps=term_mps_full,
-            clubs=term_clubs_full,
-        )
-        overview_180 = TermOverview(
-            term_id=term_id,
-            generated_at_utc=generated_at_utc,
-            window={
+            window_meta = {
                 "kind": "rolling",
                 "days": 180,
-                "from_utc": from_utc.isoformat() if from_utc else None,
-                "to_utc": to_utc.isoformat() if to_utc else None,
+                "from_utc": from_utc.isoformat(),
+                "to_utc": to_utc.isoformat(),
                 "votes_in_window": votes_in_window,
-            },
-            club_attribution="current",
-            mps=term_mps_180,
-            clubs=term_clubs_180,
+            }
+
+        # absence variants
+        abs0n = ["0", "N"]
+        abs0 = ["0"]
+
+        overview_full_abs0n = build_variant(
+            mp_votes_df=term_mp_votes_df,
+            window=window_full,
+            absent_codes=abs0n,
+            absence_kind="abs0n",
+        )
+        overview_full_abs0 = build_variant(
+            mp_votes_df=term_mp_votes_df,
+            window=window_full,
+            absent_codes=abs0,
+            absence_kind="abs0",
+        )
+        overview_180_abs0n = build_variant(
+            mp_votes_df=window_mp_votes_df,
+            window=window_meta,
+            absent_codes=abs0n,
+            absence_kind="abs0n",
+        )
+        overview_180_abs0 = build_variant(
+            mp_votes_df=window_mp_votes_df,
+            window=window_meta,
+            absent_codes=abs0,
+            absence_kind="abs0",
         )
 
-        _write_json(
-            out_assets_data_dir / "term" / str(term_id) / "overview.full.json",
-            overview_full.as_dict(),
-        )
-        _write_json(
-            out_assets_data_dir / "term" / str(term_id) / "overview.180d.json",
-            overview_180.as_dict(),
-        )
-        # Back-compat (default to full-term).
-        _write_json(
-            out_assets_data_dir / "term" / str(term_id) / "overview.json",
-            overview_full.as_dict(),
-        )
+        out_term = out_assets_data_dir / "term" / str(term_id)
+        _write_json(out_term / "overview.full.abs0n.json", overview_full_abs0n.as_dict())
+        _write_json(out_term / "overview.full.abs0.json", overview_full_abs0.as_dict())
+        _write_json(out_term / "overview.180d.abs0n.json", overview_180_abs0n.as_dict())
+        _write_json(out_term / "overview.180d.abs0.json", overview_180_abs0.as_dict())
+
+        # Back-compat (default = full term, abs0n).
+        _write_json(out_term / "overview.full.json", overview_full_abs0n.as_dict())
+        _write_json(out_term / "overview.180d.json", overview_180_abs0n.as_dict())
+        _write_json(out_term / "overview.json", overview_full_abs0n.as_dict())
 
         _write_json(
             out_assets_data_dir / "term" / str(term_id) / "votes.json",
