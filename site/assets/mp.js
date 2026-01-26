@@ -1,4 +1,4 @@
-import { $, fetchJson, formatInt, formatPct, setMeta } from "./common.js";
+import { $, fetchJson, formatInt, formatPct, setMeta, slugify } from "./common.js";
 
 function escapeHtml(value) {
   return String(value ?? "")
@@ -29,9 +29,25 @@ function setParam(name, value) {
 
 function mpIdFromPath() {
   const path = window.location.pathname.replace(/\/+/g, "/");
-  const match = path.match(/\/mp\/(\d+)\/?$/);
+  const match = path.match(/\/mp\/(\d+)(?:-[^/]+)?\/?$/);
   if (!match) return null;
   return Number(match[1]);
+}
+
+function basePathForMp() {
+  const path = window.location.pathname.replace(/\/+/g, "/");
+  const idx = path.indexOf("/mp/");
+  if (idx === -1) {
+    return path.replace(/\/[^/]*$/, "");
+  }
+  return path.slice(0, idx);
+}
+
+function canonicalMpUrl(mpId, mpName) {
+  const base = basePathForMp();
+  const slug = slugify(mpName ?? "");
+  const baseNormalized = base === "/" ? "" : base.replace(/\/$/, "");
+  return `${window.location.origin}${baseNormalized}/mp/${mpId}-${slug}/`;
 }
 
 function statCards(summary) {
@@ -58,7 +74,8 @@ function renderKpis(summary) {
 }
 
 function renderProfile(summary, mpRow) {
-  const el = $("profile");
+  const el = document.getElementById("profile");
+  if (!el) return;
   const club = mpRow?.club ?? "";
   const current = mpRow?.current_club ?? "";
   const primary = mpRow?.primary_club ?? "";
@@ -67,9 +84,6 @@ function renderProfile(summary, mpRow) {
       Klub (pre leaderboard): ${escapeHtml(club)}
       ${current && current !== club ? ` • current: ${escapeHtml(current)}` : ""}
       ${primary && primary !== club ? ` • primary: ${escapeHtml(primary)}` : ""}
-    </div>
-    <div class="modal-cards" style="margin-top: 12px">
-      ${statCards(summary)}
     </div>
     <div class="hint" style="margin-top: 10px">Pozn.: absencia sa riadi zvoleným prepínačom.</div>
   `;
@@ -87,11 +101,16 @@ function renderClubs(rows) {
         .slice(0, 20)
         .map((c) => {
           const r = typeof c.participation_rate === "number" ? c.participation_rate : null;
+          const total = formatInt(c.total_votes);
+          const present = formatInt(c.present_count);
           return `
             <div class="club-mini">
               <div class="club-mini-name">${escapeHtml(c.club ?? "")}</div>
               <div class="club-mini-bar"><span style="width:${r === null ? 0 : Math.max(0, Math.min(100, r * 100))}%"></span></div>
-              <div class="club-mini-rate">${r === null ? "—" : escapeHtml(formatPct(r))}</div>
+              <div class="club-mini-meta">
+                <div class="club-mini-count">${escapeHtml(present)} / ${escapeHtml(total)}</div>
+                <div class="club-mini-rate">${r === null ? "—" : escapeHtml(formatPct(r))}</div>
+              </div>
             </div>
           `;
         })
@@ -124,21 +143,27 @@ function renderRecent(rows) {
   `;
 }
 
-async function loadMpPayload(termId, mpId) {
-  return fetchJson(`term/${termId}/mp/${mpId}.json`);
+async function loadMpPayload(termId, mpId, windowKey, absenceKey) {
+  const w = windowKey === "180d" ? "180d" : "full";
+  const a = absenceKey === "abs0" ? "abs0" : "abs0n";
+  try {
+    return await fetchJson(`term/${termId}/mp/${w}.${a}/${mpId}.json`);
+  } catch {
+    return fetchJson(`term/${termId}/mp/${mpId}.json`);
+  }
 }
 
 async function main() {
   const termSelect = $("termSelect");
   const windowSelect = $("windowSelect");
   const absenceSelect = $("absenceSelect");
-  const subtitle = $("subtitle");
+  const subtitle = document.getElementById("subtitle");
 
   const bodyMp = Number(document.body?.dataset?.mpId || "");
   const pathMp = mpIdFromPath();
   const mpId = Number.isFinite(bodyMp) && bodyMp > 0 ? bodyMp : Number(getParam("mp") || pathMp);
   if (!Number.isFinite(mpId)) {
-    subtitle.textContent = "Chýba parameter mp";
+    if (subtitle) subtitle.textContent = "Chýba parameter mp";
     setMeta("Error: missing ?mp=<id>");
     return;
   }
@@ -175,7 +200,8 @@ async function main() {
     if (!mpRow) {
       $("mpTitle").textContent = `MP ${mpId}`;
       $("mpHint").textContent = "MP not found in this window (no votes / filtered out).";
-      $("profile").innerHTML = `<div class="empty">No data for this MP in selected window.</div>`;
+      const profile = document.getElementById("profile");
+      if (profile) profile.innerHTML = `<div class="empty">No data for this MP in selected window.</div>`;
       $("clubs").innerHTML = "";
       $("recent").innerHTML = "";
       const w = overview?.window ?? {};
@@ -188,14 +214,23 @@ async function main() {
       return;
     }
 
-    $("mpTitle").textContent = mpRow.mp_name ?? `MP ${mpId}`;
-    $("mpHint").textContent = `MP ID: ${mpId}`;
+    const mpTitle = document.getElementById("mpTitle");
+    if (mpTitle) mpTitle.textContent = mpRow.mp_name ?? `MP ${mpId}`;
+    const mpHint = document.getElementById("mpHint");
+    if (mpHint) mpHint.textContent = `MP ID: ${mpId}`;
+    const heroTitle = document.getElementById("mpHeroTitle");
+    if (heroTitle) heroTitle.textContent = mpRow.mp_name ?? `MP ${mpId}`;
+    const heroSub = document.getElementById("mpHeroSub");
+    if (heroSub) {
+      const club = mpRow.club ? `Klub: ${mpRow.club}` : "Klub: —";
+      heroSub.textContent = `${club} · MP ID: ${mpId}`;
+    }
     renderKpis(mpRow);
     renderProfile(mpRow, mpRow);
 
     let payload = null;
     try {
-      payload = await loadMpPayload(termId, mpId);
+      payload = await loadMpPayload(termId, mpId, windowKey, absenceKey);
     } catch {
       payload = null;
     }
@@ -212,7 +247,7 @@ async function main() {
       `Updated: ${manifest.last_updated_utc ?? "?"} • ${label} • ${a.kind === "abs0" ? "Absence: 0" : "Absence: 0+N"}`,
     );
 
-    const canonical = `${window.location.origin}${window.location.pathname}`.replace(/\\/index\\.html$/, "/");
+    const canonical = canonicalMpUrl(mpId, mpRow?.mp_name ?? "");
     let link = document.querySelector("link[rel='canonical']");
     if (!link) {
       link = document.createElement("link");

@@ -1,4 +1,4 @@
-import { $, fetchJson, formatInt, formatPct, setMeta } from "./common.js";
+import { $, fetchJson, formatInt, formatPct, normalizeText, setMeta, slugify } from "./common.js";
 
 function escapeHtml(value) {
   return String(value ?? "")
@@ -109,10 +109,10 @@ function renderClubBars({ clubs, selectedClubKey, onPick }) {
 }
 
 function rankRows(mps, { clubKey, query }) {
-  const q = (query ?? "").trim().toLowerCase();
+  const q = normalizeText((query ?? "").trim());
   return (mps ?? [])
     .filter((m) => (clubKey ? String(normalizeClubKey(m)) === String(clubKey) : true))
-    .filter((m) => (q ? String(m.mp_name ?? "").toLowerCase().includes(q) : true))
+    .filter((m) => (q ? normalizeText(m.mp_name ?? "").includes(q) : true))
     .filter((m) => typeof m.participation_rate === "number")
     .slice();
 }
@@ -124,7 +124,7 @@ function renderRankList({ elId, rows, title, hrefFor }) {
       const rate = safeNumber(m.participation_rate);
       const clubKey = normalizeClubKey(m);
       const hue = hashToHue(clubKey);
-      const href = hrefFor ? hrefFor(m.mp_id) : "#";
+      const href = hrefFor ? hrefFor(m) : "#";
       return `
         <a class="rank-row" href="${escapeHtml(href)}" data-mp="${escapeHtml(String(m.mp_id))}">
           <div class="rank">${escapeHtml(String(idx + 1).padStart(2, "0"))}</div>
@@ -224,8 +224,10 @@ function overviewPath(termId, windowKey, absenceKey) {
   return `term/${termId}/overview.${w}.${a}.json`;
 }
 
-function mpProfileUrl({ mpId, termId, windowKey, absenceKey }) {
-  const url = new URL(`mp/${mpId}/`, window.location.href);
+function mpProfileUrl({ mpId, mpName, termId, windowKey, absenceKey }) {
+  const slug = slugify(mpName ?? "");
+  const base = new URL(".", window.location.href);
+  const url = new URL(`mp/${mpId}-${slug}/`, base);
   url.searchParams.set("term", String(termId));
   url.searchParams.set("window", windowKey === "180d" ? "180d" : "full");
   url.searchParams.set("absence", absenceKey === "abs0" ? "abs0" : "abs0n");
@@ -288,7 +290,8 @@ async function main() {
 
     renderKpis(filtered);
     const termId = Number(termSelect.value);
-    const hrefFor = (mpId) => mpProfileUrl({ mpId, termId, windowKey, absenceKey });
+    const hrefFor = (mp) =>
+      mpProfileUrl({ mpId: mp.mp_id, mpName: mp.mp_name, termId, windowKey, absenceKey });
     renderRankList({
       elId: "topList",
       rows: top,
@@ -324,7 +327,7 @@ async function main() {
       payload = null;
     }
     renderMpModal({ overviewMp: mp, payload });
-    setModalProfileLink(mpProfileUrl({ mpId, termId, windowKey, absenceKey }));
+    setModalProfileLink(mpProfileUrl({ mpId, mpName: mp?.mp_name, termId, windowKey, absenceKey }));
     if (typeof dialog.showModal === "function") dialog.showModal();
   }
 
