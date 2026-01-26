@@ -5,6 +5,7 @@ import re
 import unicodedata
 from dataclasses import dataclass
 from datetime import UTC, datetime
+from datetime import timedelta
 from pathlib import Path
 
 import polars as pl
@@ -51,6 +52,8 @@ def build_club_keys(clubs: list[str]) -> dict[str, str]:
 class TermOverview:
     term_id: int
     generated_at_utc: str
+    window: dict[str, object]
+    club_attribution: str
     mps: list[dict[str, object]]
     clubs: list[dict[str, object]]
 
@@ -58,6 +61,8 @@ class TermOverview:
         return {
             "term_id": self.term_id,
             "generated_at_utc": self.generated_at_utc,
+            "window": self.window,
+            "club_attribution": self.club_attribution,
             "mps": self.mps,
             "clubs": self.clubs,
         }
@@ -183,59 +188,152 @@ def build_site_data(
                 if isinstance(mp_id, int) and isinstance(club, str) and club:
                     mp_current_club_by_id[mp_id] = club
 
-        term_mps = (
+        term_mps_raw = (
             mps_df.filter(pl.col("term_id") == term_id)
             .sort(["participation_rate", "mp_id"], descending=[True, False])
             .to_dicts()
         )
 
-        term_clubs_df = clubs_df.filter(pl.col("term_id") == term_id).sort(
-            ["participation_rate", "club"], descending=[True, False]
+        # Stable club keys are derived from all clubs seen in the full-term data.
+        full_term_clubs = (
+            clubs_df.filter(pl.col("term_id") == term_id).select("club").unique().to_dicts()
         )
-        club_labels = [row.get("club") for row in term_clubs_df.select("club").to_dicts()]
+        club_labels = [row.get("club") for row in full_term_clubs]
         club_key_map = build_club_keys([c for c in club_labels if isinstance(c, str)])
 
-        term_clubs: list[dict[str, object]] = []
-        for row in term_clubs_df.to_dicts():
-            club = row.get("club")
-            if isinstance(club, str):
-                row["club_key"] = club_key_map.get(club, slugify(club))
-            else:
-                row["club_key"] = "unknown"
-            term_clubs.append(row)
+        def attach_clubs(rows: list[dict[str, object]]) -> list[dict[str, object]]:
+            out: list[dict[str, object]] = []
+            for mp in rows:
+                mp_id = mp.get("mp_id")
+                if not isinstance(mp_id, int):
+                    mp["club"] = "(unknown)"
+                    mp["club_key"] = "unknown"
+                    mp["primary_club"] = "(unknown)"
+                    mp["primary_club_key"] = "unknown"
+                    mp["current_club"] = "(unknown)"
+                    mp["current_club_key"] = "unknown"
+                    out.append(mp)
+                    continue
 
-        for mp in term_mps:
-            mp_id = mp.get("mp_id")
-            if not isinstance(mp_id, int):
-                mp["club"] = "(unknown)"
-                mp["club_key"] = "unknown"
-                mp["primary_club"] = "(unknown)"
-                mp["primary_club_key"] = "unknown"
-                mp["current_club"] = "(unknown)"
-                mp["current_club_key"] = "unknown"
-                continue
+                primary_club = mp_primary_club_by_id.get(mp_id) or "(unknown)"
+                current_club = mp_current_club_by_id.get(mp_id) or primary_club or "(unknown)"
 
-            primary_club = mp_primary_club_by_id.get(mp_id) or "(unknown)"
-            current_club = mp_current_club_by_id.get(mp_id) or primary_club or "(unknown)"
+                mp["primary_club"] = primary_club
+                mp["primary_club_key"] = club_key_map.get(primary_club, slugify(primary_club))
+                mp["current_club"] = current_club
+                mp["current_club_key"] = club_key_map.get(current_club, slugify(current_club))
 
-            mp["primary_club"] = primary_club
-            mp["primary_club_key"] = club_key_map.get(primary_club, slugify(primary_club))
-            mp["current_club"] = current_club
-            mp["current_club_key"] = club_key_map.get(current_club, slugify(current_club))
+                # For leaderboards/filtering, use the club "as of now" (latest known vote).
+                mp["club"] = current_club
+                mp["club_key"] = mp["current_club_key"]
+                out.append(mp)
+            return out
 
-            # For leaderboards/filtering, prefer the club "as of now" (latest known vote).
-            mp["club"] = current_club
-            mp["club_key"] = mp["current_club_key"]
+        def clubs_from_mps(rows: list[dict[str, object]]) -> list[dict[str, object]]:
+            df = pl.DataFrame(rows)
+            if df.is_empty():
+                return []
+            needed = {"club", "club_key", "term_id", "present_count", "absent_count", "total_votes", "voted_count"}
+            for col in needed:
+                if col not in df.columns:
+                    df = df.with_columns(pl.lit(None).alias(col))
+            clubs = (
+                df.group_by(["club", "club_key"], maintain_order=True)
+                .agg(
+                    term_id=pl.lit(term_id),
+                    total_votes=pl.col("total_votes").cast(pl.Int64).sum(),
+                    present_count=pl.col("present_count").cast(pl.Int64).sum(),
+                    absent_count=pl.col("absent_count").cast(pl.Int64).sum(),
+                    voted_count=pl.col("voted_count").cast(pl.Int64).sum(),
+                )
+                .with_columns(
+                    participation_rate=(pl.col("present_count") / pl.col("total_votes")).round(6)
+                )
+                .sort(["participation_rate", "club"], descending=[True, False])
+                .to_dicts()
+            )
+            return clubs
 
-        overview = TermOverview(
+        term_mps_full = attach_clubs([dict(row) for row in term_mps_raw])
+        term_clubs_full = clubs_from_mps(term_mps_full)
+
+        # Rolling window: last 180 days anchored at the latest vote in this term (deterministic).
+        to_utc = None
+        from_utc = None
+        if not term_votes_df.is_empty():
+            latest = term_votes_df.select("vote_datetime_utc").to_dicts()[0].get("vote_datetime_utc")
+            if isinstance(latest, str) and latest:
+                to_utc = datetime.fromisoformat(latest)
+                from_utc = to_utc - timedelta(days=180)
+
+        term_mps_180: list[dict[str, object]] = []
+        term_clubs_180: list[dict[str, object]] = []
+        votes_in_window = 0
+        if to_utc and from_utc and not term_mp_votes_df.is_empty():
+            from_str = from_utc.isoformat()
+            window_votes_df = term_votes_df.filter(pl.col("vote_datetime_utc") >= from_str)
+            votes_in_window = int(window_votes_df.height)
+
+            window_mp_votes_df = term_mp_votes_df.filter(pl.col("vote_datetime_utc") >= from_str)
+            mp_window = (
+                window_mp_votes_df.group_by(["mp_id", "mp_name"], maintain_order=True)
+                .agg(
+                    term_id=pl.lit(term_id),
+                    total_votes=pl.len(),
+                    present_count=pl.col("is_present").cast(pl.Int64).sum(),
+                    voted_count=pl.col("is_voted").cast(pl.Int64).sum(),
+                    absent_count=pl.col("vote_code").is_in(["0", "N"]).cast(pl.Int64).sum(),
+                    for_count=(pl.col("vote_code") == "Z").cast(pl.Int64).sum(),
+                    against_count=(pl.col("vote_code") == "P").cast(pl.Int64).sum(),
+                    abstain_count=(pl.col("vote_code") == "?").cast(pl.Int64).sum(),
+                    not_voting_count=(pl.col("vote_code") == "N").cast(pl.Int64).sum(),
+                )
+                .with_columns(
+                    participation_rate=(pl.col("present_count") / pl.col("total_votes")).round(6)
+                )
+                .sort(["participation_rate", "mp_id"], descending=[True, False])
+                .to_dicts()
+            )
+            term_mps_180 = attach_clubs([dict(row) for row in mp_window])
+            term_clubs_180 = clubs_from_mps(term_mps_180)
+
+        overview_full = TermOverview(
             term_id=term_id,
             generated_at_utc=generated_at_utc,
-            mps=term_mps,
-            clubs=term_clubs,
+            window={"kind": "full"},
+            club_attribution="current",
+            mps=term_mps_full,
+            clubs=term_clubs_full,
+        )
+        overview_180 = TermOverview(
+            term_id=term_id,
+            generated_at_utc=generated_at_utc,
+            window={
+                "kind": "rolling",
+                "days": 180,
+                "from_utc": from_utc.isoformat() if from_utc else None,
+                "to_utc": to_utc.isoformat() if to_utc else None,
+                "votes_in_window": votes_in_window,
+            },
+            club_attribution="current",
+            mps=term_mps_180,
+            clubs=term_clubs_180,
+        )
+
+        _write_json(
+            out_assets_data_dir / "term" / str(term_id) / "overview.full.json",
+            overview_full.as_dict(),
         )
         _write_json(
-            out_assets_data_dir / "term" / str(term_id) / "overview.json", overview.as_dict()
+            out_assets_data_dir / "term" / str(term_id) / "overview.180d.json",
+            overview_180.as_dict(),
         )
+        # Back-compat (default to full-term).
+        _write_json(
+            out_assets_data_dir / "term" / str(term_id) / "overview.json",
+            overview_full.as_dict(),
+        )
+
         _write_json(
             out_assets_data_dir / "term" / str(term_id) / "votes.json",
             term_votes_df.to_dicts(),

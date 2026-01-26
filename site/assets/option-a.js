@@ -216,16 +216,18 @@ function renderMpModal({ overviewMp, payload }) {
   `;
 }
 
-async function loadOverview(termId) {
-  return fetchJson(`term/${termId}/overview.json`);
-}
-
 async function loadMp(termId, mpId) {
   return fetchJson(`term/${termId}/mp/${mpId}.json`);
 }
 
+function overviewPath(termId, windowKey) {
+  const key = windowKey === "180d" ? "180d" : "full";
+  return `term/${termId}/overview.${key}.json`;
+}
+
 async function main() {
   const termSelect = $("termSelect");
+  const windowSelect = $("windowSelect");
   const clubSelect = $("clubSelect");
   const searchInput = $("searchInput");
   const dialog = $("mpDialog");
@@ -242,10 +244,12 @@ async function main() {
     termSelect.appendChild(opt);
   }
   termSelect.disabled = false;
+  windowSelect.disabled = false;
   setMeta(`Updated: ${manifest.last_updated_utc ?? "?"}`);
 
   let overview = null;
   let selectedClubKey = "";
+  let windowKey = "full";
 
   function refreshLists() {
     const filtered = rankRows(overview?.mps ?? [], {
@@ -310,7 +314,7 @@ async function main() {
   });
 
   async function refresh(termId) {
-    overview = await loadOverview(termId);
+    overview = await fetchJson(overviewPath(termId, windowKey));
     selectedClubKey = "";
     refreshClubSelect();
     const handlePick = (clubKey) => {
@@ -321,12 +325,26 @@ async function main() {
     };
     renderClubBars({ clubs: overview.clubs ?? [], selectedClubKey, onPick: handlePick });
     refreshLists();
+
+    const w = overview?.window ?? {};
+    const label =
+      w.kind === "rolling"
+        ? `Window: last ${w.days ?? 180}d (${String(w.from_utc ?? "").slice(0, 10)} → ${String(
+            w.to_utc ?? "",
+          ).slice(0, 10)})`
+        : "Window: full term";
+    setMeta(`Updated: ${manifest.last_updated_utc ?? "?"} • ${label}`);
   }
 
   termSelect.value = String(defaultTermId);
   await refresh(defaultTermId);
 
   termSelect.addEventListener("change", async () => {
+    await refresh(Number(termSelect.value));
+  });
+
+  windowSelect.addEventListener("change", async () => {
+    windowKey = String(windowSelect.value ?? "full");
     await refresh(Number(termSelect.value));
   });
 
