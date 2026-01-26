@@ -26,3 +26,6 @@ data/site/
 # Built site artifacts
 site/assets/data/
 dist/
+
+# Local planning scratchpad (intentionally uncommitted)
+PLANS.md
