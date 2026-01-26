@@ -226,6 +226,26 @@ function overviewPath(termId, windowKey, absenceKey) {
   return `term/${termId}/overview.${w}.${a}.json`;
 }
 
+function mpProfileUrl({ mpId, termId, windowKey, absenceKey }) {
+  const url = new URL("mp/", window.location.href);
+  url.searchParams.set("mp", String(mpId));
+  url.searchParams.set("term", String(termId));
+  url.searchParams.set("window", windowKey === "180d" ? "180d" : "full");
+  url.searchParams.set("absence", absenceKey === "abs0" ? "abs0" : "abs0n");
+  return url.toString();
+}
+
+function setModalProfileLink(href) {
+  const body = $("mpModalBody");
+  let row = body.querySelector(".profile-link-row");
+  if (!row) {
+    row = document.createElement("div");
+    row.className = "profile-link-row";
+    body.prepend(row);
+  }
+  row.innerHTML = `<a class="profile-link" href="${href}">Otvoriť profil poslanca</a>`;
+}
+
 async function main() {
   const termSelect = $("termSelect");
   const windowSelect = $("windowSelect");
@@ -282,6 +302,21 @@ async function main() {
       title: "No matching MPs.",
       onPick: openMp,
     });
+
+    // Add a dedicated profile link to each rendered row.
+    const termId = Number(termSelect.value);
+    document.querySelectorAll("button.rank-row[data-mp]").forEach((btn) => {
+      const mpId = Number(btn.dataset.mp);
+      let a = btn.querySelector("a.profile-link");
+      if (!a) {
+        a = document.createElement("a");
+        a.className = "profile-link";
+        a.textContent = "Profil";
+        a.addEventListener("click", (e) => e.stopPropagation());
+        btn.querySelector(".sub")?.appendChild(a);
+      }
+      a.href = mpProfileUrl({ mpId, termId, windowKey, absenceKey });
+    });
   }
 
   function refreshClubSelect() {
@@ -305,6 +340,7 @@ async function main() {
       payload = null;
     }
     renderMpModal({ overviewMp: mp, payload });
+    setModalProfileLink(mpProfileUrl({ mpId, termId, windowKey, absenceKey }));
     if (typeof dialog.showModal === "function") dialog.showModal();
   }
 
