@@ -9,6 +9,16 @@ function escapeHtml(value) {
     .replaceAll("'", "&#039;");
 }
 
+function hashToHue(value) {
+  const s = String(value ?? "");
+  let h = 2166136261;
+  for (let i = 0; i < s.length; i += 1) {
+    h ^= s.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return Math.abs(h) % 360;
+}
+
 function overviewPath(termId, windowKey, absenceKey) {
   const w = windowKey === "180d" ? "180d" : "full";
   const a = absenceKey === "abs0" ? "abs0" : "abs0n";
@@ -222,8 +232,13 @@ async function main() {
     if (heroTitle) heroTitle.textContent = mpRow.mp_name ?? `MP ${mpId}`;
     const heroSub = document.getElementById("mpHeroSub");
     if (heroSub) {
-      const club = mpRow.club ? `Klub: ${mpRow.club}` : "Klub: —";
-      heroSub.textContent = `${club} · MP ID: ${mpId}`;
+      const clubLabel = mpRow.club ? String(mpRow.club) : "—";
+      const clubKey = mpRow.club_key ?? mpRow.club ?? "unknown";
+      const hue = hashToHue(clubKey);
+      heroSub.innerHTML = `
+        <span class="badge hero-badge" style="--h:${hue}">${escapeHtml(clubLabel)}</span>
+        <span class="hero-sub-meta">MP ID: ${escapeHtml(String(mpId))}</span>
+      `;
     }
     renderKpis(mpRow);
     renderProfile(mpRow, mpRow);
