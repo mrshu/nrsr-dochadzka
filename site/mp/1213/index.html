@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="sk">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>NRSR Attendance — Poslanec</title>
+    <link rel="stylesheet" href="../../assets/base.css" />
+    <link rel="stylesheet" href="../../assets/theme-a.css" />
+  </head>
+  <body data-mp-id="1213">
+    <header class="container">
+      <div class="topbar">
+        <h1>NRSR attendance</h1>
+        <nav class="nav">
+          <a href="../../">Späť</a>
+        </nav>
+      </div>
+      <div class="note" id="subtitle">Profil poslanca</div>
+
+      <div class="hero hero-home">
+        <div class="controls">
+          <label for="termSelect">Volebné obdobie</label>
+          <select id="termSelect" disabled></select>
+          <label for="windowSelect">Obdobie</label>
+          <select id="windowSelect" disabled>
+            <option value="full">Celé obdobie</option>
+            <option value="180d" selected>Posledných 180 dní</option>
+          </select>
+          <label for="absenceSelect">Absencia</label>
+          <select id="absenceSelect" disabled>
+            <option value="abs0n" selected>0 + N</option>
+            <option value="abs0">iba 0</option>
+          </select>
+          <div class="meta" id="meta"></div>
+        </div>
+        <div class="kpis" id="kpis"></div>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="panel-a">
+        <div class="panel-head">
+          <h2 id="mpTitle">Poslanec</h2>
+          <div class="hint" id="mpHint"></div>
+        </div>
+        <div class="profile" id="profile"></div>
+      </section>
+
+      <div class="home-grid" style="margin-top: 14px">
+        <section class="panel-a">
+          <div class="panel-head">
+            <h2>Kluby (podľa hlasovaní)</h2>
+            <div class="hint">Rozpad účasti podľa klubu</div>
+          </div>
+          <div class="profile" id="clubs"></div>
+        </section>
+
+        <section class="panel-a">
+          <div class="panel-head">
+            <h2>Posledné hlasovania</h2>
+            <div class="hint">Najnovšie v dátach</div>
+          </div>
+          <div class="profile" id="recent"></div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="container footer">
+      <span>Data: nrsr.sk</span>
+    </footer>
+
+    <script src="../../assets/mp.js" type="module"></script>
+  </body>
+</html>

@@ -225,8 +225,7 @@ function overviewPath(termId, windowKey, absenceKey) {
 }
 
 function mpProfileUrl({ mpId, termId, windowKey, absenceKey }) {
-  const url = new URL("mp/", window.location.href);
-  url.searchParams.set("mp", String(mpId));
+  const url = new URL(`mp/${mpId}/`, window.location.href);
   url.searchParams.set("term", String(termId));
   url.searchParams.set("window", windowKey === "180d" ? "180d" : "full");
   url.searchParams.set("absence", absenceKey === "abs0" ? "abs0" : "abs0n");

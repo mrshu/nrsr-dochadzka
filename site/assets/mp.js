@@ -27,6 +27,13 @@ function setParam(name, value) {
   window.history.replaceState(null, "", url.toString());
 }
 
+function mpIdFromPath() {
+  const path = window.location.pathname.replace(/\\/+/g, "/");
+  const match = path.match(/\\/mp\\/(\\d+)\\/?$/);
+  if (!match) return null;
+  return Number(match[1]);
+}
+
 function statCards(summary) {
   const cards = [
     { label: "Účasť", value: formatPct(summary.participation_rate) },
@@ -127,7 +134,9 @@ async function main() {
   const absenceSelect = $("absenceSelect");
   const subtitle = $("subtitle");
 
-  const mpId = Number(getParam("mp"));
+  const bodyMp = Number(document.body?.dataset?.mpId || "");
+  const pathMp = mpIdFromPath();
+  const mpId = Number.isFinite(bodyMp) && bodyMp > 0 ? bodyMp : Number(getParam("mp") || pathMp);
   if (!Number.isFinite(mpId)) {
     subtitle.textContent = "Chýba parameter mp";
     setMeta("Error: missing ?mp=<id>");
@@ -202,6 +211,15 @@ async function main() {
     setMeta(
       `Updated: ${manifest.last_updated_utc ?? "?"} • ${label} • ${a.kind === "abs0" ? "Absence: 0" : "Absence: 0+N"}`,
     );
+
+    const canonical = `${window.location.origin}${window.location.pathname}`.replace(/\\/index\\.html$/, "/");
+    let link = document.querySelector("link[rel='canonical']");
+    if (!link) {
+      link = document.createElement("link");
+      link.setAttribute("rel", "canonical");
+      document.head.appendChild(link);
+    }
+    link.setAttribute("href", canonical);
   }
 
   await refresh();
@@ -215,4 +233,3 @@ main().catch((err) => {
   console.error(err);
   setMeta(`Error: ${err.message ?? String(err)}`);
 });
-
