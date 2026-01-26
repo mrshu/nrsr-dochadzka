@@ -252,7 +252,7 @@ async function main() {
 
   let overview = null;
   let selectedClubKey = "";
-  let windowKey = "full";
+  let windowKey = "180d";
   let absenceKey = "abs0n";
 
   function refreshLists() {
