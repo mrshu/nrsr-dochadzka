@@ -10,6 +10,8 @@ from pathlib import Path
 
 import polars as pl
 
+from .club_colors import club_colors_for_term
+
 _RESERVED_CLUB_KEYS = {
     "(no_club)": "no-club",
     "(unknown)": "unknown",
@@ -215,6 +217,12 @@ def build_site_data(
         )
         club_labels = [row.get("club") for row in full_term_clubs]
         club_key_map = build_club_keys([c for c in club_labels if isinstance(c, str)])
+        club_color_map = club_colors_for_term(term_id)
+
+        def resolve_club_color(club: object) -> str | None:
+            if not isinstance(club, str):
+                return None
+            return club_color_map.get(club)
 
         def attach_clubs(
             rows: list[dict[str, object]],
@@ -250,6 +258,7 @@ def build_site_data(
                 # For leaderboards/filtering, use the club "as of now" (latest known vote).
                 mp["club"] = current_club
                 mp["club_key"] = mp["current_club_key"]
+                mp["club_color"] = resolve_club_color(mp["club"])
                 out.append(mp)
             return out
 
@@ -276,11 +285,19 @@ def build_site_data(
                 .sort(["participation_rate", "club"], descending=[True, False])
                 .to_dicts()
             )
+            for row in clubs:
+                row["club_color"] = resolve_club_color(row.get("club"))
             return clubs
 
         full_club_rows: list[dict[str, object]] = []
         for label in sorted({c for c in club_labels if isinstance(c, str)}):
-            full_club_rows.append({"club": label, "club_key": club_key_map.get(label, slugify(label))})
+            full_club_rows.append(
+                {
+                    "club": label,
+                    "club_key": club_key_map.get(label, slugify(label)),
+                    "club_color": resolve_club_color(label),
+                }
+            )
 
         def fill_missing_clubs(clubs_rows: list[dict[str, object]]) -> list[dict[str, object]]:
             seen = {r.get("club_key") for r in clubs_rows}
@@ -294,6 +311,7 @@ def build_site_data(
                         "term_id": term_id,
                         "club": base.get("club"),
                         "club_key": key,
+                        "club_color": base.get("club_color"),
                         "total_votes": 0,
                         "present_count": 0,
                         "absent_count": 0,
@@ -472,6 +490,7 @@ def build_site_data(
                 mp_votes_df=term_mp_votes_df,
                 invalid_club_vote_ids=invalid_club_vote_ids,
                 votes_df=term_votes_df,
+                club_color_map=club_color_map,
                 recent_votes_per_mp=recent_votes_per_mp,
             )
             _write_mp_pages(
@@ -481,6 +500,7 @@ def build_site_data(
                 mp_votes_df=term_mp_votes_df,
                 invalid_club_vote_ids=invalid_club_vote_ids,
                 votes_df=term_votes_df,
+                club_color_map=club_color_map,
                 recent_votes_per_mp=recent_votes_per_mp,
             )
             invalid_window_votes = _invalid_club_vote_ids(window_mp_votes_df)
@@ -491,6 +511,7 @@ def build_site_data(
                 mp_votes_df=window_mp_votes_df,
                 invalid_club_vote_ids=invalid_window_votes,
                 votes_df=term_votes_df,
+                club_color_map=club_color_map,
                 recent_votes_per_mp=recent_votes_per_mp,
             )
             _write_mp_pages(
@@ -500,6 +521,7 @@ def build_site_data(
                 mp_votes_df=window_mp_votes_df,
                 invalid_club_vote_ids=invalid_window_votes,
                 votes_df=term_votes_df,
+                club_color_map=club_color_map,
                 recent_votes_per_mp=recent_votes_per_mp,
             )
             # Back-compat default.
@@ -510,6 +532,7 @@ def build_site_data(
                 mp_votes_df=term_mp_votes_df,
                 invalid_club_vote_ids=invalid_club_vote_ids,
                 votes_df=term_votes_df,
+                club_color_map=club_color_map,
                 recent_votes_per_mp=recent_votes_per_mp,
             )
 
@@ -520,6 +543,7 @@ def build_site_data(
                 votes_df=term_votes_df,
                 mp_votes_df=term_mp_votes_df,
                 invalid_club_vote_ids=invalid_club_vote_ids,
+                club_color_map=club_color_map,
             )
 
 
@@ -557,6 +581,7 @@ def _write_mp_pages(
     mp_votes_df: pl.DataFrame,
     invalid_club_vote_ids: set[int],
     votes_df: pl.DataFrame,
+    club_color_map: dict[str, str],
     recent_votes_per_mp: int,
 ) -> None:
     votes_lookup = votes_df.select(
@@ -589,6 +614,10 @@ def _write_mp_pages(
             .sort(["participation_rate", "club"], descending=[True, False])
             .to_dicts()
         )
+        for row in clubs:
+            club_name = row.get("club")
+            if isinstance(club_name, str):
+                row["club_color"] = club_color_map.get(club_name)
 
         recent = (
             mp_rows.select(["vote_id", "vote_code"])
@@ -616,6 +645,7 @@ def _write_vote_pages(
     votes_df: pl.DataFrame,
     mp_votes_df: pl.DataFrame,
     invalid_club_vote_ids: set[int],
+    club_color_map: dict[str, str],
 ) -> None:
     votes_lookup: dict[int, dict[str, object]] = {}
     for row in votes_df.to_dicts():
@@ -645,6 +675,10 @@ def _write_vote_pages(
                 .sort(["presence_rate", "club"], descending=[True, False])
                 .to_dicts()
             )
+            for row in clubs:
+                club_name = row.get("club")
+                if isinstance(club_name, str):
+                    row["club_color"] = club_color_map.get(club_name)
 
         payload = {
             "term_id": term_id,
