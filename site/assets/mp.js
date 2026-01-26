@@ -28,8 +28,8 @@ function setParam(name, value) {
 }
 
 function mpIdFromPath() {
-  const path = window.location.pathname.replace(/\\/+/g, "/");
-  const match = path.match(/\\/mp\\/(\\d+)\\/?$/);
+  const path = window.location.pathname.replace(/\/+/g, "/");
+  const match = path.match(/\/mp\/(\d+)\/?$/);
   if (!match) return null;
   return Number(match[1]);
 }
