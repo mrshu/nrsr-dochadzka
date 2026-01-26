@@ -38,16 +38,90 @@ header h1 {
   border: 1px solid rgba(255, 255, 255, 0.14);
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
   border-radius: 16px;
-  padding: 16px;
+  padding: 14px;
   box-shadow:
     0 0 0 1px rgba(122, 162, 255, 0.06),
     0 18px 60px rgba(0, 0, 0, 0.35);
 }
 
 .controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  align-items: center;
   background: transparent;
   border: 0;
   padding: 0;
+}
+
+.controls label {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.controls .meta {
+  flex: 1 1 100%;
+  margin-top: 4px;
+  font-size: 12px;
+  color: rgba(238, 242, 255, 0.65);
+}
+
+.hero-mp {
+  padding: 20px;
+}
+
+.hero-top {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 16px;
+  align-items: center;
+}
+
+.hero-title {
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.hero-sub {
+  margin-top: 6px;
+  font-size: 13px;
+  color: rgba(238, 242, 255, 0.7);
+}
+
+.hero-actions {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(160px, 1fr));
+  gap: 8px;
+}
+
+.hero-actions .control {
+  display: grid;
+  gap: 6px;
+}
+
+.hero-actions label {
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(238, 242, 255, 0.6);
+}
+
+.hero-actions select {
+  min-width: 0;
+}
+
+.hero-mp .meta {
+  margin-top: 12px;
+  font-size: 12px;
+  color: rgba(238, 242, 255, 0.6);
+}
+
+.hero-mp .kpis {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 12px;
 }
 
 .cards {
@@ -116,16 +190,16 @@ tbody tr:hover td {
 /* New layout for Option A */
 .hero-home .kpis {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 10px;
-  margin-top: 12px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 10px;
 }
 
 .kpi {
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 14px;
   background: rgba(18, 26, 51, 0.45);
-  padding: 12px 14px;
+  padding: 10px 12px;
 }
 
 .kpi-label {
@@ -134,8 +208,8 @@ tbody tr:hover td {
 }
 
 .kpi-value {
-  margin-top: 6px;
-  font-size: 22px;
+  margin-top: 4px;
+  font-size: 20px;
   font-variant-numeric: tabular-nums;
 }
 
@@ -474,6 +548,16 @@ tbody tr:hover td {
   .hero-home .kpis {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+  .hero-mp .kpis {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .hero-top {
+    grid-template-columns: 1fr;
+  }
+  .hero-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+  }
   .club-grid-a {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -491,6 +575,11 @@ tbody tr:hover td {
   grid-template-columns: 1fr 1fr;
   gap: 14px;
   align-items: start;
+}
+
+.mp-stack {
+  display: grid;
+  gap: 14px;
 }
 
 .rank-list {
@@ -516,14 +605,7 @@ tbody tr:hover td {
 }
 
 .rank-row::after {
-  content: "↗";
-  justify-self: end;
-  color: rgba(238, 242, 255, 0.55);
-  font-size: 12px;
-}
-
-.rank-row:hover::after {
-  color: rgba(238, 242, 255, 0.85);
+  content: "";
 }
 
 .rank-row:hover {
@@ -726,7 +808,7 @@ tbody tr:hover td {
 
 .modal-cards {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 10px;
 }
 
@@ -770,9 +852,7 @@ tbody tr:hover td {
 
 .club-mini {
   display: grid;
-  grid-template-columns: 1fr 1fr 64px;
-  gap: 10px;
-  align-items: center;
+  gap: 6px;
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.12);
   background: rgba(255, 255, 255, 0.04);
@@ -782,6 +862,19 @@ tbody tr:hover td {
 .club-mini-name {
   font-size: 12px;
   color: rgba(238, 242, 255, 0.82);
+}
+
+.club-mini-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 2px;
+}
+
+.club-mini-count {
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  color: rgba(238, 242, 255, 0.55);
 }
 
 .club-mini-bar {
@@ -800,7 +893,6 @@ tbody tr:hover td {
 }
 
 .club-mini-rate {
-  text-align: right;
   font-size: 12px;
   font-variant-numeric: tabular-nums;
   color: rgba(238, 242, 255, 0.72);
@@ -868,8 +960,7 @@ tbody tr:hover td {
 }
 
 .profile-link::after {
-  content: "↗";
-  opacity: 0.8;
+  content: "";
 }
 
 @media (max-width: 980px) {
