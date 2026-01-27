@@ -1031,8 +1031,15 @@ tbody tr:hover td {
 
 .recent-mini-row .d {
   font-variant-numeric: tabular-nums;
-  font-size: 12px;
-  color: rgba(238, 242, 255, 0.65);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  padding: 2px 8px;
+  border-radius: 999px;
+  width: fit-content;
 }
 
 .recent-mini-row .t {
