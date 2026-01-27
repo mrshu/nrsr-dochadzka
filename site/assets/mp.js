@@ -121,6 +121,25 @@ function renderKpis(summary) {
   el.innerHTML = statCards(summary);
 }
 
+function photoUrl(mpId) {
+  if (!Number.isFinite(mpId)) return "";
+  return `https://www.nrsr.sk/web/dynamic/PoslanecPhoto.aspx?PoslanecID=${mpId}&ImageWidth=160`;
+}
+
+function renderPhoto(mpId, mpName) {
+  const img = document.getElementById("mpPhoto");
+  if (!img) return;
+  const src = photoUrl(mpId);
+  if (!src) {
+    img.removeAttribute("src");
+    return;
+  }
+  img.src = src;
+  img.alt = mpName ? String(mpName) : "Poslanec";
+  img.loading = "lazy";
+  img.referrerPolicy = "no-referrer";
+}
+
 function renderProfile(summary, mpRow) {
   const el = document.getElementById("profile");
   if (!el) return;
@@ -272,6 +291,7 @@ async function main() {
     if (mpTitle) mpTitle.textContent = mpRow.mp_name ?? `MP ${mpId}`;
     const mpHint = document.getElementById("mpHint");
     if (mpHint) mpHint.textContent = `MP ID: ${mpId}`;
+    renderPhoto(mpId, mpRow.mp_name ?? "");
     const heroTitle = document.getElementById("mpHeroTitle");
     if (heroTitle) heroTitle.textContent = mpRow.mp_name ?? `MP ${mpId}`;
     const heroSub = document.getElementById("mpHeroSub");

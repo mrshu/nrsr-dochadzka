@@ -171,6 +171,8 @@ header h1 {
   margin-top: 4px;
   font-size: 12px;
   color: rgba(238, 242, 255, 0.65);
+  text-align: right;
+  order: 10;
 }
 
 .hero-mp {
@@ -657,6 +659,13 @@ tbody tr:hover td {
   }
   .hero-mp .kpis {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .mp-hero {
+    grid-template-columns: 1fr;
+  }
+  .mp-photo {
+    width: 96px;
+    height: 120px;
   }
   .hero-top {
     grid-template-columns: 1fr;
@@ -1157,6 +1166,35 @@ body {
   background: var(--panel);
   border: 1px solid var(--border);
   box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+}
+
+.mp-hero {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 18px;
+  align-items: start;
+}
+
+.mp-photo {
+  width: 120px;
+  height: 150px;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: #f1f5f9;
+  display: grid;
+  place-items: center;
+}
+
+.mp-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.mp-hero-body {
+  min-width: 0;
 }
 
 .modal-cards .mcard,
