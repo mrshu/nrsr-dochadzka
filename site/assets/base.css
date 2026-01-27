@@ -1152,13 +1152,15 @@ body {
 .club-bar-row,
 .mp-row,
 .modal-cards .mcard,
+.mcard,
 .card {
   background: var(--panel);
   border: 1px solid var(--border);
   box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
 }
 
-.modal-cards .mcard {
+.modal-cards .mcard,
+.mcard {
   background: #f8fafc;
 }
 
