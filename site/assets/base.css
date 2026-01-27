@@ -1183,6 +1183,14 @@ header h1,
   color: var(--muted);
 }
 
+.score .pct,
+.club-right,
+.kpi-value,
+.rank,
+.who .name {
+  color: var(--text);
+}
+
 a,
 a * {
   color: var(--text);
