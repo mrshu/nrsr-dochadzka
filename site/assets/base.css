@@ -1222,6 +1222,10 @@ header h1,
   color: #1e293b;
 }
 
+.meta {
+  color: var(--text);
+}
+
 a,
 a * {
   color: var(--text);
