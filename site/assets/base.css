@@ -1202,6 +1202,19 @@ header h1,
   color: var(--text);
 }
 
+.recent-mini-row .c {
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  justify-self: end;
+  align-self: center;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #eef2f7;
+  border: 1px solid #e2e8f0;
+  color: #1e293b;
+}
+
 a,
 a * {
   color: var(--text);
