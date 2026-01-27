@@ -15,34 +15,41 @@
         </nav>
       </div>
       <div class="hero hero-mp">
-        <div class="hero-top">
-          <div class="hero-title-wrap">
-            <div class="hero-title" id="mpHeroTitle">Poslanec</div>
-            <div class="hero-sub" id="mpHeroSub"></div>
+        <div class="mp-hero">
+          <div class="mp-photo">
+            <img id="mpPhoto" alt="" />
           </div>
-          <div class="hero-actions">
-            <div class="control">
-              <label for="termSelect">Volebné obdobie</label>
-              <select id="termSelect" disabled></select>
+          <div class="mp-hero-body">
+            <div class="hero-top">
+              <div class="hero-title-wrap">
+                <div class="hero-title" id="mpHeroTitle">Poslanec</div>
+                <div class="hero-sub" id="mpHeroSub"></div>
+              </div>
+              <div class="hero-actions">
+                <div class="control">
+                  <label for="termSelect">Volebné obdobie</label>
+                  <select id="termSelect" disabled></select>
+                </div>
+                <div class="control">
+                  <label for="windowSelect">Obdobie</label>
+                  <select id="windowSelect" disabled>
+                    <option value="full">Celé obdobie</option>
+                    <option value="180d" selected>Posledných 180 dní</option>
+                  </select>
+                </div>
+                <div class="control">
+                  <label for="absenceSelect">Absencia</label>
+                  <select id="absenceSelect" disabled>
+                    <option value="abs0n" selected>0 + N</option>
+                    <option value="abs0">iba 0</option>
+                  </select>
+                </div>
+              </div>
             </div>
-            <div class="control">
-              <label for="windowSelect">Obdobie</label>
-              <select id="windowSelect" disabled>
-                <option value="full">Celé obdobie</option>
-                <option value="180d" selected>Posledných 180 dní</option>
-              </select>
-            </div>
-            <div class="control">
-              <label for="absenceSelect">Absencia</label>
-              <select id="absenceSelect" disabled>
-                <option value="abs0n" selected>0 + N</option>
-                <option value="abs0">iba 0</option>
-              </select>
-            </div>
+            <div class="kpis" id="kpis"></div>
+            <div class="meta" id="meta"></div>
           </div>
         </div>
-        <div class="meta" id="meta"></div>
-        <div class="kpis" id="kpis"></div>
       </div>
     </header>
 
