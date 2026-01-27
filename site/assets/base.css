@@ -1167,6 +1167,35 @@ body {
   border-bottom: 1px solid var(--border);
 }
 
+.section {
+  background: var(--panel);
+  border: 1px solid var(--border);
+}
+
+.section h2,
+.controls .meta,
+.hero-sub,
+.hero-actions label,
+.hero-mp .meta,
+.mp-rate,
+.mp-sub,
+.detail-sub,
+.gauge-label,
+.stat-k,
+thead th {
+  color: var(--muted);
+}
+
+.mp-bar,
+.stat {
+  background: #f8fafc;
+  border: 1px solid var(--border);
+}
+
+.mp-bar {
+  background: #eef2f7;
+}
+
 header h1,
 .hero-title,
 .rank-row .name,
