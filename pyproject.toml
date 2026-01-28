@@ -1,5 +1,5 @@
 [project]
-name = "nrsr-attendance"
+name = "nrsr-dochadzka"
 version = "0.1.0"
 description = "Track Slovak parliament (NRSR) attendance/activity via Scrapy + GitHub Actions + GitHub Pages."
 readme = "README.md"

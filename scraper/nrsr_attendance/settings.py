@@ -5,7 +5,7 @@ NEWSPIDER_MODULE = "nrsr_attendance.spiders"
 
 ROBOTSTXT_OBEY = True
 
-USER_AGENT = "nrsr-attendance (+https://github.com/)"
+USER_AGENT = "nrsr-dochadzka (+https://github.com/mrshu/nrsr-dochadzka)"
 
 DOWNLOAD_DELAY = 0.5
 

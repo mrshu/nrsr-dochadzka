@@ -1,4 +1,4 @@
-# nrsr-attendance
+# nrsr-dochadzka
 
 Minimal Python/Scrapy pipeline to track Slovak parliament (NRSR) attendance/activity:
 
