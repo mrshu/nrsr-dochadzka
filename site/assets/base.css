@@ -42,6 +42,16 @@ button {
   justify-content: space-between;
 }
 
+.brand {
+  display: grid;
+  gap: 4px;
+}
+
+.tagline {
+  font-size: 13px;
+  color: var(--muted);
+}
+
 .nav {
   display: flex;
   gap: 8px;
