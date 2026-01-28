@@ -12,36 +12,23 @@
         <h1>NRSR attendance</h1>
       </div>
       <div class="hero hero-home">
-        <div class="controls controls-grid">
-          <div class="control">
-            <label for="termSelect">Volebné obdobie</label>
-            <select id="termSelect" disabled></select>
-          </div>
-          <div class="control">
-            <label for="windowSelect">Obdobie</label>
-            <select id="windowSelect" disabled>
-              <option value="full">Celé obdobie</option>
-              <option value="180d" selected>Posledných 180 dní</option>
-            </select>
-          </div>
-          <div class="control">
-            <label for="absenceSelect">Absencia</label>
-            <select id="absenceSelect" disabled>
-              <option value="abs0n" selected>0 + N</option>
-              <option value="abs0">iba 0</option>
-            </select>
-          </div>
-          <div class="control">
-            <label for="clubSelect">Klub</label>
-            <select id="clubSelect" disabled></select>
-          </div>
-          <div class="control control-search">
-            <label for="searchInput">Hľadať poslanca</label>
-            <input id="searchInput" type="search" placeholder="meno…" />
-          </div>
+        <div class="controls controls-inline">
+          <select id="termSelect" disabled aria-label="Volebné obdobie"></select>
+          <select id="windowSelect" disabled aria-label="Obdobie">
+            <option value="full">Celé obdobie</option>
+            <option value="180d" selected>Posledných 180 dní</option>
+          </select>
+          <select id="absenceSelect" disabled aria-label="Absencia">
+            <option value="abs0n" selected>Absencia: 0 + N</option>
+            <option value="abs0">Absencia: iba 0</option>
+          </select>
+          <select id="clubSelect" disabled aria-label="Klub"></select>
+          <input id="searchInput" type="search" placeholder="Hľadať poslanca…" />
         </div>
-        <div class="kpis" id="kpis"></div>
-        <div class="meta" id="meta"></div>
+        <div class="hero-footer">
+          <div class="kpis" id="kpis"></div>
+          <div class="meta" id="meta"></div>
+        </div>
       </div>
     </header>
 
