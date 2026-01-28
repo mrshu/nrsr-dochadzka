@@ -15,12 +15,13 @@
         </div>
       </div>
       <div class="hero hero-home">
-        <div class="hero-surface">
+        <div class="hero-block">
+          <div class="hero-label">Hľadať poslanca</div>
+          <input id="searchInput" type="search" placeholder="Meno poslanca…" />
+        </div>
+        <div class="hero-block">
+          <div class="hero-label">Filtre</div>
           <div class="controls controls-grid">
-            <div class="control control-search">
-              <label for="searchInput">Hľadať poslanca</label>
-              <input id="searchInput" type="search" placeholder="Meno poslanca…" />
-            </div>
             <div class="control">
               <label for="termSelect">Volebné obdobie</label>
               <select id="termSelect" disabled></select>
@@ -44,9 +45,12 @@
               <select id="clubSelect" disabled></select>
             </div>
           </div>
+        </div>
+        <div class="hero-block">
+          <div class="hero-label">Prehľad</div>
+          <div class="kpis" id="kpis"></div>
           <div class="meta" id="meta"></div>
         </div>
-        <div class="kpis" id="kpis"></div>
       </div>
     </header>
 
