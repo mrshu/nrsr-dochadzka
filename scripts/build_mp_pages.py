@@ -18,10 +18,10 @@ TEMPLATE = """<!doctype html>
   <body data-mp-id="{mp_id}">
     <header class="container">
       <div class="topbar">
-        <h1>NRSR attendance</h1>
-        <nav class="nav">
-          <a href="../../">Späť</a>
-        </nav>
+        <div class="brand">
+          <h1><a href="../../">NRSR Dochádzka</a></h1>
+          <div class="tagline">Kto hlasuje, kto chýba — a ako často.</div>
+        </div>
       </div>
       <div class="hero hero-mp">
         <div class="mp-hero">

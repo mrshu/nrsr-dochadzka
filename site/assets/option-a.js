@@ -106,8 +106,8 @@ function renderKpis(overview, mps) {
     { label: "Hlasovania", value: formatInt(totalVotes) },
     { label: "Medián účasti", value: p50 === null ? "—" : formatPct(p50) },
     { label: "Priemer účasti", value: avg === null ? "—" : formatPct(avg) },
-    { label: "Najlepšia", value: best === null ? "—" : formatPct(best) },
-    { label: "Najhoršia", value: worst === null ? "—" : formatPct(worst) },
+    { label: "Najlepšia účasť", value: best === null ? "—" : formatPct(best) },
+    { label: "Najhoršia účasť", value: worst === null ? "—" : formatPct(worst) },
   ];
   kpis.innerHTML = "";
   for (const it of items) {
