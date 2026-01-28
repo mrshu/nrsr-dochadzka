@@ -71,6 +71,22 @@ function clubStyle({ hue, color }) {
   return `--h:${hue};${color ? `--club-color:${color};` : ""}`;
 }
 
+// URL state management
+function getParam(name) {
+  const url = new URL(window.location.href);
+  return url.searchParams.get(name);
+}
+
+function setParam(name, value) {
+  const url = new URL(window.location.href);
+  if (value === null || value === undefined || value === "") {
+    url.searchParams.delete(name);
+  } else {
+    url.searchParams.set(name, String(value));
+  }
+  window.history.replaceState(null, "", url.toString());
+}
+
 function renderKpis(overview, mps) {
   const kpis = $("kpis");
   const rates = mps
@@ -153,6 +169,26 @@ function renderClubBars({ clubs, selectedClubKey, onPick, hueMap, colorMap }) {
   el.querySelectorAll("button.club-bar-row").forEach((btn) => {
     btn.addEventListener("click", () => onPick(btn.dataset.club));
   });
+}
+
+function renderSelectedClubBanner({ club, onClear, hueMap, colorMap }) {
+  const el = $("selectedClubBanner");
+  if (!club) {
+    el.innerHTML = "";
+    el.style.display = "none";
+    return;
+  }
+  const key = club.club_key ?? "unknown";
+  const hue = hueForClub(hueMap, key);
+  const color = clubColorFor(colorMap, key, club);
+  const style = clubStyle({ hue, color });
+  el.style.display = "flex";
+  el.innerHTML = `
+    <span class="banner-label">Filtrované podľa klubu:</span>
+    <span class="badge" style="${style}">${escapeHtml(club.club ?? key)}</span>
+    <button class="banner-clear" type="button">Zrušiť filter</button>
+  `;
+  el.querySelector(".banner-clear").addEventListener("click", onClear);
 }
 
 function rankRows(mps, { clubKey, query }) {
@@ -310,6 +346,12 @@ async function main() {
   const terms = manifest.terms ?? [];
   const defaultTermId = manifest.default_term_id ?? terms[0];
 
+  // Read initial state from URL
+  let termId = Number(getParam("term")) || defaultTermId;
+  let windowKey = getParam("window") || "180d";
+  let absenceKey = getParam("absence") || "abs0n";
+  let selectedClubKey = getParam("club") || "";
+
   termSelect.innerHTML = "";
   for (const t of terms) {
     const opt = document.createElement("option");
@@ -317,6 +359,9 @@ async function main() {
     opt.textContent = String(t);
     termSelect.appendChild(opt);
   }
+  termSelect.value = String(termId);
+  windowSelect.value = windowKey;
+  absenceSelect.value = absenceKey;
   termSelect.disabled = false;
   windowSelect.disabled = false;
   absenceSelect.disabled = false;
@@ -325,9 +370,18 @@ async function main() {
   let overview = null;
   let clubHueMap = null;
   let clubColorMap = null;
-  let selectedClubKey = "";
-  let windowKey = "180d";
-  let absenceKey = "abs0n";
+
+  function updateUrl() {
+    setParam("term", termId);
+    setParam("window", windowKey);
+    setParam("absence", absenceKey);
+    setParam("club", selectedClubKey || null);
+  }
+
+  function getSelectedClub() {
+    if (!selectedClubKey) return null;
+    return (overview?.clubs ?? []).find((c) => c.club_key === selectedClubKey) ?? null;
+  }
 
   function refreshLists() {
     const filtered = rankRows(overview?.mps ?? [], {
@@ -344,7 +398,6 @@ async function main() {
       .slice(0, 10);
 
     renderKpis(overview, filtered);
-    const termId = Number(termSelect.value);
     const hrefFor = (mp) =>
       mpProfileUrl({ mpId: mp.mp_id, mpName: mp.mp_name, termId, windowKey, absenceKey });
     renderRankList({
@@ -376,8 +429,27 @@ async function main() {
     clubSelect.value = selectedClubKey;
   }
 
+  function handleClubPick(clubKey) {
+    selectedClubKey = selectedClubKey === clubKey ? "" : clubKey;
+    clubSelect.value = selectedClubKey;
+    updateUrl();
+    renderClubBars({
+      clubs: overview?.clubs ?? [],
+      selectedClubKey,
+      onPick: handleClubPick,
+      hueMap: clubHueMap,
+      colorMap: clubColorMap,
+    });
+    renderSelectedClubBanner({
+      club: getSelectedClub(),
+      onClear: () => handleClubPick(selectedClubKey),
+      hueMap: clubHueMap,
+      colorMap: clubColorMap,
+    });
+    refreshLists();
+  }
+
   async function openMp(mpId) {
-    const termId = Number(termSelect.value);
     const mp = (overview?.mps ?? []).find((m) => m.mp_id === mpId) ?? null;
     let payload = null;
     try {
@@ -399,32 +471,33 @@ async function main() {
     if (e.target === dialog) closeDialog();
   });
 
-  async function refresh(termId) {
+  async function refresh() {
     overview = await fetchJson(overviewPath(termId, windowKey, absenceKey));
     clubHueMap = buildClubHueMap(overview?.clubs ?? []);
     clubColorMap = buildClubColorMap(overview?.clubs ?? []);
-    selectedClubKey = "";
+
+    // Validate selectedClubKey exists in current data
+    const validClubKeys = new Set((overview?.clubs ?? []).map((c) => c.club_key));
+    if (selectedClubKey && !validClubKeys.has(selectedClubKey)) {
+      selectedClubKey = "";
+    }
+
     refreshClubSelect();
-    const handlePick = (clubKey) => {
-      selectedClubKey = selectedClubKey === clubKey ? "" : clubKey;
-      clubSelect.value = selectedClubKey;
-      renderClubBars({
-        clubs: overview.clubs ?? [],
-        selectedClubKey,
-        onPick: handlePick,
-        hueMap: clubHueMap,
-        colorMap: clubColorMap,
-      });
-      refreshLists();
-    };
     renderClubBars({
-      clubs: overview.clubs ?? [],
+      clubs: overview?.clubs ?? [],
       selectedClubKey,
-      onPick: handlePick,
+      onPick: handleClubPick,
+      hueMap: clubHueMap,
+      colorMap: clubColorMap,
+    });
+    renderSelectedClubBanner({
+      club: getSelectedClub(),
+      onClear: () => handleClubPick(selectedClubKey),
       hueMap: clubHueMap,
       colorMap: clubColorMap,
     });
     refreshLists();
+    updateUrl();
 
     const w = overview?.window ?? {};
     const a = overview?.absence ?? {};
@@ -441,45 +514,40 @@ async function main() {
     setMeta(`Updated: ${manifest.last_updated_utc ?? "?"} • ${label} • ${absLabel}`);
   }
 
-  termSelect.value = String(defaultTermId);
-  await refresh(defaultTermId);
+  await refresh();
 
   termSelect.addEventListener("change", async () => {
-    await refresh(Number(termSelect.value));
+    termId = Number(termSelect.value);
+    await refresh();
   });
 
   windowSelect.addEventListener("change", async () => {
     windowKey = String(windowSelect.value ?? "full");
-    await refresh(Number(termSelect.value));
+    await refresh();
   });
 
   absenceSelect.addEventListener("change", async () => {
     absenceKey = String(absenceSelect.value ?? "abs0n");
-    await refresh(Number(termSelect.value));
+    await refresh();
   });
 
   clubSelect.addEventListener("change", () => {
     selectedClubKey = String(clubSelect.value ?? "");
-    refreshLists();
-    const handlePick = (clubKey) => {
-      selectedClubKey = selectedClubKey === clubKey ? "" : clubKey;
-      clubSelect.value = selectedClubKey;
-      renderClubBars({
-        clubs: overview?.clubs ?? [],
-        selectedClubKey,
-        onPick: handlePick,
-        hueMap: clubHueMap,
-        colorMap: clubColorMap,
-      });
-      refreshLists();
-    };
+    updateUrl();
     renderClubBars({
       clubs: overview?.clubs ?? [],
       selectedClubKey,
-      onPick: handlePick,
+      onPick: handleClubPick,
       hueMap: clubHueMap,
       colorMap: clubColorMap,
     });
+    renderSelectedClubBanner({
+      club: getSelectedClub(),
+      onClear: () => handleClubPick(selectedClubKey),
+      hueMap: clubHueMap,
+      colorMap: clubColorMap,
+    });
+    refreshLists();
   });
 
   searchInput.addEventListener("input", () => refreshLists());

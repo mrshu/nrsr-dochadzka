@@ -429,6 +429,47 @@ input[type="number"]:focus {
   background: var(--club-color, hsl(var(--h) 50% 45%));
 }
 
+/* Selected club banner */
+.selected-club-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  background: var(--accent-light);
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.selected-club-banner .banner-label {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.selected-club-banner .badge {
+  background: var(--panel);
+  border-color: var(--accent);
+}
+
+.selected-club-banner .banner-clear {
+  margin-left: auto;
+  padding: 6px 12px;
+  background: var(--panel);
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.selected-club-banner .banner-clear:hover {
+  background: var(--accent);
+  color: white;
+}
+
 .score {
   text-align: right;
 }
