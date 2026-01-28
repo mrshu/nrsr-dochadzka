@@ -205,6 +205,65 @@ label {
   color: var(--muted);
 }
 
+.info-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  margin-left: 4px;
+  font-size: 9px;
+  font-weight: 700;
+  font-style: italic;
+  text-transform: none;
+  color: var(--muted);
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  cursor: help;
+  position: relative;
+  vertical-align: middle;
+}
+
+.info-icon:hover {
+  color: var(--text);
+  border-color: var(--text-secondary);
+}
+
+.info-icon:hover::after {
+  content: attr(title);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: 240px;
+  padding: 8px 12px;
+  background: var(--bg-dark);
+  color: white;
+  font-size: 12px;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 1.4;
+  text-transform: none;
+  letter-spacing: normal;
+  border-radius: 6px;
+  box-shadow: var(--shadow-medium);
+  z-index: 100;
+  white-space: normal;
+}
+
+.info-icon:hover::before {
+  content: '';
+  position: absolute;
+  bottom: calc(100% + 2px);
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: var(--bg-dark);
+  z-index: 100;
+}
+
 select,
 input[type="search"],
 input[type="number"] {
