@@ -1290,6 +1290,12 @@ header h1,
   color: var(--text);
 }
 
+.topbar h1 {
+  font-size: 32px;
+  letter-spacing: -0.02em;
+  font-weight: 800;
+}
+
 .panel-head h2,
 .hint,
 .meta,
