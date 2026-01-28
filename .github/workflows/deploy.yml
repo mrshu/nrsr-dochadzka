@@ -2,8 +2,7 @@ name: Deploy
 
 on:
   schedule:
-    # Weekday mornings UTC — parliament is typically active Mon–Fri
-    - cron: "0 6 * * 1-5"
+    - cron: "0 6 * * *"
 
   workflow_dispatch:
     inputs:
