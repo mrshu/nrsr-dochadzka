@@ -38,8 +38,9 @@ button {
 .topbar {
   display: flex;
   gap: 12px;
-  align-items: center;
-  justify-content: space-between;
+  align-items: flex-start;
+  justify-content: flex-start;
+  margin-bottom: 12px;
 }
 
 .brand {
@@ -47,8 +48,15 @@ button {
   gap: 4px;
 }
 
+.brand h1 {
+  margin: 0;
+  line-height: 1.05;
+}
+
 .tagline {
-  font-size: 13px;
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.4;
   color: var(--muted);
 }
 
