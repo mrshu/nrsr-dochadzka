@@ -71,18 +71,25 @@ function clubStyle({ hue, color }) {
   return `--h:${hue};${color ? `--club-color:${color};` : ""}`;
 }
 
-function renderKpis(mps) {
+function renderKpis(overview, mps) {
   const kpis = $("kpis");
   const rates = mps
     .map((m) => safeNumber(m.participation_rate))
     .filter((v) => typeof v === "number")
     .sort((a, b) => a - b);
   const p50 = percentile(rates, 0.5);
+  const avg =
+    rates.length ? rates.reduce((acc, v) => acc + v, 0) / Math.max(1, rates.length) : null;
   const best = rates.length ? rates[rates.length - 1] : null;
   const worst = rates.length ? rates[0] : null;
+  const totalVotes = mps
+    .map((m) => (typeof m.total_votes === "number" ? m.total_votes : null))
+    .filter((v) => v !== null)
+    .reduce((acc, v) => Math.max(acc, v ?? 0), 0);
   const items = [
-    { label: "Poslanci", value: formatInt(mps.length) },
+    { label: "Hlasovania", value: formatInt(totalVotes) },
     { label: "Medián účasti", value: p50 === null ? "—" : formatPct(p50) },
+    { label: "Priemer účasti", value: avg === null ? "—" : formatPct(avg) },
     { label: "Najlepšia", value: best === null ? "—" : formatPct(best) },
     { label: "Najhoršia", value: worst === null ? "—" : formatPct(worst) },
   ];
@@ -336,7 +343,7 @@ async function main() {
       .sort((a, b) => (a.participation_rate ?? 2) - (b.participation_rate ?? 2))
       .slice(0, 10);
 
-    renderKpis(filtered);
+    renderKpis(overview, filtered);
     const termId = Number(termSelect.value);
     const hrefFor = (mp) =>
       mpProfileUrl({ mpId: mp.mp_id, mpName: mp.mp_name, termId, windowKey, absenceKey });
