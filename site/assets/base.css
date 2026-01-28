@@ -161,9 +161,16 @@ header h1 {
   padding: 0;
 }
 
-.controls-inline {
-  gap: 10px;
-  align-items: center;
+.controls-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  align-items: end;
+}
+
+.control {
+  display: grid;
+  gap: 6px;
 }
 
 .controls label {
@@ -180,15 +187,22 @@ header h1 {
   order: 10;
 }
 
-.hero-home .controls select,
-.hero-home .controls input[type="search"] {
-  min-width: 0;
+.hero-home input[type="search"] {
+  width: 100%;
+  max-width: 520px;
 }
 
-.hero-footer {
+.hero-block {
   display: grid;
   gap: 10px;
-  margin-top: 12px;
+  padding: 4px 0;
+}
+
+.hero-label {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
 }
 
 .hero-home .meta {
@@ -676,12 +690,11 @@ tbody tr:hover td {
   .layout-a {
     grid-template-columns: 1fr;
   }
-  .controls-inline {
-    gap: 8px;
+  .controls-grid {
+    grid-template-columns: 1fr 1fr;
   }
-  .controls-inline select,
-  .controls-inline input[type="search"] {
-    flex: 1 1 180px;
+  .hero-home input[type="search"] {
+    max-width: 100%;
   }
   .hero-home .kpis {
     grid-template-columns: repeat(2, minmax(0, 1fr));
