@@ -1,0 +1,171 @@
+name: Deploy
+
+on:
+  schedule:
+    # Weekday mornings UTC — parliament is typically active Mon–Fri
+    - cron: "0 6 * * 1-5"
+
+  workflow_dispatch:
+    inputs:
+      skip_scrape:
+        description: "Skip the scrape step (just rebuild site from existing data)"
+        type: boolean
+        default: false
+      backfill:
+        description: "Run scrapers in backfill mode (all terms/meetings)"
+        type: boolean
+        default: false
+
+  push:
+    branches: [main]
+    paths:
+      - "site/**"
+      - "scripts/**"
+      - "scraper/**"
+      - ".github/workflows/deploy.yml"
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  # ------------------------------------------------------------------ #
+  # Job 1 – Scrape nrsr.sk (skipped on push or when skip_scrape=true)  #
+  # ------------------------------------------------------------------ #
+  collect:
+    if: >-
+      github.event_name != 'push' &&
+      github.event.inputs.skip_scrape != 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+
+      - name: Restore data from data branch
+        run: |
+          git fetch origin data --depth=1 || true
+          git restore --source=origin/data -- data/ 2>/dev/null || echo "No data branch yet — starting fresh"
+
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v4
+
+      - name: Install dependencies
+        run: uv sync --frozen
+
+      - name: Collect vote index
+        run: |
+          MODE=${{ github.event.inputs.backfill == 'true' && 'backfill' || 'update' }}
+          uv run python scripts/collect_vote_index.py --mode "$MODE"
+
+      - name: Collect vote details
+        run: |
+          MODE=${{ github.event.inputs.backfill == 'true' && 'backfill' || 'update' }}
+          uv run python scripts/collect_vote_details.py --mode "$MODE"
+
+      - name: Push data to data branch
+        run: |
+          WORK=$(mktemp -d)
+          cp -a data/ "$WORK/data"
+          cd "$WORK"
+          git init --initial-branch=data
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/
+          git commit -m "data: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          git remote add origin "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY"
+          git push --force "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" data
+          cd -
+
+      - name: Upload raw data artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: raw-data
+          path: data/raw/
+          retention-days: 1
+
+  # ------------------------------------------------------------------ #
+  # Job 2 – Process data & build static site                           #
+  # ------------------------------------------------------------------ #
+  process-and-build:
+    runs-on: ubuntu-latest
+    needs: collect
+    if: always()
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+
+      - name: Download artifact (collect ran)
+        if: needs.collect.result == 'success'
+        uses: actions/download-artifact@v4
+        with:
+          name: raw-data
+          path: data/raw/
+
+      - name: Restore data from data branch (collect skipped)
+        if: needs.collect.result == 'skipped' || needs.collect.result == 'cancelled'
+        run: |
+          git fetch origin data --depth=1
+          git restore --source=origin/data -- data/
+
+      - name: Fail if no data available
+        if: needs.collect.result == 'failure'
+        run: |
+          echo "::error::Collect job failed — cannot proceed."
+          exit 1
+
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v4
+
+      - name: Install dependencies
+        run: uv sync --frozen
+
+      - name: Process data
+        run: uv run python scripts/process_data.py
+
+      - name: Build site data
+        run: >-
+          uv run python scripts/build_site_data.py
+          --out-dir site/assets/data
+          --include-mp-pages
+          --include-vote-pages
+
+      - name: Build MP pages
+        run: uv run python scripts/build_mp_pages.py
+
+      - name: Push processed data to data branch
+        run: |
+          WORK=$(mktemp -d)
+          cp -a data/ "$WORK/data"
+          cd "$WORK"
+          git init --initial-branch=data
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/
+          git commit -m "data: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          git push --force "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" data
+          cd -
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site/
+
+  # ------------------------------------------------------------------ #
+  # Job 3 – Deploy to GitHub Pages                                     #
+  # ------------------------------------------------------------------ #
+  deploy:
+    runs-on: ubuntu-latest
+    needs: process-and-build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
