@@ -192,6 +192,19 @@ header h1 {
   max-width: 520px;
 }
 
+.hero.hero-home {
+  padding: 18px 20px 16px;
+  border-radius: 18px;
+  background: linear-gradient(180deg, #ffffff 0%, #fbfcff 100%);
+  border: 1px solid #e6edf6;
+}
+
+.hero-block + .hero-block {
+  padding-top: 14px;
+  margin-top: 2px;
+  border-top: 1px dashed #e6edf6;
+}
+
 .hero-block {
   display: grid;
   gap: 10px;
@@ -205,10 +218,48 @@ header h1 {
   color: var(--muted);
 }
 
+.hero-home .controls-grid {
+  gap: 10px 14px;
+}
+
+.hero-home .controls-grid label {
+  font-size: 11px;
+  letter-spacing: 0.04em;
+}
+
+.hero-home .kpis {
+  gap: 10px;
+}
+
+.hero-home .kpi {
+  border-radius: 14px;
+  background: #f9fbff;
+  border: 1px solid #e6edf6;
+}
+
+.hero-home .kpi-value {
+  font-size: 22px;
+}
+
 .hero-home .meta {
   font-size: 12px;
   text-align: right;
   color: var(--muted);
+}
+
+.hero-home input[type="search"],
+.hero-home select {
+  border-radius: 12px;
+  border: 1px solid #d6deea;
+  background: #ffffff;
+  box-shadow: inset 0 1px 0 rgba(15, 23, 42, 0.02);
+}
+
+.hero-home input[type="search"]:focus,
+.hero-home select:focus {
+  outline: none;
+  border-color: #93c5fd;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
 }
 
 .hero-mp {
@@ -1207,7 +1258,9 @@ body {
 .card {
   background: var(--panel);
   border: 1px solid var(--border);
-  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+  box-shadow:
+    0 1px 0 rgba(15, 23, 42, 0.04),
+    0 12px 30px rgba(15, 23, 42, 0.06);
 }
 
 .mp-hero {
