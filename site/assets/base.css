@@ -912,6 +912,36 @@ input[type="number"]:focus {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
+   ABOUT SECTION
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.about { padding-top: 0; }
+
+.about-content {
+  padding: 20px 24px 24px;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--text);
+}
+
+.about-content p { margin: 0 0 14px; }
+
+.about-content h3 {
+  font-family: 'Crimson Pro', serif;
+  font-size: 20px;
+  font-weight: 700;
+  margin: 24px 0 8px;
+  color: var(--bg-dark);
+}
+
+.about-content ul {
+  margin: 0 0 14px;
+  padding-left: 22px;
+}
+
+.about-content li { margin-bottom: 6px; }
+
+/* ═══════════════════════════════════════════════════════════════════════════
    FOOTER
    ═══════════════════════════════════════════════════════════════════════════ */
 
