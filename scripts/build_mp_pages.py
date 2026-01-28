@@ -12,7 +12,7 @@ TEMPLATE = """<!doctype html>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>NRSR Attendance — Poslanec</title>
+    <title>NRSR Dochádzka — Poslanec</title>
     <link rel="stylesheet" href="../../assets/base.css?v=3" />
   </head>
   <body data-mp-id="{mp_id}">

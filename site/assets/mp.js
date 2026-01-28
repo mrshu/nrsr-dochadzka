@@ -235,7 +235,7 @@ async function main() {
   const mpId = Number.isFinite(bodyMp) && bodyMp > 0 ? bodyMp : Number(getParam("mp") || pathMp);
   if (!Number.isFinite(mpId)) {
     if (subtitle) subtitle.textContent = "Chýba parameter mp";
-    setMeta("Error: missing ?mp=<id>");
+    setMeta("Chyba: chýba parameter ?mp=<id>");
     return;
   }
 
@@ -271,7 +271,7 @@ async function main() {
     const mpRow = (overview.mps ?? []).find((m) => m.mp_id === mpId) ?? null;
 
     if (!mpRow) {
-      $("mpTitle").textContent = `MP ${mpId}`;
+      $("mpTitle").textContent = `Poslanec ${mpId}`;
       $("mpHint").textContent = "MP not found in this window (no votes / filtered out).";
       const profile = document.getElementById("profile");
       if (profile) profile.innerHTML = `<div class="empty">No data for this MP in selected window.</div>`;
@@ -280,20 +280,20 @@ async function main() {
       const w = overview?.window ?? {};
       const a = overview?.absence ?? {};
       setMeta(
-        `Updated: ${manifest.last_updated_utc ?? "?"} • ${w.kind === "rolling" ? `last ${w.days}d` : "full"} • ${
-          a.kind === "abs0" ? "abs0" : "abs0n"
+        `Aktualizované: ${manifest.last_updated_utc ?? "?"} • ${w.kind === "rolling" ? `posledných ${w.days} dní` : "celé obdobie"} • ${
+          a.kind === "abs0" ? "Absencia: iba 0" : "Absencia: 0 + N"
         }`,
       );
       return;
     }
 
     const mpTitle = document.getElementById("mpTitle");
-    if (mpTitle) mpTitle.textContent = mpRow.mp_name ?? `MP ${mpId}`;
+    if (mpTitle) mpTitle.textContent = mpRow.mp_name ?? `Poslanec ${mpId}`;
     const mpHint = document.getElementById("mpHint");
     if (mpHint) mpHint.textContent = `MP ID: ${mpId}`;
     renderPhoto(mpId, mpRow.mp_name ?? "");
     const heroTitle = document.getElementById("mpHeroTitle");
-    if (heroTitle) heroTitle.textContent = mpRow.mp_name ?? `MP ${mpId}`;
+    if (heroTitle) heroTitle.textContent = mpRow.mp_name ?? `Poslanec ${mpId}`;
     const heroSub = document.getElementById("mpHeroSub");
     if (heroSub) {
       const clubLabel = mpRow.club ? String(mpRow.club) : "—";
@@ -322,10 +322,10 @@ async function main() {
     const a = overview?.absence ?? {};
     const label =
       w.kind === "rolling"
-        ? `last ${w.days ?? 180}d (${String(w.from_utc ?? "").slice(0, 10)} → ${String(w.to_utc ?? "").slice(0, 10)})`
-        : "full term";
+        ? `posledných ${w.days ?? 180} dní (${String(w.from_utc ?? "").slice(0, 10)} → ${String(w.to_utc ?? "").slice(0, 10)})`
+        : "celé volebné obdobie";
     setMeta(
-      `Updated: ${manifest.last_updated_utc ?? "?"} • ${label} • ${a.kind === "abs0" ? "Absence: 0" : "Absence: 0+N"}`,
+      `Aktualizované: ${manifest.last_updated_utc ?? "?"} • ${label} • ${a.kind === "abs0" ? "Absencia: iba 0" : "Absencia: 0 + N"}`,
     );
 
     const canonical = canonicalMpUrl(mpId, mpRow?.mp_name ?? "");
@@ -347,5 +347,5 @@ async function main() {
 
 main().catch((err) => {
   console.error(err);
-  setMeta(`Error: ${err.message ?? String(err)}`);
+  setMeta(`Chyba: ${err.message ?? String(err)}`);
 });

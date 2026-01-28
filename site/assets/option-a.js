@@ -365,7 +365,7 @@ async function main() {
   termSelect.disabled = false;
   windowSelect.disabled = false;
   absenceSelect.disabled = false;
-  setMeta(`Updated: ${manifest.last_updated_utc ?? "?"}`);
+  setMeta(`Aktualizované: ${manifest.last_updated_utc ?? "?"}`);
 
   let overview = null;
   let clubHueMap = null;
@@ -403,7 +403,7 @@ async function main() {
     renderRankList({
       elId: "topList",
       rows: top,
-      title: "No matching MPs.",
+      title: "Žiadni vyhovujúci poslanci.",
       hrefFor,
       hueMap: clubHueMap,
       colorMap: clubColorMap,
@@ -411,7 +411,7 @@ async function main() {
     renderRankList({
       elId: "bottomList",
       rows: bottom,
-      title: "No matching MPs.",
+      title: "Žiadni vyhovujúci poslanci.",
       hrefFor,
       hueMap: clubHueMap,
       colorMap: clubColorMap,
@@ -503,15 +503,15 @@ async function main() {
     const a = overview?.absence ?? {};
     const label =
       w.kind === "rolling"
-        ? `Window: last ${w.days ?? 180}d (${String(w.from_utc ?? "").slice(0, 10)} → ${String(
+        ? `Obdobie: posledných ${w.days ?? 180} dní (${String(w.from_utc ?? "").slice(0, 10)} → ${String(
             w.to_utc ?? "",
           ).slice(0, 10)})`
-        : "Window: full term";
+        : "Obdobie: celé volebné obdobie";
     const absLabel =
       a.kind === "abs0"
-        ? "Absence: 0 only"
-        : "Absence: 0 + N";
-    setMeta(`Updated: ${manifest.last_updated_utc ?? "?"} • ${label} • ${absLabel}`);
+        ? "Absencia: iba 0"
+        : "Absencia: 0 + N";
+    setMeta(`Aktualizované: ${manifest.last_updated_utc ?? "?"} • ${label} • ${absLabel}`);
   }
 
   await refresh();
@@ -555,5 +555,5 @@ async function main() {
 
 main().catch((err) => {
   console.error(err);
-  setMeta(`Error: ${err.message ?? String(err)}`);
+  setMeta(`Chyba: ${err.message ?? String(err)}`);
 });
