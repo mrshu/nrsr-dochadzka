@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://mrshu.github.io/nrsr-dochadzka/sitemap.xml

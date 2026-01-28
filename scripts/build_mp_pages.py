@@ -12,7 +12,15 @@ TEMPLATE = """<!doctype html>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>NRSR Dochádzka — Poslanec</title>
+    <title>NRSR Dochádzka — {mp_name}</title>
+    <meta name="description" content="Účasť poslanca {mp_name} na hlasovaniach NR SR." />
+    <link rel="canonical" href="https://mrshu.github.io/nrsr-dochadzka/mp/{mp_id}-{slug}/" />
+    <meta property="og:type" content="profile" />
+    <meta property="og:title" content="NRSR Dochádzka — {mp_name}" />
+    <meta property="og:description" content="Účasť poslanca {mp_name} na hlasovaniach NR SR." />
+    <meta property="og:url" content="https://mrshu.github.io/nrsr-dochadzka/mp/{mp_id}-{slug}/" />
+    <meta property="og:locale" content="sk_SK" />
+    <meta name="twitter:card" content="summary" />
     <link rel="stylesheet" href="../../assets/base.css?v=3" />
   </head>
   <body data-mp-id="{mp_id}">
@@ -155,7 +163,10 @@ def main() -> int:
         slug = slugify(mp_name)
         dest = args.out_dir / f"{mp_id}-{slug}" / "index.html"
         dest.parent.mkdir(parents=True, exist_ok=True)
-        dest.write_text(TEMPLATE.format(mp_id=mp_id), encoding="utf-8")
+        dest.write_text(
+            TEMPLATE.format(mp_id=mp_id, mp_name=mp_name, slug=slug),
+            encoding="utf-8",
+        )
 
     return 0
 

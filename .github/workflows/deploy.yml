@@ -137,6 +137,9 @@ jobs:
       - name: Build MP pages
         run: uv run python scripts/build_mp_pages.py
 
+      - name: Build sitemap
+        run: uv run python scripts/build_sitemap.py
+
       - name: Push processed data to data branch
         run: |
           WORK=$(mktemp -d)
