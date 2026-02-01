@@ -1,0 +1,20 @@
+{
+  "cpt_id": 340,
+  "fetched_at_utc": "2026-01-28T17:31:58+00:00",
+  "force_overwrite": false,
+  "http_status": 200,
+  "kind": "vote",
+  "meeting_nr": 18,
+  "mp_votes": [],
+  "source_url": "https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=45079",
+  "stats": {},
+  "summary": {
+    "Dátum a čas": "3. 12. 2020 17:58",
+    "Názov hlasovania": "Návrh na voľbu kandidáta na generálneho prokurátora SR",
+    "Schôdza": "Schôdza č. 18",
+    "Číslo hlasovania": 173
+  },
+  "term_id": 8,
+  "title_from_listing": "Návrh na voľbu kandidáta na generálneho prokurátora SR",
+  "vote_id": 45079
+}

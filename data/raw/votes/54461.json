@@ -1,0 +1,20 @@
+{
+  "cpt_id": 116,
+  "fetched_at_utc": "2026-01-24T15:39:13+00:00",
+  "force_overwrite": false,
+  "http_status": 200,
+  "kind": "vote",
+  "meeting_nr": 9,
+  "mp_votes": [],
+  "source_url": "https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=54461",
+  "stats": {},
+  "summary": {
+    "Dátum a čas": "15. 2. 2024 18:43",
+    "Názov hlasovania": "Návrh Výboru Národnej rady Slovenskej republiky pre pôdohospodárstvo a životné prostredie na odvolanie a voľbu členov Rady Slovenského pozemkového fondu",
+    "Schôdza": "Schôdza č. 9",
+    "Číslo hlasovania": 500
+  },
+  "term_id": 9,
+  "title_from_listing": "Návrh Výboru Národnej rady Slovenskej republiky pre pôdohospodárstvo a životné prostredie na odvolanie a voľbu členov Rady Slovenského pozemkového fondu",
+  "vote_id": 54461
+}

@@ -1,0 +1,788 @@
+{
+  "shards": [
+    {
+      "bytes": 2526791,
+      "meeting_nr": 1,
+      "path": "mp_votes/term=2/meeting=1.jsonl",
+      "rows": 8685,
+      "term_id": 2
+    },
+    {
+      "bytes": 4619852,
+      "meeting_nr": 2,
+      "path": "mp_votes/term=2/meeting=2.jsonl",
+      "rows": 15900,
+      "term_id": 2
+    },
+    {
+      "bytes": 6079438,
+      "meeting_nr": 10,
+      "path": "mp_votes/term=2/meeting=10.jsonl",
+      "rows": 20850,
+      "term_id": 2
+    },
+    {
+      "bytes": 17195996,
+      "meeting_nr": 11,
+      "path": "mp_votes/term=2/meeting=11.jsonl",
+      "rows": 58950,
+      "term_id": 2
+    },
+    {
+      "bytes": 874820,
+      "meeting_nr": 12,
+      "path": "mp_votes/term=2/meeting=12.jsonl",
+      "rows": 3000,
+      "term_id": 2
+    },
+    {
+      "bytes": 306001,
+      "meeting_nr": 13,
+      "path": "mp_votes/term=2/meeting=13.jsonl",
+      "rows": 1050,
+      "term_id": 2
+    },
+    {
+      "bytes": 3590184,
+      "meeting_nr": 14,
+      "path": "mp_votes/term=2/meeting=14.jsonl",
+      "rows": 12300,
+      "term_id": 2
+    },
+    {
+      "bytes": 6640356,
+      "meeting_nr": 15,
+      "path": "mp_votes/term=2/meeting=15.jsonl",
+      "rows": 22800,
+      "term_id": 2
+    },
+    {
+      "bytes": 16052996,
+      "meeting_nr": 17,
+      "path": "mp_votes/term=2/meeting=17.jsonl",
+      "rows": 55050,
+      "term_id": 2
+    },
+    {
+      "bytes": 87042,
+      "meeting_nr": 18,
+      "path": "mp_votes/term=2/meeting=18.jsonl",
+      "rows": 300,
+      "term_id": 2
+    },
+    {
+      "bytes": 305491,
+      "meeting_nr": 19,
+      "path": "mp_votes/term=2/meeting=19.jsonl",
+      "rows": 1050,
+      "term_id": 2
+    },
+    {
+      "bytes": 10327257,
+      "meeting_nr": 20,
+      "path": "mp_votes/term=2/meeting=20.jsonl",
+      "rows": 35400,
+      "term_id": 2
+    },
+    {
+      "bytes": 174242,
+      "meeting_nr": 21,
+      "path": "mp_votes/term=2/meeting=21.jsonl",
+      "rows": 600,
+      "term_id": 2
+    },
+    {
+      "bytes": 19244341,
+      "meeting_nr": 22,
+      "path": "mp_votes/term=2/meeting=22.jsonl",
+      "rows": 65700,
+      "term_id": 2
+    },
+    {
+      "bytes": 3568542,
+      "meeting_nr": 26,
+      "path": "mp_votes/term=3/meeting=26.jsonl",
+      "rows": 12150,
+      "term_id": 3
+    },
+    {
+      "bytes": 834787,
+      "meeting_nr": 1,
+      "path": "mp_votes/term=8/meeting=1.jsonl",
+      "rows": 2850,
+      "term_id": 8
+    },
+    {
+      "bytes": 223154,
+      "meeting_nr": 2,
+      "path": "mp_votes/term=8/meeting=2.jsonl",
+      "rows": 750,
+      "term_id": 8
+    },
+    {
+      "bytes": 1072484,
+      "meeting_nr": 3,
+      "path": "mp_votes/term=8/meeting=3.jsonl",
+      "rows": 3600,
+      "term_id": 8
+    },
+    {
+      "bytes": 1296714,
+      "meeting_nr": 4,
+      "path": "mp_votes/term=8/meeting=4.jsonl",
+      "rows": 4350,
+      "term_id": 8
+    },
+    {
+      "bytes": 983049,
+      "meeting_nr": 5,
+      "path": "mp_votes/term=8/meeting=5.jsonl",
+      "rows": 3300,
+      "term_id": 8
+    },
+    {
+      "bytes": 804144,
+      "meeting_nr": 6,
+      "path": "mp_votes/term=8/meeting=6.jsonl",
+      "rows": 2700,
+      "term_id": 8
+    },
+    {
+      "bytes": 179040,
+      "meeting_nr": 10,
+      "path": "mp_votes/term=8/meeting=10.jsonl",
+      "rows": 600,
+      "term_id": 8
+    },
+    {
+      "bytes": 1164098,
+      "meeting_nr": 11,
+      "path": "mp_votes/term=8/meeting=11.jsonl",
+      "rows": 3900,
+      "term_id": 8
+    },
+    {
+      "bytes": 7807280,
+      "meeting_nr": 12,
+      "path": "mp_votes/term=8/meeting=12.jsonl",
+      "rows": 26100,
+      "term_id": 8
+    },
+    {
+      "bytes": 89512,
+      "meeting_nr": 13,
+      "path": "mp_votes/term=8/meeting=13.jsonl",
+      "rows": 300,
+      "term_id": 8
+    },
+    {
+      "bytes": 89516,
+      "meeting_nr": 14,
+      "path": "mp_votes/term=8/meeting=14.jsonl",
+      "rows": 300,
+      "term_id": 8
+    },
+    {
+      "bytes": 536742,
+      "meeting_nr": 15,
+      "path": "mp_votes/term=8/meeting=15.jsonl",
+      "rows": 1800,
+      "term_id": 8
+    },
+    {
+      "bytes": 10326718,
+      "meeting_nr": 16,
+      "path": "mp_votes/term=8/meeting=16.jsonl",
+      "rows": 34500,
+      "term_id": 8
+    },
+    {
+      "bytes": 492191,
+      "meeting_nr": 17,
+      "path": "mp_votes/term=8/meeting=17.jsonl",
+      "rows": 1650,
+      "term_id": 8
+    },
+    {
+      "bytes": 10725115,
+      "meeting_nr": 18,
+      "path": "mp_votes/term=8/meeting=18.jsonl",
+      "rows": 35850,
+      "term_id": 8
+    },
+    {
+      "bytes": 89536,
+      "meeting_nr": 19,
+      "path": "mp_votes/term=8/meeting=19.jsonl",
+      "rows": 300,
+      "term_id": 8
+    },
+    {
+      "bytes": 492333,
+      "meeting_nr": 20,
+      "path": "mp_votes/term=8/meeting=20.jsonl",
+      "rows": 1650,
+      "term_id": 8
+    },
+    {
+      "bytes": 179060,
+      "meeting_nr": 21,
+      "path": "mp_votes/term=8/meeting=21.jsonl",
+      "rows": 600,
+      "term_id": 8
+    },
+    {
+      "bytes": 806910,
+      "meeting_nr": 22,
+      "path": "mp_votes/term=8/meeting=22.jsonl",
+      "rows": 2700,
+      "term_id": 8
+    },
+    {
+      "bytes": 7214015,
+      "meeting_nr": 23,
+      "path": "mp_votes/term=8/meeting=23.jsonl",
+      "rows": 24150,
+      "term_id": 8
+    },
+    {
+      "bytes": 759753,
+      "meeting_nr": 24,
+      "path": "mp_votes/term=8/meeting=24.jsonl",
+      "rows": 2550,
+      "term_id": 8
+    },
+    {
+      "bytes": 8664892,
+      "meeting_nr": 25,
+      "path": "mp_votes/term=8/meeting=25.jsonl",
+      "rows": 29016,
+      "term_id": 8
+    },
+    {
+      "bytes": 88710,
+      "meeting_nr": 26,
+      "path": "mp_votes/term=8/meeting=26.jsonl",
+      "rows": 298,
+      "term_id": 8
+    },
+    {
+      "bytes": 399629,
+      "meeting_nr": 27,
+      "path": "mp_votes/term=8/meeting=27.jsonl",
+      "rows": 1344,
+      "term_id": 8
+    },
+    {
+      "bytes": 8732127,
+      "meeting_nr": 28,
+      "path": "mp_votes/term=8/meeting=28.jsonl",
+      "rows": 29250,
+      "term_id": 8
+    },
+    {
+      "bytes": 178518,
+      "meeting_nr": 29,
+      "path": "mp_votes/term=8/meeting=29.jsonl",
+      "rows": 600,
+      "term_id": 8
+    },
+    {
+      "bytes": 356982,
+      "meeting_nr": 30,
+      "path": "mp_votes/term=8/meeting=30.jsonl",
+      "rows": 1200,
+      "term_id": 8
+    },
+    {
+      "bytes": 223526,
+      "meeting_nr": 31,
+      "path": "mp_votes/term=8/meeting=31.jsonl",
+      "rows": 750,
+      "term_id": 8
+    },
+    {
+      "bytes": 9544158,
+      "meeting_nr": 32,
+      "path": "mp_votes/term=8/meeting=32.jsonl",
+      "rows": 31950,
+      "term_id": 8
+    },
+    {
+      "bytes": 89370,
+      "meeting_nr": 33,
+      "path": "mp_votes/term=8/meeting=33.jsonl",
+      "rows": 300,
+      "term_id": 8
+    },
+    {
+      "bytes": 223497,
+      "meeting_nr": 34,
+      "path": "mp_votes/term=8/meeting=34.jsonl",
+      "rows": 750,
+      "term_id": 8
+    },
+    {
+      "bytes": 1653212,
+      "meeting_nr": 35,
+      "path": "mp_votes/term=8/meeting=35.jsonl",
+      "rows": 5550,
+      "term_id": 8
+    },
+    {
+      "bytes": 179180,
+      "meeting_nr": 36,
+      "path": "mp_votes/term=8/meeting=36.jsonl",
+      "rows": 600,
+      "term_id": 8
+    },
+    {
+      "bytes": 89318,
+      "meeting_nr": 37,
+      "path": "mp_votes/term=8/meeting=37.jsonl",
+      "rows": 300,
+      "term_id": 8
+    },
+    {
+      "bytes": 179146,
+      "meeting_nr": 38,
+      "path": "mp_votes/term=8/meeting=38.jsonl",
+      "rows": 600,
+      "term_id": 8
+    },
+    {
+      "bytes": 177862,
+      "meeting_nr": 39,
+      "path": "mp_votes/term=8/meeting=39.jsonl",
+      "rows": 596,
+      "term_id": 8
+    },
+    {
+      "bytes": 10015919,
+      "meeting_nr": 40,
+      "path": "mp_votes/term=8/meeting=40.jsonl",
+      "rows": 33588,
+      "term_id": 8
+    },
+    {
+      "bytes": 89218,
+      "meeting_nr": 43,
+      "path": "mp_votes/term=8/meeting=43.jsonl",
+      "rows": 300,
+      "term_id": 8
+    },
+    {
+      "bytes": 89236,
+      "meeting_nr": 44,
+      "path": "mp_votes/term=8/meeting=44.jsonl",
+      "rows": 300,
+      "term_id": 8
+    },
+    {
+      "bytes": 89198,
+      "meeting_nr": 45,
+      "path": "mp_votes/term=8/meeting=45.jsonl",
+      "rows": 300,
+      "term_id": 8
+    },
+    {
+      "bytes": 89210,
+      "meeting_nr": 46,
+      "path": "mp_votes/term=8/meeting=46.jsonl",
+      "rows": 300,
+      "term_id": 8
+    },
+    {
+      "bytes": 89212,
+      "meeting_nr": 47,
+      "path": "mp_votes/term=8/meeting=47.jsonl",
+      "rows": 300,
+      "term_id": 8
+    },
+    {
+      "bytes": 12208477,
+      "meeting_nr": 48,
+      "path": "mp_votes/term=8/meeting=48.jsonl",
+      "rows": 40950,
+      "term_id": 8
+    },
+    {
+      "bytes": 89186,
+      "meeting_nr": 50,
+      "path": "mp_votes/term=8/meeting=50.jsonl",
+      "rows": 300,
+      "term_id": 8
+    },
+    {
+      "bytes": 12925175,
+      "meeting_nr": 51,
+      "path": "mp_votes/term=8/meeting=51.jsonl",
+      "rows": 43350,
+      "term_id": 8
+    },
+    {
+      "bytes": 89182,
+      "meeting_nr": 52,
+      "path": "mp_votes/term=8/meeting=52.jsonl",
+      "rows": 300,
+      "term_id": 8
+    },
+    {
+      "bytes": 89188,
+      "meeting_nr": 53,
+      "path": "mp_votes/term=8/meeting=53.jsonl",
+      "rows": 300,
+      "term_id": 8
+    },
+    {
+      "bytes": 89176,
+      "meeting_nr": 54,
+      "path": "mp_votes/term=8/meeting=54.jsonl",
+      "rows": 300,
+      "term_id": 8
+    },
+    {
+      "bytes": 8717563,
+      "meeting_nr": 55,
+      "path": "mp_votes/term=8/meeting=55.jsonl",
+      "rows": 29250,
+      "term_id": 8
+    },
+    {
+      "bytes": 89204,
+      "meeting_nr": 56,
+      "path": "mp_votes/term=8/meeting=56.jsonl",
+      "rows": 300,
+      "term_id": 8
+    },
+    {
+      "bytes": 356200,
+      "meeting_nr": 57,
+      "path": "mp_votes/term=8/meeting=57.jsonl",
+      "rows": 1200,
+      "term_id": 8
+    },
+    {
+      "bytes": 89200,
+      "meeting_nr": 58,
+      "path": "mp_votes/term=8/meeting=58.jsonl",
+      "rows": 300,
+      "term_id": 8
+    },
+    {
+      "bytes": 534756,
+      "meeting_nr": 59,
+      "path": "mp_votes/term=8/meeting=59.jsonl",
+      "rows": 1800,
+      "term_id": 8
+    },
+    {
+      "bytes": 868145,
+      "meeting_nr": 1,
+      "path": "mp_votes/term=9/meeting=1.jsonl",
+      "rows": 2961,
+      "term_id": 9
+    },
+    {
+      "bytes": 176788,
+      "meeting_nr": 2,
+      "path": "mp_votes/term=9/meeting=2.jsonl",
+      "rows": 600,
+      "term_id": 9
+    },
+    {
+      "bytes": 1285840,
+      "meeting_nr": 3,
+      "path": "mp_votes/term=9/meeting=3.jsonl",
+      "rows": 4350,
+      "term_id": 9
+    },
+    {
+      "bytes": 132834,
+      "meeting_nr": 4,
+      "path": "mp_votes/term=9/meeting=4.jsonl",
+      "rows": 450,
+      "term_id": 9
+    },
+    {
+      "bytes": 220313,
+      "meeting_nr": 5,
+      "path": "mp_votes/term=9/meeting=5.jsonl",
+      "rows": 745,
+      "term_id": 9
+    },
+    {
+      "bytes": 9387647,
+      "meeting_nr": 6,
+      "path": "mp_votes/term=9/meeting=6.jsonl",
+      "rows": 31638,
+      "term_id": 9
+    },
+    {
+      "bytes": 88504,
+      "meeting_nr": 7,
+      "path": "mp_votes/term=9/meeting=7.jsonl",
+      "rows": 300,
+      "term_id": 9
+    },
+    {
+      "bytes": 88520,
+      "meeting_nr": 8,
+      "path": "mp_votes/term=9/meeting=8.jsonl",
+      "rows": 300,
+      "term_id": 9
+    },
+    {
+      "bytes": 24709187,
+      "meeting_nr": 9,
+      "path": "mp_votes/term=9/meeting=9.jsonl",
+      "rows": 83244,
+      "term_id": 9
+    },
+    {
+      "bytes": 178276,
+      "meeting_nr": 10,
+      "path": "mp_votes/term=9/meeting=10.jsonl",
+      "rows": 600,
+      "term_id": 9
+    },
+    {
+      "bytes": 11106537,
+      "meeting_nr": 12,
+      "path": "mp_votes/term=9/meeting=12.jsonl",
+      "rows": 37330,
+      "term_id": 9
+    },
+    {
+      "bytes": 88868,
+      "meeting_nr": 13,
+      "path": "mp_votes/term=9/meeting=13.jsonl",
+      "rows": 300,
+      "term_id": 9
+    },
+    {
+      "bytes": 177854,
+      "meeting_nr": 14,
+      "path": "mp_votes/term=9/meeting=14.jsonl",
+      "rows": 600,
+      "term_id": 9
+    },
+    {
+      "bytes": 11519382,
+      "meeting_nr": 15,
+      "path": "mp_votes/term=9/meeting=15.jsonl",
+      "rows": 38700,
+      "term_id": 9
+    },
+    {
+      "bytes": 486226,
+      "meeting_nr": 16,
+      "path": "mp_votes/term=9/meeting=16.jsonl",
+      "rows": 1640,
+      "term_id": 9
+    },
+    {
+      "bytes": 178232,
+      "meeting_nr": 17,
+      "path": "mp_votes/term=9/meeting=17.jsonl",
+      "rows": 600,
+      "term_id": 9
+    },
+    {
+      "bytes": 178236,
+      "meeting_nr": 18,
+      "path": "mp_votes/term=9/meeting=18.jsonl",
+      "rows": 600,
+      "term_id": 9
+    },
+    {
+      "bytes": 11018371,
+      "meeting_nr": 19,
+      "path": "mp_votes/term=9/meeting=19.jsonl",
+      "rows": 37041,
+      "term_id": 9
+    },
+    {
+      "bytes": 133404,
+      "meeting_nr": 20,
+      "path": "mp_votes/term=9/meeting=20.jsonl",
+      "rows": 450,
+      "term_id": 9
+    },
+    {
+      "bytes": 88810,
+      "meeting_nr": 21,
+      "path": "mp_votes/term=9/meeting=21.jsonl",
+      "rows": 300,
+      "term_id": 9
+    },
+    {
+      "bytes": 10930220,
+      "meeting_nr": 22,
+      "path": "mp_votes/term=9/meeting=22.jsonl",
+      "rows": 36750,
+      "term_id": 9
+    },
+    {
+      "bytes": 12320860,
+      "meeting_nr": 23,
+      "path": "mp_votes/term=9/meeting=23.jsonl",
+      "rows": 41400,
+      "term_id": 9
+    },
+    {
+      "bytes": 222248,
+      "meeting_nr": 24,
+      "path": "mp_votes/term=9/meeting=24.jsonl",
+      "rows": 750,
+      "term_id": 9
+    },
+    {
+      "bytes": 178138,
+      "meeting_nr": 25,
+      "path": "mp_votes/term=9/meeting=25.jsonl",
+      "rows": 600,
+      "term_id": 9
+    },
+    {
+      "bytes": 178174,
+      "meeting_nr": 26,
+      "path": "mp_votes/term=9/meeting=26.jsonl",
+      "rows": 600,
+      "term_id": 9
+    },
+    {
+      "bytes": 178094,
+      "meeting_nr": 27,
+      "path": "mp_votes/term=9/meeting=27.jsonl",
+      "rows": 600,
+      "term_id": 9
+    },
+    {
+      "bytes": 222251,
+      "meeting_nr": 28,
+      "path": "mp_votes/term=9/meeting=28.jsonl",
+      "rows": 750,
+      "term_id": 9
+    },
+    {
+      "bytes": 178076,
+      "meeting_nr": 29,
+      "path": "mp_votes/term=9/meeting=29.jsonl",
+      "rows": 600,
+      "term_id": 9
+    },
+    {
+      "bytes": 1246031,
+      "meeting_nr": 30,
+      "path": "mp_votes/term=9/meeting=30.jsonl",
+      "rows": 4200,
+      "term_id": 9
+    },
+    {
+      "bytes": 178090,
+      "meeting_nr": 31,
+      "path": "mp_votes/term=9/meeting=31.jsonl",
+      "rows": 600,
+      "term_id": 9
+    },
+    {
+      "bytes": 178090,
+      "meeting_nr": 32,
+      "path": "mp_votes/term=9/meeting=32.jsonl",
+      "rows": 600,
+      "term_id": 9
+    },
+    {
+      "bytes": 14813977,
+      "meeting_nr": 33,
+      "path": "mp_votes/term=9/meeting=33.jsonl",
+      "rows": 49800,
+      "term_id": 9
+    },
+    {
+      "bytes": 133545,
+      "meeting_nr": 34,
+      "path": "mp_votes/term=9/meeting=34.jsonl",
+      "rows": 450,
+      "term_id": 9
+    },
+    {
+      "bytes": 13337451,
+      "meeting_nr": 35,
+      "path": "mp_votes/term=9/meeting=35.jsonl",
+      "rows": 44850,
+      "term_id": 9
+    },
+    {
+      "bytes": 88712,
+      "meeting_nr": 36,
+      "path": "mp_votes/term=9/meeting=36.jsonl",
+      "rows": 300,
+      "term_id": 9
+    },
+    {
+      "bytes": 133095,
+      "meeting_nr": 37,
+      "path": "mp_votes/term=9/meeting=37.jsonl",
+      "rows": 450,
+      "term_id": 9
+    },
+    {
+      "bytes": 178130,
+      "meeting_nr": 38,
+      "path": "mp_votes/term=9/meeting=38.jsonl",
+      "rows": 600,
+      "term_id": 9
+    },
+    {
+      "bytes": 14235332,
+      "meeting_nr": 39,
+      "path": "mp_votes/term=9/meeting=39.jsonl",
+      "rows": 47850,
+      "term_id": 9
+    },
+    {
+      "bytes": 9497196,
+      "meeting_nr": 40,
+      "path": "mp_votes/term=9/meeting=40.jsonl",
+      "rows": 31950,
+      "term_id": 9
+    },
+    {
+      "bytes": 178136,
+      "meeting_nr": 41,
+      "path": "mp_votes/term=9/meeting=41.jsonl",
+      "rows": 600,
+      "term_id": 9
+    },
+    {
+      "bytes": 6593568,
+      "meeting_nr": 43,
+      "path": "mp_votes/term=9/meeting=43.jsonl",
+      "rows": 22200,
+      "term_id": 9
+    },
+    {
+      "bytes": 178072,
+      "meeting_nr": 44,
+      "path": "mp_votes/term=9/meeting=44.jsonl",
+      "rows": 600,
+      "term_id": 9
+    },
+    {
+      "bytes": 88708,
+      "meeting_nr": 45,
+      "path": "mp_votes/term=9/meeting=45.jsonl",
+      "rows": 300,
+      "term_id": 9
+    },
+    {
+      "bytes": 1734650,
+      "meeting_nr": 46,
+      "path": "mp_votes/term=9/meeting=46.jsonl",
+      "rows": 5850,
+      "term_id": 9
+    }
+  ]
+}

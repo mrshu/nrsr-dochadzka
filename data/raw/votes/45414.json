@@ -1,0 +1,20 @@
+{
+  "cpt_id": 299,
+  "fetched_at_utc": "2026-01-28T18:03:56+00:00",
+  "force_overwrite": false,
+  "http_status": 200,
+  "kind": "vote",
+  "meeting_nr": 23,
+  "mp_votes": [],
+  "source_url": "https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=45414",
+  "stats": {},
+  "summary": {
+    "Dátum a čas": "5. 2. 2021 19:01",
+    "Názov hlasovania": "Voľba predsedu Úradu na ochranu oznamovateľov protispoločenskej činnosti.",
+    "Schôdza": "Schôdza č. 23",
+    "Číslo hlasovania": 163
+  },
+  "term_id": 8,
+  "title_from_listing": "Voľba predsedu Úradu na ochranu oznamovateľov protispoločenskej činnosti.",
+  "vote_id": 45414
+}

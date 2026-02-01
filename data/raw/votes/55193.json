@@ -1,0 +1,20 @@
+{
+  "cpt_id": 464,
+  "fetched_at_utc": "2026-01-24T13:56:28+00:00",
+  "force_overwrite": false,
+  "http_status": 200,
+  "kind": "vote",
+  "meeting_nr": 19,
+  "mp_votes": [],
+  "source_url": "https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=55193",
+  "stats": {},
+  "summary": {
+    "Dátum a čas": "17. 9. 2024 10:35",
+    "Názov hlasovania": "Hlasovanie o návrhu na odvolanie podpredsedu Národnej rady Slovenskej republiky",
+    "Schôdza": "Schôdza č. 19",
+    "Číslo hlasovania": 80
+  },
+  "term_id": 9,
+  "title_from_listing": "Hlasovanie o návrhu na odvolanie podpredsedu Národnej rady Slovenskej republiky",
+  "vote_id": 55193
+}

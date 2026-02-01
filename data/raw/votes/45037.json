@@ -1,0 +1,20 @@
+{
+  "cpt_id": 339,
+  "fetched_at_utc": "2026-01-28T17:31:46+00:00",
+  "force_overwrite": false,
+  "http_status": 200,
+  "kind": "vote",
+  "meeting_nr": 18,
+  "mp_votes": [],
+  "source_url": "https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=45037",
+  "stats": {},
+  "summary": {
+    "Dátum a čas": "2. 12. 2020 18:31",
+    "Názov hlasovania": "Voľba člena Rady pre VaR",
+    "Schôdza": "Schôdza č. 18",
+    "Číslo hlasovania": 170
+  },
+  "term_id": 8,
+  "title_from_listing": "Voľba člena Rady pre VaR",
+  "vote_id": 45037
+}

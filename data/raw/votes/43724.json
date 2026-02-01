@@ -1,0 +1,21 @@
+{
+  "cpt_id": 11,
+  "fetched_at_utc": "2026-01-28T17:07:27+00:00",
+  "force_overwrite": false,
+  "http_status": 200,
+  "kind": "vote",
+  "meeting_nr": 1,
+  "mp_votes": [],
+  "source_url": "https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=43724",
+  "stats": {},
+  "summary": {
+    "Dátum a čas": "20. 3. 2020 17:00",
+    "Názov hlasovania": "Návrh na voľbu predsedov výborov Národnej rady Slovenskej republiky.",
+    "Schôdza": "Schôdza č. 1",
+    "Výsledok hlasovania": "Návrh prešiel",
+    "Číslo hlasovania": 15
+  },
+  "term_id": 8,
+  "title_from_listing": "Návrh na voľbu predsedov výborov Národnej rady Slovenskej republiky.",
+  "vote_id": 43724
+}

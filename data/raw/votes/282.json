@@ -1,0 +1,1079 @@
+{
+  "cpt_id": 255,
+  "fetched_at_utc": "2026-01-24T12:51:15+00:00",
+  "force_overwrite": false,
+  "http_status": 200,
+  "kind": "vote",
+  "meeting_nr": 17,
+  "mp_votes": [
+    {
+      "club": "Klub HZDS",
+      "mp_id": 1,
+      "mp_name": "Aibeková, Marta",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=1&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub HZDS",
+      "mp_id": 5,
+      "mp_name": "Andrejčák, Imrich",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=5&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub HZDS",
+      "mp_id": 8,
+      "mp_name": "Baco, Peter",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=8&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub HZDS",
+      "mp_id": 14,
+      "mp_name": "Belohorská, Irena",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=14&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub HZDS",
+      "mp_id": 15,
+      "mp_name": "Benčat, Ján",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=15&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub HZDS",
+      "mp_id": 17,
+      "mp_name": "Binder, Július",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=17&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub HZDS",
+      "mp_id": 19,
+      "mp_name": "Brhel, Jozef",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=19&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub HZDS",
+      "mp_id": 20,
+      "mp_name": "Brňák, Peter",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=20&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub HZDS",
+      "mp_id": 24,
+      "mp_name": "Cabaj, Tibor",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=24&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub HZDS",
+      "mp_id": 25,
+      "mp_name": "Cagala, Milan",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=25&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub HZDS",
+      "mp_id": 26,
+      "mp_name": "Cuper, Ján",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=26&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub HZDS",
+      "mp_id": 27,
+      "mp_name": "Danko, Ján",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=27&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub HZDS",
+      "mp_id": 28,
+      "mp_name": "Delinga, Pavel",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=28&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub HZDS",
+      "mp_id": 30,
+      "mp_name": "Drobný, Michal",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=30&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub HZDS",
+      "mp_id": 35,
+      "mp_name": "Engliš, Alojz",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=35&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub HZDS",
+      "mp_id": 41,
+      "mp_name": "Gabriel, Ján",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=41&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub HZDS",
+      "mp_id": 42,
+      "mp_name": "Gajdoš, Jozef",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=42&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub HZDS",
+      "mp_id": 45,
+      "mp_name": "Gašparovič, Ivan",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=45&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub HZDS",
+      "mp_id": 51,
+      "mp_name": "Hofbauer, Roman",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=51&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub HZDS",
+      "mp_id": 56,
+      "mp_name": "Hudec, Ivan",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=56&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub HZDS",
+      "mp_id": 57,
+      "mp_name": "Husár, Stanislav",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=57&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub HZDS",
+      "mp_id": 58,
+      "mp_name": "Húska, Augustín Marián",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=58&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub HZDS",
+      "mp_id": 61,
+      "mp_name": "Jarjabek, Dušan",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=61&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub HZDS",
+      "mp_id": 62,
+      "mp_name": "Jasovský, Ján",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=62&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub HZDS",
+      "mp_id": 66,
+      "mp_name": "Kalman, Jozef",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=66&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub HZDS",
+      "mp_id": 67,
+      "mp_name": "Kandráč, Pavel",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=67&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub HZDS",
+      "mp_id": 64,
+      "mp_name": "Kačic, Pavol",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=64&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub HZDS",
+      "mp_id": 68,
+      "mp_name": "Keltošová, Oľga",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=68&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub HZDS",
+      "mp_id": 75,
+      "mp_name": "Kozlík, Sergej",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=75&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub HZDS",
+      "mp_id": 76,
+      "mp_name": "Krajči, Gustáv",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=76&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub HZDS",
+      "mp_id": 84,
+      "mp_name": "Lexa, Ivan",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=84&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub HZDS",
+      "mp_id": 88,
+      "mp_name": "Maxon, Miroslav",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=88&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub HZDS",
+      "mp_id": 95,
+      "mp_name": "Mušková, Ľudmila",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=95&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub HZDS",
+      "mp_id": 105,
+      "mp_name": "Podhradská, Marta",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=105&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub HZDS",
+      "mp_id": 110,
+      "mp_name": "Rehák, Milan",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=110&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub HZDS",
+      "mp_id": 122,
+      "mp_name": "Slobodník, Dušan",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=122&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub HZDS",
+      "mp_id": 136,
+      "mp_name": "Tarčák, Jozef",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=136&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub HZDS",
+      "mp_id": 138,
+      "mp_name": "Tkáč, Vojtech",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=138&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub HZDS",
+      "mp_id": 139,
+      "mp_name": "Topoli, Milan",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=139&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub HZDS",
+      "mp_id": 141,
+      "mp_name": "Tóthová, Katarína",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=141&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub HZDS",
+      "mp_id": 150,
+      "mp_name": "Zlocha, Jozef",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=150&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub HZDS",
+      "mp_id": 133,
+      "mp_name": "Števček, Pavol",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=133&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub HZDS",
+      "mp_id": 132,
+      "mp_name": "Šťastný, Pavel",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=132&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub Nezávislý",
+      "mp_id": 40,
+      "mp_name": "Fico, Robert",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=40&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub SDK",
+      "mp_id": 2,
+      "mp_name": "Ambróš, Ladislav",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=2&CisObdobia=2",
+      "vote_code": "Z"
+    },
+    {
+      "club": "Klub SDK",
+      "mp_id": 9,
+      "mp_name": "Bajan, Vladimír",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=9&CisObdobia=2",
+      "vote_code": "?"
+    },
+    {
+      "club": "Klub SDK",
+      "mp_id": 13,
+      "mp_name": "Bauer, Rudolf",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=13&CisObdobia=2",
+      "vote_code": "P"
+    },
+    {
+      "club": "Klub SDK",
+      "mp_id": 21,
+      "mp_name": "Brocka, Július",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=21&CisObdobia=2",
+      "vote_code": "P"
+    },
+    {
+      "club": "Klub SDK",
+      "mp_id": 22,
+      "mp_name": "Budaj, Ján",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=22&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub SDK",
+      "mp_id": 38,
+      "mp_name": "Fedoročko, Dušan",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=38&CisObdobia=2",
+      "vote_code": "P"
+    },
+    {
+      "club": "Klub SDK",
+      "mp_id": 44,
+      "mp_name": "Galbavý, Tomáš",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=44&CisObdobia=2",
+      "vote_code": "?"
+    },
+    {
+      "club": "Klub SDK",
+      "mp_id": 48,
+      "mp_name": "Halmeš, František",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=48&CisObdobia=2",
+      "vote_code": "?"
+    },
+    {
+      "club": "Klub SDK",
+      "mp_id": 50,
+      "mp_name": "Harach, Ľubomír",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=50&CisObdobia=2",
+      "vote_code": "?"
+    },
+    {
+      "club": "Klub SDK",
+      "mp_id": 54,
+      "mp_name": "Hort, Milan",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=54&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub SDK",
+      "mp_id": 55,
+      "mp_name": "Hrušovský, Pavol",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=55&CisObdobia=2",
+      "vote_code": "P"
+    },
+    {
+      "club": "Klub SDK",
+      "mp_id": 60,
+      "mp_name": "Ivanko, Alexej",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=60&CisObdobia=2",
+      "vote_code": "P"
+    },
+    {
+      "club": "Klub SDK",
+      "mp_id": 63,
+      "mp_name": "Juriš, Anton",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=63&CisObdobia=2",
+      "vote_code": "Z"
+    },
+    {
+      "club": "Klub SDK",
+      "mp_id": 73,
+      "mp_name": "Kováč, Roman",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=73&CisObdobia=2",
+      "vote_code": "P"
+    },
+    {
+      "club": "Klub SDK",
+      "mp_id": 78,
+      "mp_name": "Kresánek, Peter",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=78&CisObdobia=2",
+      "vote_code": "?"
+    },
+    {
+      "club": "Klub SDK",
+      "mp_id": 79,
+      "mp_name": "Krumpolec, Jozef",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=79&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub SDK",
+      "mp_id": 80,
+      "mp_name": "Kujan, Martin",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=80&CisObdobia=2",
+      "vote_code": "?"
+    },
+    {
+      "club": "Klub SDK",
+      "mp_id": 81,
+      "mp_name": "Kužma, Jozef",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=81&CisObdobia=2",
+      "vote_code": "P"
+    },
+    {
+      "club": "Klub SDK",
+      "mp_id": 83,
+      "mp_name": "Langoš, Ján",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=83&CisObdobia=2",
+      "vote_code": "?"
+    },
+    {
+      "club": "Klub SDK",
+      "mp_id": 92,
+      "mp_name": "Mikloško, František",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=92&CisObdobia=2",
+      "vote_code": "P"
+    },
+    {
+      "club": "Klub SDK",
+      "mp_id": 94,
+      "mp_name": "Muránsky, Peter",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=94&CisObdobia=2",
+      "vote_code": "P"
+    },
+    {
+      "club": "Klub SDK",
+      "mp_id": 98,
+      "mp_name": "Orava, Branislav",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=98&CisObdobia=2",
+      "vote_code": "P"
+    },
+    {
+      "club": "Klub SDK",
+      "mp_id": 100,
+      "mp_name": "Osuský, Peter",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=100&CisObdobia=2",
+      "vote_code": "?"
+    },
+    {
+      "club": "Klub SDK",
+      "mp_id": 101,
+      "mp_name": "Ošváth, Peter",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=101&CisObdobia=2",
+      "vote_code": "P"
+    },
+    {
+      "club": "Klub SDK",
+      "mp_id": 151,
+      "mp_name": "Palacka, Gabriel",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=151&CisObdobia=2",
+      "vote_code": "P"
+    },
+    {
+      "club": "Klub SDK",
+      "mp_id": 102,
+      "mp_name": "Palko, Vladimír",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=102&CisObdobia=2",
+      "vote_code": "P"
+    },
+    {
+      "club": "Klub SDK",
+      "mp_id": 108,
+      "mp_name": "Prokopovič, Pavol",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=108&CisObdobia=2",
+      "vote_code": "?"
+    },
+    {
+      "club": "Klub SDK",
+      "mp_id": 109,
+      "mp_name": "Rakús, Alojz",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=109&CisObdobia=2",
+      "vote_code": "P"
+    },
+    {
+      "club": "Klub SDK",
+      "mp_id": 112,
+      "mp_name": "Rusnák, Ján",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=112&CisObdobia=2",
+      "vote_code": "?"
+    },
+    {
+      "club": "Klub SDK",
+      "mp_id": 114,
+      "mp_name": "Rusnáková, Eva",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=114&CisObdobia=2",
+      "vote_code": "?"
+    },
+    {
+      "club": "Klub SDK",
+      "mp_id": 115,
+      "mp_name": "Sabolová, Mária",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=115&CisObdobia=2",
+      "vote_code": "P"
+    },
+    {
+      "club": "Klub SDK",
+      "mp_id": 120,
+      "mp_name": "Slaný, Jaroslav",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=120&CisObdobia=2",
+      "vote_code": "P"
+    },
+    {
+      "club": "Klub SDK",
+      "mp_id": 125,
+      "mp_name": "Suchár, Miloslav",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=125&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub SDK",
+      "mp_id": 137,
+      "mp_name": "Tatár, Peter",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=137&CisObdobia=2",
+      "vote_code": "?"
+    },
+    {
+      "club": "Klub SDK",
+      "mp_id": 143,
+      "mp_name": "Vavrík, Roman",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=143&CisObdobia=2",
+      "vote_code": "?"
+    },
+    {
+      "club": "Klub SDK",
+      "mp_id": 144,
+      "mp_name": "Volf, Jaroslav",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=144&CisObdobia=2",
+      "vote_code": "?"
+    },
+    {
+      "club": "Klub SDK",
+      "mp_id": 145,
+      "mp_name": "Vrždák, Pavol",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=145&CisObdobia=2",
+      "vote_code": "P"
+    },
+    {
+      "club": "Klub SDK",
+      "mp_id": 148,
+      "mp_name": "Zajac, Peter",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=148&CisObdobia=2",
+      "vote_code": "?"
+    },
+    {
+      "club": "Klub SDK",
+      "mp_id": 147,
+      "mp_name": "Záborská, Anna",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=147&CisObdobia=2",
+      "vote_code": "P"
+    },
+    {
+      "club": "Klub SDK",
+      "mp_id": 127,
+      "mp_name": "Šebej, František",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=127&CisObdobia=2",
+      "vote_code": "P"
+    },
+    {
+      "club": "Klub SDK",
+      "mp_id": 129,
+      "mp_name": "Šimko, Ivan",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=129&CisObdobia=2",
+      "vote_code": "?"
+    },
+    {
+      "club": "Klub SDK",
+      "mp_id": 135,
+      "mp_name": "Švec, Juraj",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=135&CisObdobia=2",
+      "vote_code": "?"
+    },
+    {
+      "club": "Klub SDĽ",
+      "mp_id": 4,
+      "mp_name": "Andrassy, Ľubomír",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=4&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub SDĽ",
+      "mp_id": 6,
+      "mp_name": "Angelovičová, Mária",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=6&CisObdobia=2",
+      "vote_code": "?"
+    },
+    {
+      "club": "Klub SDĽ",
+      "mp_id": 7,
+      "mp_name": "Antecký, Marian",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=7&CisObdobia=2",
+      "vote_code": "?"
+    },
+    {
+      "club": "Klub SDĽ",
+      "mp_id": 10,
+      "mp_name": "Ballek, Ladislav",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=10&CisObdobia=2",
+      "vote_code": "?"
+    },
+    {
+      "club": "Klub SDĽ",
+      "mp_id": 12,
+      "mp_name": "Bartoš, Stanislav",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=12&CisObdobia=2",
+      "vote_code": "?"
+    },
+    {
+      "club": "Klub SDĽ",
+      "mp_id": 16,
+      "mp_name": "Benkovský, Milan",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=16&CisObdobia=2",
+      "vote_code": "?"
+    },
+    {
+      "club": "Klub SDĽ",
+      "mp_id": 18,
+      "mp_name": "Bohunický, Peter",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=18&CisObdobia=2",
+      "vote_code": "Z"
+    },
+    {
+      "club": "Klub SDĽ",
+      "mp_id": 34,
+      "mp_name": "Dzurák, Ľubomír",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=34&CisObdobia=2",
+      "vote_code": "Z"
+    },
+    {
+      "club": "Klub SDĽ",
+      "mp_id": 36,
+      "mp_name": "Faič, Vladimír",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=36&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub SDĽ",
+      "mp_id": 47,
+      "mp_name": "Hajdúk, Pavol",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=47&CisObdobia=2",
+      "vote_code": "?"
+    },
+    {
+      "club": "Klub SDĽ",
+      "mp_id": 49,
+      "mp_name": "Halušková, Jana",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=49&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub SDĽ",
+      "mp_id": 52,
+      "mp_name": "Hoffmann, Anton",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=52&CisObdobia=2",
+      "vote_code": "?"
+    },
+    {
+      "club": "Klub SDĽ",
+      "mp_id": 59,
+      "mp_name": "Ištván, Milan",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=59&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub SDĽ",
+      "mp_id": 69,
+      "mp_name": "Klemens, Jozef",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=69&CisObdobia=2",
+      "vote_code": "Z"
+    },
+    {
+      "club": "Klub SDĽ",
+      "mp_id": 87,
+      "mp_name": "Maňka, Vladimír",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=87&CisObdobia=2",
+      "vote_code": "Z"
+    },
+    {
+      "club": "Klub SDĽ",
+      "mp_id": 91,
+      "mp_name": "Migaš, Jozef",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=91&CisObdobia=2",
+      "vote_code": "Z"
+    },
+    {
+      "club": "Klub SDĽ",
+      "mp_id": 99,
+      "mp_name": "Orosz, Ladislav",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=99&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub SDĽ",
+      "mp_id": 113,
+      "mp_name": "Rusnák, Štefan",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=113&CisObdobia=2",
+      "vote_code": "Z"
+    },
+    {
+      "club": "Klub SDĽ",
+      "mp_id": 124,
+      "mp_name": "Sopko, Viliam",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=124&CisObdobia=2",
+      "vote_code": "Z"
+    },
+    {
+      "club": "Klub SDĽ",
+      "mp_id": 142,
+      "mp_name": "Tuchyňa, Jozef",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=142&CisObdobia=2",
+      "vote_code": "Z"
+    },
+    {
+      "club": "Klub SDĽ",
+      "mp_id": 140,
+      "mp_name": "Tóth, Imrich",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=140&CisObdobia=2",
+      "vote_code": "Z"
+    },
+    {
+      "club": "Klub SDĽ",
+      "mp_id": 146,
+      "mp_name": "Weiss, Peter",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=146&CisObdobia=2",
+      "vote_code": "Z"
+    },
+    {
+      "club": "Klub SMK",
+      "mp_id": 23,
+      "mp_name": "Bugár, Béla",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=23&CisObdobia=2",
+      "vote_code": "P"
+    },
+    {
+      "club": "Klub SMK",
+      "mp_id": 11,
+      "mp_name": "Bárdos, Gyula",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=11&CisObdobia=2",
+      "vote_code": "?"
+    },
+    {
+      "club": "Klub SMK",
+      "mp_id": 29,
+      "mp_name": "Dolník, Erzsébet",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=29&CisObdobia=2",
+      "vote_code": "?"
+    },
+    {
+      "club": "Klub SMK",
+      "mp_id": 32,
+      "mp_name": "Duka-Zólyomi, Árpád",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=32&CisObdobia=2",
+      "vote_code": "?"
+    },
+    {
+      "club": "Klub SMK",
+      "mp_id": 33,
+      "mp_name": "Duray, Miklós",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=33&CisObdobia=2",
+      "vote_code": "?"
+    },
+    {
+      "club": "Klub SMK",
+      "mp_id": 37,
+      "mp_name": "Farkas, Pál",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=37&CisObdobia=2",
+      "vote_code": "P"
+    },
+    {
+      "club": "Klub SMK",
+      "mp_id": 39,
+      "mp_name": "Ferkó, Barnabás",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=39&CisObdobia=2",
+      "vote_code": "P"
+    },
+    {
+      "club": "Klub SMK",
+      "mp_id": 46,
+      "mp_name": "Gyurovszky, László",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=46&CisObdobia=2",
+      "vote_code": "P"
+    },
+    {
+      "club": "Klub SMK",
+      "mp_id": 53,
+      "mp_name": "Hóka, László",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=53&CisObdobia=2",
+      "vote_code": "Z"
+    },
+    {
+      "club": "Klub SMK",
+      "mp_id": 82,
+      "mp_name": "Kvarda, József",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=82&CisObdobia=2",
+      "vote_code": "?"
+    },
+    {
+      "club": "Klub SMK",
+      "mp_id": 71,
+      "mp_name": "Köteles, László",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=71&CisObdobia=2",
+      "vote_code": "?"
+    },
+    {
+      "club": "Klub SMK",
+      "mp_id": 90,
+      "mp_name": "Mészáros, Lajos",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=90&CisObdobia=2",
+      "vote_code": "?"
+    },
+    {
+      "club": "Klub SMK",
+      "mp_id": 96,
+      "mp_name": "Nagy, László A.",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=96&CisObdobia=2",
+      "vote_code": "P"
+    },
+    {
+      "club": "Klub SMK",
+      "mp_id": 126,
+      "mp_name": "Szabó, Olga",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=126&CisObdobia=2",
+      "vote_code": "P"
+    },
+    {
+      "club": "Klub SMK",
+      "mp_id": 116,
+      "mp_name": "Sárközy, Klára",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=116&CisObdobia=2",
+      "vote_code": "P"
+    },
+    {
+      "club": "Klub SNS",
+      "mp_id": 3,
+      "mp_name": "Andel, Marián",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=3&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub SNS",
+      "mp_id": 86,
+      "mp_name": "Belousovová, Anna",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=86&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub SNS",
+      "mp_id": 70,
+      "mp_name": "Kolláriková, Melánia",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=70&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub SNS",
+      "mp_id": 72,
+      "mp_name": "Kotian, Miroslav",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=72&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub SNS",
+      "mp_id": 93,
+      "mp_name": "Móric, Víťazoslav",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=93&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub SNS",
+      "mp_id": 97,
+      "mp_name": "Oberhauser, Viliam",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=97&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub SNS",
+      "mp_id": 103,
+      "mp_name": "Paška, Jaroslav",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=103&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub SNS",
+      "mp_id": 107,
+      "mp_name": "Prokeš, Jozef",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=107&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub SNS",
+      "mp_id": 118,
+      "mp_name": "Sitek, Ján",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=118&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub SNS",
+      "mp_id": 121,
+      "mp_name": "Slavkovská, Eva",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=121&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub SNS",
+      "mp_id": 123,
+      "mp_name": "Slota, Ján",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=123&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub SNS",
+      "mp_id": 149,
+      "mp_name": "Zelník, Štefan",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=149&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub SNS",
+      "mp_id": 128,
+      "mp_name": "Šepták, Rastislav",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=128&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub SNS",
+      "mp_id": 134,
+      "mp_name": "Švantner, Dušan",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=134&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub SOP",
+      "mp_id": 65,
+      "mp_name": "Kadlečíková, Mária",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=65&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub SOP",
+      "mp_id": 74,
+      "mp_name": "Kovačič, Dušan",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=74&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub SOP",
+      "mp_id": 77,
+      "mp_name": "Kresák, Peter",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=77&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub SOP",
+      "mp_id": 85,
+      "mp_name": "Malchárek, Jirko",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=85&CisObdobia=2",
+      "vote_code": "?"
+    },
+    {
+      "club": "Klub SOP",
+      "mp_id": 89,
+      "mp_name": "Mesiarik, Marián",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=89&CisObdobia=2",
+      "vote_code": "?"
+    },
+    {
+      "club": "Klub SOP",
+      "mp_id": 104,
+      "mp_name": "Petrák, Ferdinand",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=104&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub SOP",
+      "mp_id": 106,
+      "mp_name": "Presperín, Igor",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=106&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub SOP",
+      "mp_id": 111,
+      "mp_name": "Rusková, Viera",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=111&CisObdobia=2",
+      "vote_code": "N"
+    },
+    {
+      "club": "Klub SOP",
+      "mp_id": 117,
+      "mp_name": "Schuster, Rudolf",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=117&CisObdobia=2",
+      "vote_code": "0"
+    },
+    {
+      "club": "Klub SOP",
+      "mp_id": 119,
+      "mp_name": "Sládeček, Imrich",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=119&CisObdobia=2",
+      "vote_code": "?"
+    },
+    {
+      "club": "Klub SOP",
+      "mp_id": 130,
+      "mp_name": "Šimko, Ján",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=130&CisObdobia=2",
+      "vote_code": "?"
+    },
+    {
+      "club": "Klub SOP",
+      "mp_id": 131,
+      "mp_name": "Šlachta, Štefan",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=131&CisObdobia=2",
+      "vote_code": "?"
+    },
+    {
+      "club": "Klub SOP",
+      "mp_id": 31,
+      "mp_name": "Štrofová, Diana",
+      "mp_url": "https://www.nrsr.sk/web/Default.aspx?sid=poslanci/poslanec&PoslanecID=31&CisObdobia=2",
+      "vote_code": "0"
+    }
+  ],
+  "source_url": "https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=282",
+  "stats": {
+    "Hlasujúcich": 75,
+    "Prítomní": 76,
+    "[0] Neprítomní": 74,
+    "[?] Zdržalo sa hlasovania": 36,
+    "[N] Nehlasovalo": 1,
+    "[P] Proti hlasovalo": 26,
+    "[Z] Za hlasovalo": 13
+  },
+  "summary": {
+    "Dátum a čas": "24. 8. 1999 00:00",
+    "Názov hlasovania": "Vládny návrh zákona, ktorým sa mení a dopĺňa zákon SNR č. 511/1992 Zb. o správe daní a poplatkov a o\nzmenách v sústave územných finančných orgánov v znení ... (tlač 255) - druhé čítanie.\nHlasovanie o pozmeňujúcich návrhoch z rozpravy - posl. Sopko 6.návrh.",
+    "Schôdza": "Schôdza č. 17",
+    "Číslo hlasovania": 324
+  },
+  "term_id": 2,
+  "title_from_listing": "Vládny návrh zákona, ktorým sa mení a dopĺňa zákon SNR č. 511/1992 Zb. o správe daní a poplatkov a o\nzmenách v sústave územných finančných orgánov v znení ... (tlač 255) - druhé čítanie.\nHlasovanie o pozmeňujúcich návrhoch z rozpravy - posl. Sopko 6.návrh.",
+  "vote_id": 282
+}

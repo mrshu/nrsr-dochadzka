@@ -1,0 +1,21 @@
+{
+  "cpt_id": 536,
+  "fetched_at_utc": "2026-01-28T18:21:47+00:00",
+  "force_overwrite": false,
+  "http_status": 200,
+  "kind": "vote",
+  "meeting_nr": 28,
+  "mp_votes": [],
+  "source_url": "https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=45963",
+  "stats": {},
+  "summary": {
+    "Dátum a čas": "28. 5. 2021 13:54",
+    "Názov hlasovania": "Návrh na voľbu podpredsedu Národnej rady Slovenskej republiky (tlač 536).",
+    "Schôdza": "Schôdza č. 28",
+    "Výsledok hlasovania": "Návrh neprešiel",
+    "Číslo hlasovania": 197
+  },
+  "term_id": 8,
+  "title_from_listing": "Návrh na voľbu podpredsedu Národnej rady Slovenskej republiky (tlač 536).",
+  "vote_id": 45963
+}

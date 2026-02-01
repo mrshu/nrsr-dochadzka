@@ -1,0 +1,20 @@
+{
+  "cpt_id": 650,
+  "fetched_at_utc": "2026-01-24T14:33:10+00:00",
+  "force_overwrite": false,
+  "http_status": 200,
+  "kind": "vote",
+  "meeting_nr": 33,
+  "mp_votes": [],
+  "source_url": "https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=56272",
+  "stats": {},
+  "summary": {
+    "Dátum a čas": "9. 4. 2025 18:48",
+    "Názov hlasovania": "Návrh na voľbu dvoch členov/členiek Správnej rady Ústavu pamäti národa (tlač 650).",
+    "Schôdza": "Schôdza č. 33",
+    "Číslo hlasovania": 223
+  },
+  "term_id": 9,
+  "title_from_listing": "Návrh na voľbu dvoch členov/členiek Správnej rady Ústavu pamäti národa (tlač 650).",
+  "vote_id": 56272
+}

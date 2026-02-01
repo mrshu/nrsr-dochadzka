@@ -1,0 +1,21 @@
+{
+  "cpt_id": 748,
+  "fetched_at_utc": "2026-01-28T18:42:33+00:00",
+  "force_overwrite": false,
+  "http_status": 200,
+  "kind": "vote",
+  "meeting_nr": 48,
+  "mp_votes": [],
+  "source_url": "https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=46684",
+  "stats": {},
+  "summary": {
+    "Dátum a čas": "21. 10. 2021 17:50",
+    "Názov hlasovania": "Návrh na voľbu predsedu Osobitného kontrolného výboru Národnej rady Slovenskej republiky na kontrolu činnosti Vojenského spravodajstva (tlač 748).",
+    "Schôdza": "Schôdza č. 48",
+    "Výsledok hlasovania": "Návrh neprešiel",
+    "Číslo hlasovania": 114
+  },
+  "term_id": 8,
+  "title_from_listing": "Návrh na voľbu predsedu Osobitného kontrolného výboru Národnej rady Slovenskej republiky na kontrolu činnosti Vojenského spravodajstva (tlač 748).",
+  "vote_id": 46684
+}

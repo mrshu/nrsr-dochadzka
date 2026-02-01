@@ -1,0 +1,20 @@
+{
+  "cpt_id": 265,
+  "fetched_at_utc": "2026-01-24T13:50:39+00:00",
+  "force_overwrite": false,
+  "http_status": 200,
+  "kind": "vote",
+  "meeting_nr": 15,
+  "mp_votes": [],
+  "source_url": "https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=54977",
+  "stats": {},
+  "summary": {
+    "Dátum a čas": "19. 6. 2024 18:39",
+    "Názov hlasovania": "Návrh na voľbu kandidátov na sudcov Ústavného súdu SR",
+    "Schôdza": "Schôdza č. 15",
+    "Číslo hlasovania": 163
+  },
+  "term_id": 9,
+  "title_from_listing": "Návrh na voľbu kandidátov na sudcov Ústavného súdu SR",
+  "vote_id": 54977
+}

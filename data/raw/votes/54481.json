@@ -1,0 +1,20 @@
+{
+  "cpt_id": 117,
+  "fetched_at_utc": "2026-01-24T15:39:21+00:00",
+  "force_overwrite": false,
+  "http_status": 200,
+  "kind": "vote",
+  "meeting_nr": 9,
+  "mp_votes": [],
+  "source_url": "https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=54481",
+  "stats": {},
+  "summary": {
+    "Dátum a čas": "15. 2. 2024 18:52",
+    "Názov hlasovania": "Návrh na voľbu člena Rady Rozhlasu a televízie Slovenska (tlač 117).",
+    "Schôdza": "Schôdza č. 9",
+    "Číslo hlasovania": 501
+  },
+  "term_id": 9,
+  "title_from_listing": "Návrh na voľbu člena Rady Rozhlasu a televízie Slovenska (tlač 117).",
+  "vote_id": 54481
+}

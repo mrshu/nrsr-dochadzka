@@ -1,0 +1,20 @@
+{
+  "cpt_id": 4,
+  "fetched_at_utc": "2026-01-24T13:31:26+00:00",
+  "force_overwrite": false,
+  "http_status": 200,
+  "kind": "vote",
+  "meeting_nr": 1,
+  "mp_votes": [],
+  "source_url": "https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=51438",
+  "stats": {},
+  "summary": {
+    "Dátum a čas": "25. 10. 2023 12:10",
+    "Názov hlasovania": "Zápisnica o výsledku tajného hlasovania o návrhu na voľbu predsedu Výboru Národnej rady Slovenskej republiky pre nezlučiteľnosť funkcií",
+    "Schôdza": "Schôdza č. 1",
+    "Číslo hlasovania": 6
+  },
+  "term_id": 9,
+  "title_from_listing": "Zápisnica o výsledku tajného hlasovania o návrhu na voľbu predsedu Výboru Národnej rady Slovenskej republiky pre nezlučiteľnosť funkcií",
+  "vote_id": 51438
+}

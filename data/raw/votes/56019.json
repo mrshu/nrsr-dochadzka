@@ -1,0 +1,20 @@
+{
+  "cpt_id": 384,
+  "fetched_at_utc": "2026-01-24T14:27:23+00:00",
+  "force_overwrite": false,
+  "http_status": 200,
+  "kind": "vote",
+  "meeting_nr": 33,
+  "mp_votes": [],
+  "source_url": "https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=56019",
+  "stats": {},
+  "summary": {
+    "Dátum a čas": "26. 3. 2025 21:03",
+    "Názov hlasovania": "Návrh na voľbu člena Správnej rady Tlačovej agentúry Slovenskej republiky (tlač 384).\nVoľba člena SR TA SR - oblasť informačných technológií",
+    "Schôdza": "Schôdza č. 33",
+    "Číslo hlasovania": 33
+  },
+  "term_id": 9,
+  "title_from_listing": "Návrh na voľbu člena Správnej rady Tlačovej agentúry Slovenskej republiky (tlač 384).\nVoľba člena SR TA SR - oblasť informačných technológií",
+  "vote_id": 56019
+}

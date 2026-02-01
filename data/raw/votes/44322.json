@@ -1,0 +1,20 @@
+{
+  "cpt_id": null,
+  "fetched_at_utc": "2026-01-28T17:11:16+00:00",
+  "force_overwrite": false,
+  "http_status": 200,
+  "kind": "vote",
+  "meeting_nr": 12,
+  "mp_votes": [],
+  "source_url": "https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=44322",
+  "stats": {},
+  "summary": {
+    "Dátum a čas": "17. 9. 2020 18:48",
+    "Názov hlasovania": "Návrh na voľbu kandidátov na sudcov Ústavného súdu SR",
+    "Schôdza": "Schôdza č. 12",
+    "Číslo hlasovania": 59
+  },
+  "term_id": 8,
+  "title_from_listing": "Návrh na voľbu kandidátov na sudcov Ústavného súdu SR",
+  "vote_id": 44322
+}

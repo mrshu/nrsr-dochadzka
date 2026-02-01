@@ -1,0 +1,20 @@
+{
+  "cpt_id": 206,
+  "fetched_at_utc": "2026-01-24T12:44:45+00:00",
+  "force_overwrite": false,
+  "http_status": 200,
+  "kind": "vote",
+  "meeting_nr": 14,
+  "mp_votes": [],
+  "source_url": "https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=1633",
+  "stats": {},
+  "summary": {
+    "Dátum a čas": "12. 5. 1999 00:00",
+    "Názov hlasovania": "Vládny návrh zákona o zvýšení dôchodkov v roku 1999, o úprave dôchodkov priznaných v roku 2000 a o zmene\na doplnení niektorých zákonov v oblasti sociálneho zabezpečenia (tlač 206) - 2.čítanie.\nHlasovanie o bodoch spoločnej správy.",
+    "Schôdza": "Schôdza č. 14",
+    "Číslo hlasovania": 22
+  },
+  "term_id": 2,
+  "title_from_listing": "Vládny návrh zákona o zvýšení dôchodkov v roku 1999, o úprave dôchodkov priznaných v roku 2000 a o zmene\na doplnení niektorých zákonov v oblasti sociálneho zabezpečenia (tlač 206) - 2.čítanie.\nHlasovanie o bodoch spoločnej správy.",
+  "vote_id": 1633
+}

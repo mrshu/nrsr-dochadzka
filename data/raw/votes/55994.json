@@ -1,0 +1,20 @@
+{
+  "cpt_id": null,
+  "fetched_at_utc": "2026-01-24T14:27:45+00:00",
+  "force_overwrite": false,
+  "http_status": 200,
+  "kind": "vote",
+  "meeting_nr": 33,
+  "mp_votes": [],
+  "source_url": "https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=55994",
+  "stats": {},
+  "summary": {
+    "Dátum a čas": "26. 3. 2025 00:00",
+    "Názov hlasovania": "Voľba predsedu Výboru NR SR pre pôdohospodárstvo a životné prostredie (tlač 777)",
+    "Schôdza": "Schôdza č. 33",
+    "Číslo hlasovania": 31
+  },
+  "term_id": 9,
+  "title_from_listing": "Voľba predsedu Výboru NR SR pre pôdohospodárstvo a životné prostredie (tlač 777)",
+  "vote_id": 55994
+}

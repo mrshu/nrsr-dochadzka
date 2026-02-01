@@ -1,0 +1,20 @@
+{
+  "cpt_id": 875,
+  "fetched_at_utc": "2026-01-28T19:02:16+00:00",
+  "force_overwrite": false,
+  "http_status": 200,
+  "kind": "vote",
+  "meeting_nr": 55,
+  "mp_votes": [],
+  "source_url": "https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=47646",
+  "stats": {},
+  "summary": {
+    "Dátum a čas": "17. 3. 2022 17:53",
+    "Názov hlasovania": "Voľba komisára pre deti - opakovaná voľba",
+    "Schôdza": "Schôdza č. 55",
+    "Číslo hlasovania": 118
+  },
+  "term_id": 8,
+  "title_from_listing": "Voľba komisára pre deti - opakovaná voľba",
+  "vote_id": 47646
+}

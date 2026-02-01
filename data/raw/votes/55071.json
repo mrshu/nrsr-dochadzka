@@ -1,0 +1,20 @@
+{
+  "cpt_id": 299,
+  "fetched_at_utc": "2026-01-24T13:53:03+00:00",
+  "force_overwrite": false,
+  "http_status": 200,
+  "kind": "vote",
+  "meeting_nr": 15,
+  "mp_votes": [],
+  "source_url": "https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=55071",
+  "stats": {},
+  "summary": {
+    "Dátum a čas": "27. 6. 2024 18:47",
+    "Názov hlasovania": "Odvolanie predsedníčky OKV NR SR SIS",
+    "Schôdza": "Schôdza č. 15",
+    "Číslo hlasovania": 245
+  },
+  "term_id": 9,
+  "title_from_listing": "Odvolanie predsedníčky OKV NR SR SIS",
+  "vote_id": 55071
+}

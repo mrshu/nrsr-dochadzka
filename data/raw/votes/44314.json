@@ -1,0 +1,20 @@
+{
+  "cpt_id": null,
+  "fetched_at_utc": "2026-01-28T17:10:33+00:00",
+  "force_overwrite": false,
+  "http_status": 200,
+  "kind": "vote",
+  "meeting_nr": 12,
+  "mp_votes": [],
+  "source_url": "https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=44314",
+  "stats": {},
+  "summary": {
+    "Dátum a čas": "17. 9. 2020 19:02",
+    "Názov hlasovania": "voľba člena Rady RaTSR",
+    "Schôdza": "Schôdza č. 12",
+    "Číslo hlasovania": 60
+  },
+  "term_id": 8,
+  "title_from_listing": "voľba člena Rady RaTSR",
+  "vote_id": 44314
+}

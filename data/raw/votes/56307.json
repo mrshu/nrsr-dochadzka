@@ -1,0 +1,20 @@
+{
+  "cpt_id": 791,
+  "fetched_at_utc": "2026-01-24T14:33:41+00:00",
+  "force_overwrite": false,
+  "http_status": 200,
+  "kind": "vote",
+  "meeting_nr": 33,
+  "mp_votes": [],
+  "source_url": "https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=56307",
+  "stats": {},
+  "summary": {
+    "Dátum a čas": "10. 4. 2025 17:53",
+    "Názov hlasovania": "Návrh na voľbu člena Rady pre mediálne služby - skrátené funkčné obdobie (tlač 791). (Zlúčená rozprava o tlačiach 715 a 791.) \nVoľba člena Rady pre mediálne služby",
+    "Schôdza": "Schôdza č. 33",
+    "Číslo hlasovania": 242
+  },
+  "term_id": 9,
+  "title_from_listing": "Návrh na voľbu člena Rady pre mediálne služby - skrátené funkčné obdobie (tlač 791). (Zlúčená rozprava o tlačiach 715 a 791.) \nVoľba člena Rady pre mediálne služby",
+  "vote_id": 56307
+}

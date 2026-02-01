@@ -1,0 +1,20 @@
+{
+  "cpt_id": 286,
+  "fetched_at_utc": "2026-01-24T13:36:54+00:00",
+  "force_overwrite": false,
+  "http_status": 200,
+  "kind": "vote",
+  "meeting_nr": 12,
+  "mp_votes": [],
+  "source_url": "https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=54693",
+  "stats": {},
+  "summary": {
+    "Dátum a čas": "2. 5. 2024 12:17",
+    "Názov hlasovania": "Návrh na odvolanie členov Súdnej rady Slovenskej republiky zvolených Národnou radou Slovenskej republiky (tlač 286).",
+    "Schôdza": "Schôdza č. 12",
+    "Číslo hlasovania": 153
+  },
+  "term_id": 9,
+  "title_from_listing": "Návrh na odvolanie členov Súdnej rady Slovenskej republiky zvolených Národnou radou Slovenskej republiky (tlač 286).",
+  "vote_id": 54693
+}

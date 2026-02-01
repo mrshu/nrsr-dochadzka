@@ -1,0 +1,21 @@
+{
+  "cpt_id": 6,
+  "fetched_at_utc": "2026-01-28T17:07:20+00:00",
+  "force_overwrite": false,
+  "http_status": 200,
+  "kind": "vote",
+  "meeting_nr": 1,
+  "mp_votes": [],
+  "source_url": "https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=43694",
+  "stats": {},
+  "summary": {
+    "Dátum a čas": "20. 3. 2020 13:05",
+    "Názov hlasovania": "Návrh na voľbu predsedu Národnej rady Slovenskej republiky (tlač 6).",
+    "Schôdza": "Schôdza č. 1",
+    "Výsledok hlasovania": "Návrh prešiel",
+    "Číslo hlasovania": 10
+  },
+  "term_id": 8,
+  "title_from_listing": "Návrh na voľbu predsedu Národnej rady Slovenskej republiky (tlač 6).",
+  "vote_id": 43694
+}

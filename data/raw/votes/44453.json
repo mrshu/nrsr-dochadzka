@@ -1,0 +1,20 @@
+{
+  "cpt_id": null,
+  "fetched_at_utc": "2026-01-28T17:16:53+00:00",
+  "force_overwrite": false,
+  "http_status": 200,
+  "kind": "vote",
+  "meeting_nr": 12,
+  "mp_votes": [],
+  "source_url": "https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=44453",
+  "stats": {},
+  "summary": {
+    "Dátum a čas": "29. 9. 2020 21:48",
+    "Názov hlasovania": "Voľba podpredsedov NKÚ",
+    "Schôdza": "Schôdza č. 12",
+    "Číslo hlasovania": 170
+  },
+  "term_id": 8,
+  "title_from_listing": "Voľba podpredsedov NKÚ",
+  "vote_id": 44453
+}
