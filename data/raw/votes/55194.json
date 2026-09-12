@@ -1,0 +1,20 @@
+{
+  "cpt_id": 472,
+  "fetched_at_utc": "2026-01-24T13:56:33+00:00",
+  "force_overwrite": false,
+  "http_status": 200,
+  "kind": "vote",
+  "meeting_nr": 19,
+  "mp_votes": [],
+  "source_url": "https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=55194",
+  "stats": {},
+  "summary": {
+    "Dátum a čas": "17. 9. 2024 12:40",
+    "Názov hlasovania": "Hlasovanie o návrhu na voľbu predsedu OKV SIS",
+    "Schôdza": "Schôdza č. 19",
+    "Číslo hlasovania": 81
+  },
+  "term_id": 9,
+  "title_from_listing": "Hlasovanie o návrhu na voľbu predsedu OKV SIS",
+  "vote_id": 55194
+}

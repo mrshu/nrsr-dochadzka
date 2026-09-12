@@ -1,0 +1,20 @@
+{
+  "cpt_id": 184,
+  "fetched_at_utc": "2026-01-24T13:53:03+00:00",
+  "force_overwrite": false,
+  "http_status": 200,
+  "kind": "vote",
+  "meeting_nr": 15,
+  "mp_votes": [],
+  "source_url": "https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=55070",
+  "stats": {},
+  "summary": {
+    "Dátum a čas": "27. 6. 2024 18:45",
+    "Názov hlasovania": "Odvolanie predsedu Výboru NR SR pre verejnú správu a regionálny rozvoj",
+    "Schôdza": "Schôdza č. 15",
+    "Číslo hlasovania": 244
+  },
+  "term_id": 9,
+  "title_from_listing": "Odvolanie predsedu Výboru NR SR pre verejnú správu a regionálny rozvoj",
+  "vote_id": 55070
+}

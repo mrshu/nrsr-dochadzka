@@ -1,0 +1,20 @@
+{
+  "cpt_id": 473,
+  "fetched_at_utc": "2026-01-24T14:12:38+00:00",
+  "force_overwrite": false,
+  "http_status": 200,
+  "kind": "vote",
+  "meeting_nr": 22,
+  "mp_votes": [],
+  "source_url": "https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=55593",
+  "stats": {},
+  "summary": {
+    "Dátum a čas": "6. 11. 2024 17:45",
+    "Názov hlasovania": "Návrh na voľbu predsedu Výboru NRSR pre verejnú správu a regionálny rozvoj",
+    "Schôdza": "Schôdza č. 22",
+    "Číslo hlasovania": 228
+  },
+  "term_id": 9,
+  "title_from_listing": "Návrh na voľbu predsedu Výboru NRSR pre verejnú správu a regionálny rozvoj",
+  "vote_id": 55593
+}

@@ -1,0 +1,20 @@
+{
+  "cpt_id": 886,
+  "fetched_at_utc": "2026-01-24T14:47:38+00:00",
+  "force_overwrite": false,
+  "http_status": 200,
+  "kind": "vote",
+  "meeting_nr": 35,
+  "mp_votes": [],
+  "source_url": "https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=56724",
+  "stats": {},
+  "summary": {
+    "Dátum a čas": "18. 6. 2025 00:00",
+    "Názov hlasovania": "Návrh na voľbu podpredsedu NR SR",
+    "Schôdza": "Schôdza č. 35",
+    "Číslo hlasovania": 300
+  },
+  "term_id": 9,
+  "title_from_listing": "Návrh na voľbu podpredsedu NR SR",
+  "vote_id": 56724
+}

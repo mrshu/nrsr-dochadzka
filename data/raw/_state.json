@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "vote_index": {
+    "updated_at_utc": "2026-09-12T10:30:05+00:00"
+  },
+  "votes": {
+    "last_seen_id": 58232,
+    "updated_at_utc": "2026-06-19T10:49:05+00:00"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "cpt_id": 889,
+  "fetched_at_utc": "2026-01-28T19:00:39+00:00",
+  "force_overwrite": false,
+  "http_status": 200,
+  "kind": "vote",
+  "meeting_nr": 55,
+  "mp_votes": [],
+  "source_url": "https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=47418",
+  "stats": {},
+  "summary": {
+    "Dátum a čas": "15. 2. 2022 18:35",
+    "Názov hlasovania": "Voľba člena Rady SPF - návrh výboru",
+    "Schôdza": "Schôdza č. 55",
+    "Číslo hlasovania": 144
+  },
+  "term_id": 8,
+  "title_from_listing": "Voľba člena Rady SPF - návrh výboru",
+  "vote_id": 47418
+}

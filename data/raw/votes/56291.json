@@ -1,0 +1,20 @@
+{
+  "cpt_id": 715,
+  "fetched_at_utc": "2026-01-24T14:33:24+00:00",
+  "force_overwrite": false,
+  "http_status": 200,
+  "kind": "vote",
+  "meeting_nr": 33,
+  "mp_votes": [],
+  "source_url": "https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=56291",
+  "stats": {},
+  "summary": {
+    "Dátum a čas": "10. 4. 2025 11:59",
+    "Názov hlasovania": "Návrh na voľbu členov Rady pre mediálne služby (tlač 715).\nOpakovaná voľba členov Rady pre mediálne služby.",
+    "Schôdza": "Schôdza č. 33",
+    "Číslo hlasovania": 230
+  },
+  "term_id": 9,
+  "title_from_listing": "Návrh na voľbu členov Rady pre mediálne služby (tlač 715).\nOpakovaná voľba členov Rady pre mediálne služby.",
+  "vote_id": 56291
+}

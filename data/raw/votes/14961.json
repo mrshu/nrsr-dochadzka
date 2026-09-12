@@ -1,0 +1,20 @@
+{
+  "cpt_id": 643,
+  "fetched_at_utc": "2026-01-24T12:19:04+00:00",
+  "force_overwrite": false,
+  "http_status": 200,
+  "kind": "vote",
+  "meeting_nr": 26,
+  "mp_votes": [],
+  "source_url": "https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=14961",
+  "stats": {},
+  "summary": {
+    "Dátum a čas": "12. 5. 2004 00:00",
+    "Názov hlasovania": "Návrh na voľbu do funkcie špeciálneho prokurátora v Úrade špeciálnej prokuratúry Generálnej prokuratúry Slovenskej republiky.\n(Tajné hlasovanie.)\nHlasovanie o voľbe špeciálneho prokurátora",
+    "Schôdza": "Schôdza č. 26",
+    "Číslo hlasovania": 0
+  },
+  "term_id": 3,
+  "title_from_listing": "Návrh na voľbu do funkcie špeciálneho prokurátora v Úrade špeciálnej prokuratúry Generálnej prokuratúry Slovenskej republiky.\n(Tajné hlasovanie.)\nHlasovanie o voľbe špeciálneho prokurátora",
+  "vote_id": 14961
+}

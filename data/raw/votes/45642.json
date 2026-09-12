@@ -1,0 +1,20 @@
+{
+  "cpt_id": 448,
+  "fetched_at_utc": "2026-01-28T18:11:02+00:00",
+  "force_overwrite": false,
+  "http_status": 200,
+  "kind": "vote",
+  "meeting_nr": 25,
+  "mp_votes": [],
+  "source_url": "https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=45642",
+  "stats": {},
+  "summary": {
+    "Dátum a čas": "31. 3. 2021 20:14",
+    "Názov hlasovania": "Voľba člena Rady pre VaR",
+    "Schôdza": "Schôdza č. 25",
+    "Číslo hlasovania": 168
+  },
+  "term_id": 8,
+  "title_from_listing": "Voľba člena Rady pre VaR",
+  "vote_id": 45642
+}

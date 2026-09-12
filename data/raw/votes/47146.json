@@ -1,0 +1,20 @@
+{
+  "cpt_id": 788,
+  "fetched_at_utc": "2026-01-28T18:55:00+00:00",
+  "force_overwrite": false,
+  "http_status": 200,
+  "kind": "vote",
+  "meeting_nr": 51,
+  "mp_votes": [],
+  "source_url": "https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=47146",
+  "stats": {},
+  "summary": {
+    "Dátum a čas": "9. 12. 2021 17:59",
+    "Názov hlasovania": "Voľba komisára pre deti",
+    "Schôdza": "Schôdza č. 51",
+    "Číslo hlasovania": 223
+  },
+  "term_id": 8,
+  "title_from_listing": "Voľba komisára pre deti",
+  "vote_id": 47146
+}

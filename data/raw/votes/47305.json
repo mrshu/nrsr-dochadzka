@@ -1,0 +1,20 @@
+{
+  "cpt_id": 882,
+  "fetched_at_utc": "2026-01-28T18:58:39+00:00",
+  "force_overwrite": false,
+  "http_status": 200,
+  "kind": "vote",
+  "meeting_nr": 55,
+  "mp_votes": [],
+  "source_url": "https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=47305",
+  "stats": {},
+  "summary": {
+    "Dátum a čas": "2. 2. 2022 18:37",
+    "Názov hlasovania": "Voľba zástupcov navrh.reprez,združ.odbor.zväzov",
+    "Schôdza": "Schôdza č. 55",
+    "Číslo hlasovania": 69
+  },
+  "term_id": 8,
+  "title_from_listing": "Voľba zástupcov navrh.reprez,združ.odbor.zväzov",
+  "vote_id": 47305
+}

@@ -1,0 +1,20 @@
+{
+  "cpt_id": 741,
+  "fetched_at_utc": "2026-01-28T18:45:33+00:00",
+  "force_overwrite": false,
+  "http_status": 200,
+  "kind": "vote",
+  "meeting_nr": 48,
+  "mp_votes": [],
+  "source_url": "https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=46742",
+  "stats": {},
+  "summary": {
+    "Dátum a čas": "27. 10. 2021 18:20",
+    "Názov hlasovania": "Voľba člena SR TA SR - v oblasti žurnalistiky",
+    "Schôdza": "Schôdza č. 48",
+    "Číslo hlasovania": 167
+  },
+  "term_id": 8,
+  "title_from_listing": "Voľba člena SR TA SR - v oblasti žurnalistiky",
+  "vote_id": 46742
+}

@@ -1,0 +1,21 @@
+{
+  "cpt_id": 234,
+  "fetched_at_utc": "2026-01-28T17:11:25+00:00",
+  "force_overwrite": false,
+  "http_status": 200,
+  "kind": "vote",
+  "meeting_nr": 12,
+  "mp_votes": [],
+  "source_url": "https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=44335",
+  "stats": {},
+  "summary": {
+    "Dátum a čas": "17. 9. 2020 19:08",
+    "Názov hlasovania": "Návrh na odvolanie predsedu výboru a voľbu predsedov výborov Národnej rady Slovenskej republiky (tlač 234).",
+    "Schôdza": "Schôdza č. 12",
+    "Výsledok hlasovania": "Návrh prešiel",
+    "Číslo hlasovania": 63
+  },
+  "term_id": 8,
+  "title_from_listing": "Návrh na odvolanie predsedu výboru a voľbu predsedov výborov Národnej rady Slovenskej republiky (tlač 234).",
+  "vote_id": 44335
+}

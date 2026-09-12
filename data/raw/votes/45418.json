@@ -1,0 +1,21 @@
+{
+  "cpt_id": 413,
+  "fetched_at_utc": "2026-01-28T18:03:58+00:00",
+  "force_overwrite": false,
+  "http_status": 200,
+  "kind": "vote",
+  "meeting_nr": 23,
+  "mp_votes": [],
+  "source_url": "https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=45418",
+  "stats": {},
+  "summary": {
+    "Dátum a čas": "5. 2. 2021 19:03",
+    "Názov hlasovania": "Návrh na voľbu predsedu výboru Národnej rady Slovenskej republiky (tlač 413).",
+    "Schôdza": "Schôdza č. 23",
+    "Výsledok hlasovania": "Návrh neprešiel",
+    "Číslo hlasovania": 164
+  },
+  "term_id": 8,
+  "title_from_listing": "Návrh na voľbu predsedu výboru Národnej rady Slovenskej republiky (tlač 413).",
+  "vote_id": 45418
+}

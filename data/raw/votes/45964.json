@@ -1,0 +1,21 @@
+{
+  "cpt_id": 537,
+  "fetched_at_utc": "2026-01-28T18:21:57+00:00",
+  "force_overwrite": false,
+  "http_status": 200,
+  "kind": "vote",
+  "meeting_nr": 28,
+  "mp_votes": [],
+  "source_url": "https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=45964",
+  "stats": {},
+  "summary": {
+    "Dátum a čas": "28. 5. 2021 14:05",
+    "Názov hlasovania": "Návrh na voľbu predsedu Výboru Národnej rady Slovenskej republiky pre sociálne veci (tlač 537).",
+    "Schôdza": "Schôdza č. 28",
+    "Výsledok hlasovania": "Návrh prešiel",
+    "Číslo hlasovania": 198
+  },
+  "term_id": 8,
+  "title_from_listing": "Návrh na voľbu predsedu Výboru Národnej rady Slovenskej republiky pre sociálne veci (tlač 537).",
+  "vote_id": 45964
+}

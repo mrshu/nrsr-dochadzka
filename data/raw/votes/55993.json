@@ -1,0 +1,20 @@
+{
+  "cpt_id": null,
+  "fetched_at_utc": "2026-01-24T14:27:19+00:00",
+  "force_overwrite": false,
+  "http_status": 200,
+  "kind": "vote",
+  "meeting_nr": 33,
+  "mp_votes": [],
+  "source_url": "https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=55993",
+  "stats": {},
+  "summary": {
+    "Dátum a čas": "26. 3. 2025 00:00",
+    "Názov hlasovania": "Voľba predsedu Národnej rady Slovenskej republiky (tlač 776)",
+    "Schôdza": "Schôdza č. 33",
+    "Číslo hlasovania": 30
+  },
+  "term_id": 9,
+  "title_from_listing": "Voľba predsedu Národnej rady Slovenskej republiky (tlač 776)",
+  "vote_id": 55993
+}

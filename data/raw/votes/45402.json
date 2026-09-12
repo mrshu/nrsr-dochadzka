@@ -1,0 +1,20 @@
+{
+  "cpt_id": 426,
+  "fetched_at_utc": "2026-01-28T18:03:54+00:00",
+  "force_overwrite": false,
+  "http_status": 200,
+  "kind": "vote",
+  "meeting_nr": 23,
+  "mp_votes": [],
+  "source_url": "https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=45402",
+  "stats": {},
+  "summary": {
+    "Dátum a čas": "5. 2. 2021 18:50",
+    "Názov hlasovania": "Návrh na voľbudo funkcie  kandidáta na špeciálneho prokurátora SR",
+    "Schôdza": "Schôdza č. 23",
+    "Číslo hlasovania": 162
+  },
+  "term_id": 8,
+  "title_from_listing": "Návrh na voľbudo funkcie  kandidáta na špeciálneho prokurátora SR",
+  "vote_id": 45402
+}
